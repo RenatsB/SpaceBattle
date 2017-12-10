@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.2">
+  <zoom_level>9</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>477</x>
+      <y>369</y>
+      <w>369</w>
+      <h>270</h>
+    </coordinates>
+    <panel_attributes>*GeometryHandler*
+--
+-m_geoPool : GeometryPool
+-m_sObj : vector&lt;SceneObject*&gt;
+-m_objectCount : unsigned
+-m_userPlacedIDs : vector&lt;unsigned&gt;
+--
++createObject(unsigned _id) : void
++addGeometry(string _filename) : bool
++drawScene() : void
++initGeoModule() : bool
++changeObjectType(unsigned _id, unsigned _newType) : void
++generateRandom() : void
++clearScene() : void
+--
+-checkGeoValidity() : void
+-removeInvalid() : void
+-sortUserPlacedIDs() : void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>864</x>
+      <y>405</y>
+      <w>243</w>
+      <h>252</h>
+    </coordinates>
+    <panel_attributes>*&lt;&lt;Abstract&gt;&gt;*
+/*BaseObject*/
+--
+-m_pos : Vec3
+-m_rot : Vec3
+-m_size : unsigned
+-m_typeID : unsigned
+--
+/+reset() : void/
+/+clone() : void/
++changeTypeID(unsigned _newID) : void
++addPosition(Vec3 _trValue) : void
++addRotation(Vec3 _rotValue) : void
++addSize(int _szValue) : void
++getPosition() : Vec3
++getRotation() : Vec3
++getScale() : unsigned
++getTypeID() : unsigned</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>189</x>
+      <y>81</y>
+      <w>270</w>
+      <h>459</h>
+    </coordinates>
+    <panel_attributes>*NGLScene*
+: QOpenGLWindow
+--
+-m_geoHandler : GeometryHandler
+-m_bgColour : Vec3
+-m_gridSize : unsigned
+-m_win : WinParams
+-m_mouseGlobalTX : Mat4
+-m_cam : Camera
+-m_modelPos : Vec3
+-m_text : Text*
+-m_fpsTimer : int
+-m_fps : int
+-m_frames : int
+-m_timer : QTimer
+-m_selectionState : unsigned
+--
++NGLScene()
+{
+  setTitle("PP Assignment D.P.S.");
+  m_fpsTimer =startTimer(0);
+  m_fps=0;
+  m_frames=0;
+  m_timer.start();
+}
++resizeGL( int _w, int _h ) : void
++initializeGL() : void
++paintGL() : void
+--
+-loadMatricesToShader() : void
+-keyPressEvent(QKeyEvent *_event) : void
+-timerEvent( QTimerEvent *_event ) : void
+-drawAxis() : void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>864</x>
+      <y>261</y>
+      <w>243</w>
+      <h>108</h>
+    </coordinates>
+    <panel_attributes>*SceneObject*
+: BaseObject
+--
+-m_objID : unsigned
+--
++getID() : unsigned
++reset() : void
++clone() : void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>864</x>
+      <y>81</y>
+      <w>243</w>
+      <h>171</h>
+    </coordinates>
+    <panel_attributes>*GeometryPool*
+--
++m_geo : array&lt;Obj&gt;
++m_tex : array&lt;GLuint&gt;
+-m_tboIDs : array&lt;GLuint&gt;
+--
+-checkGeo(Obj : _new) : bool
+-createTransformTBO() : void
+--
++loadGeo(string _filename) : void
++loadGeo(PRIMTYPE _nglPrim) : void
++loadTex(string _filename) : void
++removeGeo(unsigned _id) : void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1134</x>
+      <y>486</y>
+      <w>108</w>
+      <h>126</h>
+    </coordinates>
+    <panel_attributes>*&lt;&lt;enumeration&gt;&gt;*
+*PRIMTYPE*
+--
+CUBE
+SPHERE
+CONE
+TEAPOT
+BUNNY
+TROLL
+bg=yellow</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>468</x>
+      <y>72</y>
+      <w>369</w>
+      <h>252</h>
+    </coordinates>
+    <panel_attributes>*Using NGL and gtest*
+--
+NGLScene is taken from :
+&lt;&lt;https://github.com/NCCA/Instancing/blob/master/
+InstanceMeshes/include/NGLScene.h&gt;&gt;
+with modifications.
+--
+Instead of keeping geometry and texture data within
+the object class, it is kept seperately and system relies on IDs
+to get the corresponding data.
+--
+Also includes:
+NGLSceneMouseControls.cpp
+WindowParams.h
+From &lt;&lt;https://github.com/NCCA/Instancing/blob/master/
+InstanceMeshes/include/NGLScene.h&gt;&gt;
+--
+Object placement and creation can either be done automatically
+or manually using a simple GUI
+bg=yellow</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>981</x>
+      <y>360</y>
+      <w>27</w>
+      <h>63</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;50.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1143</x>
+      <y>261</y>
+      <w>360</w>
+      <h>207</h>
+    </coordinates>
+    <panel_attributes>*MockObject*
+: SceneObject
+--
++MOCK_METHOD0( getID() : unsigned )
++MOCK_METHOD0( reset() : void )
++MOCK_METHOD0( clone() : void )
++MOCK_METHOD1( changeTypeID(unsigned _newID) : void )
++MOCK_METHOD1( addPosition(Vec3 _trValue) : void )
++MOCK_METHOD1( addRotation(Vec3 _rotValue) : void )
++MOCK_METHOD1( addSize(int _szValue) : void )
++MOCK_METHOD0( getPosition() : Vec3 )
++MOCK_METHOD0( getRotation() : Vec3 )
++MOCK_METHOD0( getScale() : unsigned )
++MOCK_METHOD0( getTypeID() : unsigned )</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1098</x>
+      <y>279</y>
+      <w>63</w>
+      <h>27</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;50.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1143</x>
+      <y>81</y>
+      <w>360</w>
+      <h>171</h>
+    </coordinates>
+    <panel_attributes>*MockGeoPool*
+: GeometryPool
+--
++MOCK_METHOD1( checkGeo(Obj : _new) : bool )
++MOCK_METHOD0( createTransformTBO() : void )
++MOCK_METHOD1( loadGeo(string _filename) : void )
++MOCK_METHOD1( loadGeo(PRIMTYPE _nglPrim) : void )
++MOCK_METHOD1( loadTex(string _filename) : void )
++MOCK_METHOD1( removeGeo(unsigned _id) : void )</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1098</x>
+      <y>153</y>
+      <w>63</w>
+      <h>27</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;50.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>576</x>
+      <y>684</y>
+      <w>486</w>
+      <h>189</h>
+    </coordinates>
+    <panel_attributes>*MockGeoHandler*
+: GeometryHandler
+--
++MOCK_METHOD1( createObject(unsigned _id) : void )
++MOCK_METHOD1( addGeometry(string _filename) : bool )
++MOCK_METHOD0( drawScene() : void )
++MOCK_METHOD0( initGeoModule() : bool )
++MOCK_METHOD2( changeObjectType(unsigned _id, unsigned _newType) : void )
++MOCK_METHOD0( generateRandom() : void )
++MOCK_METHOD0( clearScene() : void )
++MOCK_METHOD0( checkGeoValidity() : void )
++MOCK_METHOD0( removeInvalid() : void )
++MOCK_METHOD0( sortUserPlacedIDs() : void )</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>693</x>
+      <y>630</y>
+      <w>27</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;60.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>189</x>
+      <y>657</y>
+      <w>360</w>
+      <h>144</h>
+    </coordinates>
+    <panel_attributes>*MockNGLScene*
+: NGLScene
+--
++MOCK_METHOD2( resizeGL( int _w, int _h ) : void )
++MOCK_METHOD0( initializeGL() : void )
++MOCK_METHOD0( paintGL() : void )
++MOCK_METHOD0( loadMatricesToShader() : void )
++MOCK_METHOD1( keyPressEvent(QKeyEvent *_event) : void )
++MOCK_METHOD1( timerEvent( QTimerEvent *_event ) : void )
++MOCK_METHOD0( drawAxis() : void )</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>333</x>
+      <y>531</y>
+      <w>27</w>
+      <h>144</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;140.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>450</x>
+      <y>333</y>
+      <w>207</w>
+      <h>54</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;210.0;10.0;210.0;40.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>711</x>
+      <y>162</y>
+      <w>171</w>
+      <h>225</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;230.0;10.0;200.0;150.0;200.0;150.0;10.0;170.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1098</x>
+      <y>207</y>
+      <w>54</w>
+      <h>81</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;40.0;10.0;40.0;70.0;10.0;70.0</additional_attributes>
+  </element>
+</diagram>
