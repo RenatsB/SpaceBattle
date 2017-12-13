@@ -21,9 +21,9 @@ It seems that you are making some form of [scenegraph](https://en.wikipedia.org/
 3. NGLScene is really an implementation detail in this case, what if you use you lib with SDL or GLFW?
 4. It is hard to see what the relation between GeometryHandler and GeometryPool is.
   
-    > Handler is a bad name as it is a verb
+      * Handler is a bad name as it is a verb
     
-    > Whilst GeometeryPool implies it is a pool pattern it doesn't seem to be used as such here (why do we need to re-use these things as they are unique entities)
+      * Whilst GeometeryPool implies it is a pool pattern it doesn't seem to be used as such here (why do we need to re-use these things as they are unique entities)
 
 5. You are using array (I guess std::array), these are allocated on the heap so can't expand, you should be using std::vector.
 
