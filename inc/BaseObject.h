@@ -9,7 +9,7 @@ class BaseObject
 {
 public :
   virtual void reset() = 0;
-  virtual std::unique_ptr<BaseObject> clone() = 0;
+  //virtual std::unique_ptr<BaseObject> clone() = 0;
   void changeID (const unsigned _newID);
   void moveObject (const Vec3 _tr);
   void setPosition (const Vec3 _tr);
@@ -27,6 +27,8 @@ protected :
   Vec3 m_rot;
   Vec3 m_scale;
   unsigned m_id;
+  BaseObject* m_parent;
+  std::string m_tag;
 };
 
 #endif

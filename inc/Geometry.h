@@ -4,8 +4,6 @@
 #include <memory>
 #include <ngl/Obj.h>
 
-using namespace ngl;
-
 class Geometry
 {
 public :
@@ -18,7 +16,7 @@ public :
   std::string getName() const;
   void setName(const std::string _name);
 private :
-  Obj m_data;
+  ngl::Obj m_data;
   unsigned m_id;
   std::string m_name;
 };

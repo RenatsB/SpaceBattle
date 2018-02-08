@@ -1,5 +1,5 @@
 # exe name
-TARGET = AssetManager
+TARGET = AssetViewer
 # put the .o files in separate folder to keep it clean
 OBJECTS_DIR = obj
 # core Qt Libs to use add more here if needed.
@@ -21,10 +21,14 @@ CONFIG -= app_bundle
 HEADERS += $$files(./inc/*.h)
 SOURCES += $$files(./src/*.cpp)
 
-INCLUDEPATH += $$PWD/include
+INCLUDEPATH += $$PWD/inc
 
 # where our exe is going to live (root of project)
 DESTDIR=./
+
+# add ui layout file
+FORMS += \
+    ui/mainwindow.ui
 # add the glsl shader files
 OTHER_FILES+= shaders/*.glsl \
               README.md
@@ -54,4 +58,3 @@ else{ # note brace must be here
   message("Using custom NGL location")
   include($(NGLDIR)/UseNGL.pri)
 }
-
