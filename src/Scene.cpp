@@ -1,7 +1,7 @@
 #include <QMouseEvent>
 #include <QGuiApplication>
 
-#include "GUIModule.h"
+#include "MainWindow.h"
 #include <ngl/Camera.h>
 #include <ngl/Light.h>
 #include <ngl/Material.h>

@@ -1,6 +1,6 @@
 #include <QtGui/QGuiApplication>
 #include <iostream>
-#include "GUIModule.h"
+#include "MainWindow.h"
 
 
 
