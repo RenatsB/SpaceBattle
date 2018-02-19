@@ -1,22 +1,22 @@
 #ifndef SCENEOBJECT_H_
 #define SCENEOBJECT_H_
 
-#include "Geometry.h"
+#include "DataContainer.h"
 #include "BaseObject.h"
 
-using namespace ngl;
+//using namespace ngl;
 class SceneObject : BaseObject
 {
 public :
   SceneObject()=default;
-  SceneObject(Geometry* _geo)
+  SceneObject(unsigned _geo)
   {m_geometry = _geo;}
 
   ~SceneObject();
   virtual void reset() override;
-  void setGeometry(Geometry* _new);
+  void setGeometry(unsigned _new);
 private :
-  Geometry* m_geometry;
+  unsigned m_geometry;
 };
 
 #endif
