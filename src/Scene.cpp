@@ -7,9 +7,9 @@
 #include "MaterialPBR.h"
 
 //----------------------------------------------------------------------------------------------------------------------
-Scene::Scene(Camera* io_camera , QWidget *io_parent) :
+Scene::Scene(const std::shared_ptr<Camera> &io_camera , QWidget *io_parent) :
   QOpenGLWidget(io_parent),
-  m_camera(io_camera)
+  m_camera(io_camera.get())
 {
   // set this widget to have the initial keyboard focus
   // re-size the widget to that of the parent (in this case the GLFrame passed in on construction)

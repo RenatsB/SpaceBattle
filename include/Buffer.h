@@ -1,64 +1,72 @@
-#ifndef MATERIAL_H
-#define MATERIAL_H
+#ifndef BUFFER_H
+#define BUFFER_H
 
-#include <array>
-#include <mat4x4.hpp>
+#include <QOpenGLVertexArrayObject>
+#include <QOpenGLBuffer>
+#include <iostream>
+#include <vector>
+#include <memory>
 
-class ShaderLib;
-
-class Material
+class Buffer
 {
 public:
   //-----------------------------------------------------------------------------------------------------
-  /// @brief Default constructor.
+  /// @brief used to specify the type of buffer
   //-----------------------------------------------------------------------------------------------------
-  Material() = default;
+  enum BufferType { VERTEX, NORMAL, UV };
   //-----------------------------------------------------------------------------------------------------
-  /// @brief Default copy constructor.
+  /// @brief called after construction, used to generate and bind our Vertex array pbject, as well as,
+  /// generate and bind our Buffer objects, (reset is called for this).
+  /// @param [in] _size is the size in bytes of the data type we are storing, float would be 4 (probably).
+  /// @param [in] _amountOfData is the number of data elements we will store.
   //-----------------------------------------------------------------------------------------------------
-  Material(const Material&) = default;
+  void init(QObject *parent);
   //-----------------------------------------------------------------------------------------------------
-  /// @brief Default copy assignment operator.
+  /// @brief called to reset our buffers, removing data from them
+  /// @param [in] _size is the size in bytes of the data type we are storing, float would be 4 (probably).
+  /// @param [in] _amountOfData is the number of data elements we will remove.
   //-----------------------------------------------------------------------------------------------------
-  Material& operator=(const Material&) = default;
+  void reset(const int _size, const int _nVert, const int _nNorm, const int _nUV);
   //-----------------------------------------------------------------------------------------------------
-  /// @brief Default move constructor.
+  /// @brief called to add new data into the specified buffer.
+  /// @param [in] _address is a pointer to the data we want to store.
+  /// @param [in] _type is the buffer we should append our data to.
   //-----------------------------------------------------------------------------------------------------
-  Material(Material&&) = default;
+  void append(const void * _address, const BufferType _type);
   //-----------------------------------------------------------------------------------------------------
-  /// @brief Default move assignment operator.
+  /// @brief called to get the size of each data element we are storing.
+  /// @return the size of the data elements in our buffer
   //-----------------------------------------------------------------------------------------------------
-  Material& operator=(Material&&) = default;
+  int dataSize() const noexcept;
   //-----------------------------------------------------------------------------------------------------
-  /// @brief Default virtual destructor.
+  /// @brief called to get the amount of data elements we are storing.
+  /// @return the number of data elements in our buffer
   //-----------------------------------------------------------------------------------------------------
-  virtual ~Material() = default;
-  //-----------------------------------------------------------------------------------------------------
-  /// @brief Used to intialise a passed shader, subclasses must call this base function.
-  //-----------------------------------------------------------------------------------------------------
-  virtual void init(ShaderLib* io_shaderLib, const size_t _index, std::array<glm::mat4, 3>* io_matrices);
-  //-----------------------------------------------------------------------------------------------------
-  /// @brief Used to update shader values.
-  //-----------------------------------------------------------------------------------------------------
-  virtual void update() = 0;
+  int dataAmount() const noexcept;
 
-  void apply();
+  int offset(const BufferType _type) const noexcept;
 
-  virtual const char* vertexName() const = 0;
+  void testBindVAO() { m_vao->bind(); }
 
-  virtual const char* fragName() const = 0;
+private:
+  //-----------------------------------------------------------------------------------------------------
+  /// @brief Buffer addresses.
+  //-----------------------------------------------------------------------------------------------------
+  QOpenGLBuffer m_vbo;
+  //-----------------------------------------------------------------------------------------------------
+  /// @brief Vertex array object.
+  //-----------------------------------------------------------------------------------------------------
+  std::unique_ptr<QOpenGLVertexArrayObject> m_vao;
+  //-----------------------------------------------------------------------------------------------------
+  /// @brief Current amount of data elements in the buffer.
+  //-----------------------------------------------------------------------------------------------------
+  int m_amountOfData = 0;
+  //-----------------------------------------------------------------------------------------------------
+  /// @brief Current size of the stored data members in the buffer.
+  //-----------------------------------------------------------------------------------------------------
+  int m_size = 0;
 
-protected:
-  //-----------------------------------------------------------------------------------------------------
-  /// @brief A pointer to the shader program that this material affects.
-  //-----------------------------------------------------------------------------------------------------
-  ShaderLib* m_shaderLib = nullptr;
-
-  size_t m_shaderIndex = 0;
-  //-----------------------------------------------------------------------------------------------------
-  /// @brief A pointer to matrices this material should use for the vertex shader.
-  //-----------------------------------------------------------------------------------------------------
-  std::array<glm::mat4, 3>* m_matrices = nullptr;
+  std::array<int, 3> m_amountData = {{0,0,0}};
 };
 
-#endif // MATERIAL_H
+#endif // BUFFER_H

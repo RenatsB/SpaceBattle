@@ -4,7 +4,6 @@
 #include "DataContainer.h"
 #include "BaseObject.h"
 
-//using namespace ngl;
 class SceneObject : BaseObject
 {
 public :
@@ -14,7 +13,10 @@ public :
 
   ~SceneObject();
   virtual void reset() override;
+  virtual void changeID(const unsigned _newID) override;
+  virtual unsigned getID() const override;
   void setGeometry(unsigned _new);
+  unsigned getGeo() const;
 private :
   unsigned m_geometry;
 };

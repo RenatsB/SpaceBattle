@@ -1,30 +1,6 @@
 #include "ShaderLib.h"
-#include <QFile>
-#include <QJsonObject>
-#include <QJsonDocument>
 
-std::string ShaderLib::loadShaderProg(const QString &_jsonFileName)
-{
-  // Read in raw file
-  QFile file(_jsonFileName);
-  file.open(QIODevice::ReadOnly | QIODevice::Text);
-  QByteArray rawData = file.readAll();
-  // Parse document
-  QJsonDocument doc(QJsonDocument::fromJson(rawData));
-  // Get the json object to view
-  QJsonObject shaderParts = doc.object();
-
-  // Get a string out from the json
-  std::string shaderName = shaderParts["Name"].toString().toStdString();
-
-  // Load the shader if we haven't already
-  if (!m_shaderPrograms.count(shaderName))
-    createShader(shaderName, shaderParts["Vertex"].toString(), shaderParts["Fragment"].toString());
-
-  return shaderName;
-}
-
-void ShaderLib::createShader(const std::string &_name, const QString &_vertexName, const QString &_fragName)
+void ShaderLib::createShader(const QString &_vertexName, const QString &_fragName)
 {
   QOpenGLShaderProgram *program = new QOpenGLShaderProgram();
 
@@ -32,22 +8,26 @@ void ShaderLib::createShader(const std::string &_name, const QString &_vertexNam
   program->addShaderFromSourceFile(QOpenGLShader::Fragment, _fragName);
 
   program->link();
-  m_shaderPrograms[_name].reset(program);
+  m_shaders.emplace_back(program);
 }
 
-void ShaderLib::useShader(const std::string& _name)
+void ShaderLib::useShader(const size_t _index)
 {
-  m_currentShader =  m_shaderPrograms[_name].get();
-  m_currentShader->bind();
+  m_currentShader = _index;
+  m_shaders[_index]->bind();
 }
 
-QOpenGLShaderProgram *ShaderLib::getShader(const std::string& _name)
+QOpenGLShaderProgram *ShaderLib::getShader(const size_t _index)
 {
-  return m_shaderPrograms[_name].get();
+  return m_shaders[_index].get();
 }
 
 QOpenGLShaderProgram* ShaderLib::getCurrentShader()
 {
-  return m_currentShader;
+  return m_shaders[m_currentShader].get();
 }
 
+size_t ShaderLib::getCurrentShaderIndex() const noexcept
+{
+  return m_currentShader;
+}

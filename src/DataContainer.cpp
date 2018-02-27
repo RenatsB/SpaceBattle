@@ -1,74 +1,83 @@
 #include "DataContainer.h"
 
+DataContainer *DataContainer::s_instance = 0;
+
 DataContainer* DataContainer::instance()
 {
-  if(pInstance == 0)
+  if(!s_instance)
     {
-      pInstance = new DataContainer;
+      s_instance = new DataContainer;
     }
-  return pInstance;
+  return s_instance;
 }
 
-bool DataContainer::loadGeometry(const std::string _path)
+/*bool DataContainer::loadGeometry(const std::string _path)
 {
+  unsigned newID = 0;
+  for(auto it = m_geoUnordered.begin(); it != m_geoUnordered.end(); ++it)
+  {
+    if(it->second == newID)
+    {
+      ++newID;
+    }
+  }
+  Mesh temp;
+  temp.load(_path);
+  //catch exception
 
+  m_geoUnordered.push_back(temp, newID);
+  //catch exception
+
+  return true;
 }
 
 void DataContainer::removeGeo(const unsigned _id)
 {
-
-}
-
-void DataContainer::removeGeo(const std::string _name)
-{
-  bool ret = false;
-  for(unsigned r=0; r<m_geo.size(); ++r)
+  for(auto it = m_geoUnordered.begin(); it != m_geoUnordered.end(); ++it)
   {
-    if(m_geo.at(r)->getName() == _name)
+    if(it->second == _id)
     {
-      //free(m_geo.at(r));
-      //m_geo.r
+      m_geoUnordered.erase(it);
     }
   }
 }
 
-bool DataContainer::checkValidity(const unsigned _id)
+void DataContainer::updateMaterial(unsigned _id)
 {
-  bool ret = true;
-  unsigned u=0;
-  std::vector<unsigned> positions;
-  for(unsigned r=0; r<m_geo.size(); ++r)
+  for(auto it = m_matUnordered.begin(); it != m_matUnordered.end(); ++it)
   {
-    if(m_geo.at(r)->getID() == _id)
+    if(it->second == _id)
     {
-      ++u;
-      positions.push_back(r);
-      if(m_geo.at(r)->getName() == "")
-      {
-        m_geo.at(r)->setName("UnnamedObject");
-      }
+      it->first->update();
     }
   }
-  if(u>1)
-  {
-    //fix duplicate ids
-  }
-  return ret;
+}
+*/
+
+bool DataContainer::loadGeometry(const std::string _path)
+{
+  std::unique_ptr<Mesh> temp;
+  temp.get()->load(_path);
+  //catch exception
+
+  m_geo.emplace_back(std::move(temp));
+  //catch exception
+
+  return true;
 }
 
-void DataContainer::sortGeometry()
+void DataContainer::removeGeo(const unsigned _id)
 {
-  size_t vecSize = m_geo.size();
-  for(size_t a=0; a<vecSize; ++a)
-  {
-    for(size_t b=0; b<vecSize-1; ++b)
-    {
-      if(m_geo.at(b)->getID() > m_geo.at(b+1)->getID())
-      {
-        Geometry* temp = m_geo.at(b);
-        m_geo.at(b) = m_geo.at(b+1);
-        m_geo.at(b+1) = temp;
-      }
-    }
-  }
+  auto it = m_geo.begin()+_id;
+  m_geo.erase(it);
+}
+
+void DataContainer::updateMaterial(unsigned _id)
+{
+  m_mat.at(_id).get()->update();
+}
+
+Mesh* DataContainer::findGeo(unsigned _id)
+{
+  return m_geo.at(_id).get();
 }

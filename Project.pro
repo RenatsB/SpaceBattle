@@ -1,6 +1,6 @@
 
 TEMPLATE = app
-TARGET = Project
+TARGET = MyLittleEditor
 
 UI_HEADERS_DIR = ui
 OBJECTS_DIR = obj
@@ -28,39 +28,14 @@ INCLUDEPATH += \
     $$PWD/ui \
     $$PWD/shaders
 
-HEADERS += \
-    include/MainWindow.h \
-    include/Camera.h \
-    include/TrackballCamera.h \
-    include/CameraStates.h \
-    include/Material.h \
-    include/MaterialPBR.h \
-    include/Mesh.h \
-    include/Scene.h \
-    include/DemoScene.h \
-    include/OpenglPlatform.h \
-    include/MaterialPhong.h \
-    include/ShaderLib.h \
-    include/MeshVBO.h
+HEADERS += $$files(./include/*.h)
+#HEADERS -= $$PWD/include/DemoScene.h
+SOURCES += $$files(./src/*.cpp)
+#SOURCES -= $$PWD/include/DemoSceme.cpp
 
-SOURCES += \
-    src/main.cpp \
-    src/MainWindow.cpp \
-    src/Camera.cpp \
-    src/TrackballCamera.cpp \
-    src/CameraStates.cpp \
-    src/Mesh.cpp \
-    src/Material.cpp \
-    src/MaterialPBR.cpp \
-    src/Scene.cpp \
-    src/DemoScene.cpp \
-    src/MaterialPhong.cpp \
-    src/ShaderLib.cpp \
-    src/MeshVBO.cpp
 
 OTHER_FILES += \
     $$files(shaders/*, true) \
-    $$files(shaderPrograms/*, true) \
     $$files(models/*, true)
 
 FORMS += ui/mainwindow.ui

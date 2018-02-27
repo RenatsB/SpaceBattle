@@ -2,11 +2,12 @@
 #include "Scene.h"
 #include "ShaderLib.h"
 
-void MaterialPBR::init()
+void MaterialPBR::init(ShaderLib *io_shaderLib, const size_t _index, std::array<glm::mat4, 3>* io_matrices)
 {
+  Material::init(io_shaderLib, _index, io_matrices);
   auto shaderPtr = m_shaderLib->getCurrentShader();
 
-  shaderPtr->setUniformValue("albedo", QVector3D{m_albedo.x, m_albedo.y, m_albedo.z});
+  shaderPtr->setUniformValue("albedo", 0.5f, 0.0f, 0.0f);
   shaderPtr->setUniformValue("ao", 1.0f);
   shaderPtr->setUniformValue("exposure", 1.0f);
   shaderPtr->setUniformValue("roughness", 0.5f);
@@ -18,7 +19,7 @@ void MaterialPBR::init()
 
 void MaterialPBR::update()
 {
-  auto shaderPtr = m_shaderLib->getShader(m_shaderName);
+  auto shaderPtr = m_shaderLib->getShader(m_shaderIndex);
   auto eye = m_cam->getCameraEye();
   shaderPtr->setUniformValue("camPos", QVector3D{eye.x, eye.y, eye.z});
 
@@ -37,9 +38,13 @@ void MaterialPBR::update()
   }
 }
 
-const char* MaterialPBR::shaderFileName() const
+const char* MaterialPBR::vertexName() const
 {
-  return "shaderPrograms/redPBR.json";
+  return "shaders/PBRVertex.glsl";
 }
 
+const char* MaterialPBR::fragName() const
+{
+  return "shaders/PBRFragment.glsl";
+}
 

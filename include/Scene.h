@@ -10,7 +10,7 @@
 #include <QResizeEvent>
 #include <QEvent>
 #include <memory>
-#include "MeshVBO.h"
+#include "Buffer.h"
 #include "Camera.h"
 
 
@@ -23,12 +23,12 @@ class Scene : public QOpenGLWidget, protected QOpenGLFunctions
 {
   Q_OBJECT
 public:
-  //----------------------------------------------------------------------------------------------------------------------
+  //-----------------------------------------------------------------------------------------------------
   /// @brief Constructor for Scene.
   /// @param [io] io_camera the camera used to view the scene.
   /// @param [io] io_parent the parent window to create the GL context in.
-  //----------------------------------------------------------------------------------------------------------------------
-  Scene(Camera* io_camera, QWidget *io_parent);
+  //-----------------------------------------------------------------------------------------------------
+  Scene(const std::shared_ptr<Camera> &io_camera, QWidget *io_parent);
   //-----------------------------------------------------------------------------------------------------
   /// @brief Default copy constructor.
   //-----------------------------------------------------------------------------------------------------

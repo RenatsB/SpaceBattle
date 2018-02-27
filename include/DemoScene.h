@@ -1,4 +1,4 @@
-#ifndef DEMOSCENE_H
+/*#ifndef DEMOSCENE_H
 #define DEMOSCENE_H
 
 #include "Scene.h"
@@ -45,22 +45,19 @@ public:
   //-----------------------------------------------------------------------------------------------------
   virtual void init() override;
 
-  void initGeo();
-  void initMaterials();
-
 public slots:
   //-----------------------------------------------------------------------------------------------------
   /// @brief Used to link a Qt button to the scene, to allow rotation of the model to be toggled.
   /// @param [in] _rotating tells the scene whether it should rotate the model or not.
   //-----------------------------------------------------------------------------------------------------
-  void rotating(const bool _rotating);
+  //void rotating(const bool _rotating);
   //-----------------------------------------------------------------------------------------------------
   /// @brief Used to link a Qt button to the scene, to allow switching between meshes in the scene, this
   /// calls loadMesh.
   //-----------------------------------------------------------------------------------------------------
-  void generateNewGeometry();
+  //void generateNewGeometry();
 
-  void nextMaterial();
+  //void nextMaterial();
 
 private:
   //-----------------------------------------------------------------------------------------------------
@@ -88,26 +85,22 @@ private:
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief Holds our material settings for the shader.
   //----------------------------------------------------------------------------------------------------------------------
-  size_t m_currentMaterial = 0;
   using matPtr = std::unique_ptr<Material>;
-  std::array<matPtr, 3> m_materials = {{
-    matPtr{new MaterialPhong(m_shaderLib, &m_matrices, m_camera)},
-    matPtr{new MaterialPBR(m_shaderLib, &m_matrices, m_camera, {0.5f, 0.0f, 0.0f})},
-    matPtr{new MaterialPBR(m_shaderLib, &m_matrices, m_camera, {0.0f, 0.5f, 0.5f})}
+  std::array<matPtr, 2> m_materials = {{
+    matPtr{new MaterialPhong(m_camera)},
+    matPtr{new MaterialPBR(m_camera)}
   }};
+  size_t m_currentMaterial = 0;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief Is the mesh rotating.
   //----------------------------------------------------------------------------------------------------------------------
-  bool m_rotating = false;
+  //bool m_rotating;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief Wraps up our openGL buffers and VAO.
   //----------------------------------------------------------------------------------------------------------------------
-  MeshVBO m_meshVBO;
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief Vertex array object.
-  //----------------------------------------------------------------------------------------------------------------------
-  std::unique_ptr<QOpenGLVertexArrayObject> m_vao {new QOpenGLVertexArrayObject(dynamic_cast<QObject*>(this))};
+  Buffer m_buffer;
 
 };
 
 #endif // DEMOSCENE_H
+*/

@@ -8,8 +8,8 @@ class Camera;
 class MaterialPhong : public Material
 {
 public:
-  MaterialPhong(ShaderLib *io_shaderLib, std::array<glm::mat4, 3>* io_matrices, Camera* _cam) :
-    Material(io_shaderLib, io_matrices),
+  MaterialPhong(Camera* _cam) :
+    Material(),
     m_cam(_cam)
   {}
   MaterialPhong(const MaterialPhong&) = default;
@@ -18,12 +18,13 @@ public:
   MaterialPhong& operator=(MaterialPhong&&) = default;
   ~MaterialPhong() override = default;
 
-  virtual void init() override;
+  virtual void init(ShaderLib* io_shaderLib, const size_t _index, std::array<glm::mat4, 3>* io_matrices) override;
 
   virtual void update() override;
 
-  virtual const char* shaderFileName() const override;
+  virtual const char* vertexName() const override;
 
+  virtual const char* fragName() const override;
 
 private:
   Camera* m_cam = nullptr;

@@ -1,10 +1,5 @@
 #include "BaseObject.h"
 
-void BaseObject::changeID(const unsigned _newID)
-{
-  m_id = _newID;
-}
-
 void BaseObject::moveObject (const vec3 _tr)
 {
   m_pos += _tr;
@@ -48,9 +43,4 @@ vec3 BaseObject::getRotation () const
 vec3 BaseObject::getScale () const
 {
   return m_scale;
-}
-
-unsigned BaseObject::getID () const
-{
-  return m_id;
 }

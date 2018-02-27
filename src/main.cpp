@@ -37,13 +37,14 @@ int main(int argc, char *argv[])
   // Create a new MainWindow
   MainWindow window;
   // Create a camera
-  TrackballCamera cam;
-
-  ShaderLib lib;
+  std::shared_ptr<Camera> cam(new TrackballCamera);
+  // Create a shader library
+  std::shared_ptr<ShaderLib> lib(new ShaderLib);
   // Create a scene to place inside the window
-  DemoScene scene(&cam, &lib, &window);
+  std::shared_ptr<Scene> scene(new MainScene(cam, lib, &window));
+  //std::shared_ptr<Scene> scene(new DemoScene(cam, lib, &window));
   // Initialise the window using our scene
-  window.init(&scene);
+  window.init(scene.get());
   // show it
   window.show();
   // hand control over to Qt framework
