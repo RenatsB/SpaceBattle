@@ -10,6 +10,8 @@ public :
   SceneObject()=default;
   SceneObject(size_t _geo)
   {m_geometry = _geo;}
+  SceneObject(std::string _name, glm::vec3 _pos, glm::vec3 _rot, glm::vec3 _sc, size_t _geo, size_t _mat)
+  { = _geo;}
 
   ~SceneObject();
   virtual void reset() override;

@@ -65,11 +65,12 @@ public:
 public slots:
 
 private:
-  void createSceneObject();
+  void createSceneObject(std::string _name="SceneObject", glm::vec3 _pos=glm::vec3(0,0,0), glm::vec3 _rot=glm::vec3(0,0,0), glm::vec3 _sc=glm::vec3(1,1,1), size_t _geo=1, size_t _mat=0);
   void loadMesh(size_t _id);
   void loadMesh(size_t _meshID, size_t _shaderID);
   void loadMesh(Mesh _raw, size_t _shaderID);
   void loadAllMeshData();
+  void updateBuffer(size_t _id);
   //-----------------------------------------------------------------------------------------------------
   /// @brief Used to write our mesh data into the vbo.
   //-----------------------------------------------------------------------------------------------------
@@ -78,7 +79,7 @@ private:
   /// @brief Used to pass attribute pointers to the current shader program.
   //-----------------------------------------------------------------------------------------------------
   void setAttributeBuffers();
-  std::array<int, 3> countAllSceneGeo() const;
+  std::array<int, 4> countAllSceneGeo() const;
   virtual void renderScene() override;
 
 private:

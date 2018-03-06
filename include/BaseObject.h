@@ -29,7 +29,7 @@ protected :
   vec3 m_rot;
   vec3 m_scale;
   size_t m_id;
-  BaseObject* m_parent;
+  BaseObject* m_parent = nullptr;
   std::string m_tag;
   bool m_isActive = true;
 };

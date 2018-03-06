@@ -887,7 +887,7 @@ moc/moc_DemoScene.cpp: include/Scene.h \
 		include/DemoScene.h \
 		moc/moc_predefs.h \
 		/opt/Qt5.9.0/5.9/gcc_64/bin/moc
-	/opt/Qt5.9.0/5.9/gcc_64/bin/moc $(DEFINES) --include moc/moc_predefs.h -I/opt/Qt5.9.0/5.9/gcc_64/mkspecs/linux-clang -I/home/s4917836/Study/Progr/Projects/MyLittleEditor -I/usr/local/include/glm/glm -I/usr/local/include/glm -I/home/s4917836/Study/Progr/Projects/MyLittleEditor/include -I/home/s4917836/Study/Progr/Projects/MyLittleEditor/ui -I/home/s4917836/Study/Progr/Projects/MyLittleEditor/shaders -I/opt/Qt5.9.0/5.9/gcc_64/include -I/opt/Qt5.9.0/5.9/gcc_64/include/QtOpenGL -I/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets -I/opt/Qt5.9.0/5.9/gcc_64/include/QtGui -I/opt/Qt5.9.0/5.9/gcc_64/include/QtCore -I/usr/local/include/c++/6.4.0 -I/usr/local/include/c++/6.4.0/x86_64-pc-linux-gnu -I/usr/local/include/c++/6.4.0/backward -I/usr/local/lib/gcc/x86_64-pc-linux-gnu/6.4.0/include -I/usr/local/include -I/usr/local/lib/gcc/x86_64-pc-linux-gnu/6.4.0/include-fixed -I/usr/include include/DemoScene.h -o moc/moc_DemoScene.cpp
+	/opt/Qt5.9.0/5.9/gcc_64/bin/moc $(DEFINES) --include moc/moc_predefs.h -I/opt/Qt5.9.0/5.9/gcc_64/mkspecs/linux-clang -I/home/s4917836/Study/Progr/Projects/MyLittleEditor -I/usr/local/include/glm/glm -I/usr/local/include/glm -I/home/s4917836/Study/Progr/Projects/MyLittleEditor/include -I/home/s4917836/Study/Progr/Projects/MyLittleEditor/ui -I/home/s4917836/Study/Progr/Projects/MyLittleEditor/shaders -I/opt/Qt5.9.0/5.9/gcc_64/include -I/opt/Qt5.9.0/5.9/gcc_64/include/QtOpenGL -I/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets -I/opt/Qt5.9.0/5.9/gcc_64/include/QtGui -I/opt/Qt5.9.0/5.9/gcc_64/include/QtCore -I/usr/local/include/c++/6.4.0 -I/usr/local/include/c++/6.4.0/x86_64-pc-linux-gnu -I/usr/local/include/c++/6.4.0/backward -I/usr/local/include -I/usr/local/lib/clang/5.0.0/include -I/usr/include include/DemoScene.h -o moc/moc_DemoScene.cpp
 
 moc/moc_MainScene.cpp: include/Scene.h \
 		include/Mesh.h \
@@ -1032,7 +1032,7 @@ moc/moc_MainScene.cpp: include/Scene.h \
 		include/MainScene.h \
 		moc/moc_predefs.h \
 		/opt/Qt5.9.0/5.9/gcc_64/bin/moc
-	/opt/Qt5.9.0/5.9/gcc_64/bin/moc $(DEFINES) --include moc/moc_predefs.h -I/opt/Qt5.9.0/5.9/gcc_64/mkspecs/linux-clang -I/home/s4917836/Study/Progr/Projects/MyLittleEditor -I/usr/local/include/glm/glm -I/usr/local/include/glm -I/home/s4917836/Study/Progr/Projects/MyLittleEditor/include -I/home/s4917836/Study/Progr/Projects/MyLittleEditor/ui -I/home/s4917836/Study/Progr/Projects/MyLittleEditor/shaders -I/opt/Qt5.9.0/5.9/gcc_64/include -I/opt/Qt5.9.0/5.9/gcc_64/include/QtOpenGL -I/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets -I/opt/Qt5.9.0/5.9/gcc_64/include/QtGui -I/opt/Qt5.9.0/5.9/gcc_64/include/QtCore -I/usr/local/include/c++/6.4.0 -I/usr/local/include/c++/6.4.0/x86_64-pc-linux-gnu -I/usr/local/include/c++/6.4.0/backward -I/usr/local/lib/gcc/x86_64-pc-linux-gnu/6.4.0/include -I/usr/local/include -I/usr/local/lib/gcc/x86_64-pc-linux-gnu/6.4.0/include-fixed -I/usr/include include/MainScene.h -o moc/moc_MainScene.cpp
+	/opt/Qt5.9.0/5.9/gcc_64/bin/moc $(DEFINES) --include moc/moc_predefs.h -I/opt/Qt5.9.0/5.9/gcc_64/mkspecs/linux-clang -I/home/s4917836/Study/Progr/Projects/MyLittleEditor -I/usr/local/include/glm/glm -I/usr/local/include/glm -I/home/s4917836/Study/Progr/Projects/MyLittleEditor/include -I/home/s4917836/Study/Progr/Projects/MyLittleEditor/ui -I/home/s4917836/Study/Progr/Projects/MyLittleEditor/shaders -I/opt/Qt5.9.0/5.9/gcc_64/include -I/opt/Qt5.9.0/5.9/gcc_64/include/QtOpenGL -I/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets -I/opt/Qt5.9.0/5.9/gcc_64/include/QtGui -I/opt/Qt5.9.0/5.9/gcc_64/include/QtCore -I/usr/local/include/c++/6.4.0 -I/usr/local/include/c++/6.4.0/x86_64-pc-linux-gnu -I/usr/local/include/c++/6.4.0/backward -I/usr/local/include -I/usr/local/lib/clang/5.0.0/include -I/usr/include include/MainScene.h -o moc/moc_MainScene.cpp
 
 moc/moc_MainWindow.cpp: /opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QMainWindow \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qmainwindow.h \
@@ -1177,56 +1177,10 @@ moc/moc_MainWindow.cpp: /opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QMainWindow \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qgenericmatrix.h \
 		include/MaterialPhong.h \
 		ui/ui_mainwindow.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/QVariant \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QAction \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qaction.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qactiongroup.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QApplication \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qapplication.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qcoreapplication.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qeventloop.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qdesktopwidget.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qguiapplication.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qinputmethod.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QButtonGroup \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qbuttongroup.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QCheckBox \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qcheckbox.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qabstractbutton.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QGridLayout \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qgridlayout.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qlayout.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qlayoutitem.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qboxlayout.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QGroupBox \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qgroupbox.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qframe.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QHeaderView \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qheaderview.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qabstractitemview.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qabstractscrollarea.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qabstractitemmodel.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qitemselectionmodel.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qstyleoption.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qabstractspinbox.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qvalidator.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qregularexpression.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qslider.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qabstractslider.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qstyle.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qtabbar.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qrubberband.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QMenuBar \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qmenubar.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qmenu.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QPushButton \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qpushbutton.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QSpacerItem \
 		include/MainWindow.h \
 		moc/moc_predefs.h \
 		/opt/Qt5.9.0/5.9/gcc_64/bin/moc
-	/opt/Qt5.9.0/5.9/gcc_64/bin/moc $(DEFINES) --include moc/moc_predefs.h -I/opt/Qt5.9.0/5.9/gcc_64/mkspecs/linux-clang -I/home/s4917836/Study/Progr/Projects/MyLittleEditor -I/usr/local/include/glm/glm -I/usr/local/include/glm -I/home/s4917836/Study/Progr/Projects/MyLittleEditor/include -I/home/s4917836/Study/Progr/Projects/MyLittleEditor/ui -I/home/s4917836/Study/Progr/Projects/MyLittleEditor/shaders -I/opt/Qt5.9.0/5.9/gcc_64/include -I/opt/Qt5.9.0/5.9/gcc_64/include/QtOpenGL -I/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets -I/opt/Qt5.9.0/5.9/gcc_64/include/QtGui -I/opt/Qt5.9.0/5.9/gcc_64/include/QtCore -I/usr/local/include/c++/6.4.0 -I/usr/local/include/c++/6.4.0/x86_64-pc-linux-gnu -I/usr/local/include/c++/6.4.0/backward -I/usr/local/lib/gcc/x86_64-pc-linux-gnu/6.4.0/include -I/usr/local/include -I/usr/local/lib/gcc/x86_64-pc-linux-gnu/6.4.0/include-fixed -I/usr/include include/MainWindow.h -o moc/moc_MainWindow.cpp
+	/opt/Qt5.9.0/5.9/gcc_64/bin/moc $(DEFINES) --include moc/moc_predefs.h -I/opt/Qt5.9.0/5.9/gcc_64/mkspecs/linux-clang -I/home/s4917836/Study/Progr/Projects/MyLittleEditor -I/usr/local/include/glm/glm -I/usr/local/include/glm -I/home/s4917836/Study/Progr/Projects/MyLittleEditor/include -I/home/s4917836/Study/Progr/Projects/MyLittleEditor/ui -I/home/s4917836/Study/Progr/Projects/MyLittleEditor/shaders -I/opt/Qt5.9.0/5.9/gcc_64/include -I/opt/Qt5.9.0/5.9/gcc_64/include/QtOpenGL -I/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets -I/opt/Qt5.9.0/5.9/gcc_64/include/QtGui -I/opt/Qt5.9.0/5.9/gcc_64/include/QtCore -I/usr/local/include/c++/6.4.0 -I/usr/local/include/c++/6.4.0/x86_64-pc-linux-gnu -I/usr/local/include/c++/6.4.0/backward -I/usr/local/include -I/usr/local/lib/clang/5.0.0/include -I/usr/include include/MainWindow.h -o moc/moc_MainWindow.cpp
 
 moc/moc_Scene.cpp: include/Mesh.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLFunctions \
@@ -1355,7 +1309,7 @@ moc/moc_Scene.cpp: include/Mesh.h \
 		include/Scene.h \
 		moc/moc_predefs.h \
 		/opt/Qt5.9.0/5.9/gcc_64/bin/moc
-	/opt/Qt5.9.0/5.9/gcc_64/bin/moc $(DEFINES) --include moc/moc_predefs.h -I/opt/Qt5.9.0/5.9/gcc_64/mkspecs/linux-clang -I/home/s4917836/Study/Progr/Projects/MyLittleEditor -I/usr/local/include/glm/glm -I/usr/local/include/glm -I/home/s4917836/Study/Progr/Projects/MyLittleEditor/include -I/home/s4917836/Study/Progr/Projects/MyLittleEditor/ui -I/home/s4917836/Study/Progr/Projects/MyLittleEditor/shaders -I/opt/Qt5.9.0/5.9/gcc_64/include -I/opt/Qt5.9.0/5.9/gcc_64/include/QtOpenGL -I/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets -I/opt/Qt5.9.0/5.9/gcc_64/include/QtGui -I/opt/Qt5.9.0/5.9/gcc_64/include/QtCore -I/usr/local/include/c++/6.4.0 -I/usr/local/include/c++/6.4.0/x86_64-pc-linux-gnu -I/usr/local/include/c++/6.4.0/backward -I/usr/local/lib/gcc/x86_64-pc-linux-gnu/6.4.0/include -I/usr/local/include -I/usr/local/lib/gcc/x86_64-pc-linux-gnu/6.4.0/include-fixed -I/usr/include include/Scene.h -o moc/moc_Scene.cpp
+	/opt/Qt5.9.0/5.9/gcc_64/bin/moc $(DEFINES) --include moc/moc_predefs.h -I/opt/Qt5.9.0/5.9/gcc_64/mkspecs/linux-clang -I/home/s4917836/Study/Progr/Projects/MyLittleEditor -I/usr/local/include/glm/glm -I/usr/local/include/glm -I/home/s4917836/Study/Progr/Projects/MyLittleEditor/include -I/home/s4917836/Study/Progr/Projects/MyLittleEditor/ui -I/home/s4917836/Study/Progr/Projects/MyLittleEditor/shaders -I/opt/Qt5.9.0/5.9/gcc_64/include -I/opt/Qt5.9.0/5.9/gcc_64/include/QtOpenGL -I/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets -I/opt/Qt5.9.0/5.9/gcc_64/include/QtGui -I/opt/Qt5.9.0/5.9/gcc_64/include/QtCore -I/usr/local/include/c++/6.4.0 -I/usr/local/include/c++/6.4.0/x86_64-pc-linux-gnu -I/usr/local/include/c++/6.4.0/backward -I/usr/local/include -I/usr/local/lib/clang/5.0.0/include -I/usr/include include/Scene.h -o moc/moc_Scene.cpp
 
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
@@ -1953,45 +1907,6 @@ obj/main.o: src/main.cpp /opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QApplication 
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qgenericmatrix.h \
 		include/MaterialPhong.h \
 		ui/ui_mainwindow.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/QVariant \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QAction \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qaction.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qactiongroup.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QButtonGroup \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qbuttongroup.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QCheckBox \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qcheckbox.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qabstractbutton.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QGridLayout \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qgridlayout.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qlayout.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qlayoutitem.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qboxlayout.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QGroupBox \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qgroupbox.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qframe.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QHeaderView \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qheaderview.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qabstractitemview.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qabstractscrollarea.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qabstractitemmodel.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qitemselectionmodel.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qstyleoption.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qabstractspinbox.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qvalidator.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qregularexpression.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qslider.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qabstractslider.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qstyle.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qtabbar.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qrubberband.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QMenuBar \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qmenubar.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qmenu.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QPushButton \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qpushbutton.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QSpacerItem \
 		include/TrackballCamera.h \
 		include/CameraStates.h \
 		include/MainScene.h \
@@ -2292,53 +2207,7 @@ obj/MainWindow.o: src/MainWindow.cpp include/MainWindow.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qquaternion.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qgenericmatrix.h \
 		include/MaterialPhong.h \
-		ui/ui_mainwindow.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/QVariant \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QAction \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qaction.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qactiongroup.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QApplication \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qapplication.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qcoreapplication.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qeventloop.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qdesktopwidget.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qguiapplication.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qinputmethod.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QButtonGroup \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qbuttongroup.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QCheckBox \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qcheckbox.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qabstractbutton.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QGridLayout \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qgridlayout.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qlayout.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qlayoutitem.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qboxlayout.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QGroupBox \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qgroupbox.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qframe.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QHeaderView \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qheaderview.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qabstractitemview.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qabstractscrollarea.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qabstractitemmodel.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qitemselectionmodel.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qstyleoption.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qabstractspinbox.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qvalidator.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qregularexpression.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qslider.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qabstractslider.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qstyle.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qtabbar.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qrubberband.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QMenuBar \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qmenubar.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qmenu.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QPushButton \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qpushbutton.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QSpacerItem
+		ui/ui_mainwindow.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/MainWindow.o src/MainWindow.cpp
 
 obj/Material.o: src/Material.cpp include/Material.h \
