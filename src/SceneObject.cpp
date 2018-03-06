@@ -7,22 +7,32 @@ void SceneObject::reset()
   m_scale=vec3(1,1,1);
 }
 
-void SceneObject::changeID(const unsigned _newID)
+void SceneObject::changeID(const size_t _newID)
 {
   m_id = _newID;
 }
 
-unsigned SceneObject::getID () const
+size_t SceneObject::getID () const
 {
   return m_id;
 }
 
-void SceneObject::setGeometry(unsigned _new)
+void SceneObject::setGeometry(size_t _new)
 {
   m_geometry = _new;
 }
 
-unsigned SceneObject::getGeo() const
+size_t SceneObject::getGeo() const
 {
   return m_geometry;
+}
+
+size_t SceneObject::findMat() const
+{
+  return m_material;
+}
+
+void SceneObject::setMat(size_t _new)
+{
+  m_material = _new;
 }

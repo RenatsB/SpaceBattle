@@ -1,27 +1,15 @@
-#include "MaterialPBR.h"
+#include "MaterialWireframe.h"
 #include "Scene.h"
 #include "ShaderLib.h"
 
-void MaterialPBR::init()
+void MaterialWireframe::init()
 {
-  auto shaderPtr = m_shaderLib->getCurrentShader();
-
-  shaderPtr->setUniformValue("albedo", QVector3D{m_albedo.x, m_albedo.y, m_albedo.z});
-  shaderPtr->setUniformValue("ao", m_ao);
-  shaderPtr->setUniformValue("exposure", m_exposure);
-  shaderPtr->setUniformValue("roughness", m_roughness);
-  shaderPtr->setUniformValue("metallic", m_metallic);
-
-  // Update our matrices
   update();
 }
 
-void MaterialPBR::update()
+void MaterialWireframe::update()
 {
   auto shaderPtr = m_shaderLib->getShader(m_shaderName);
-  auto eye = m_cam->getCameraEye();
-  shaderPtr->setUniformValue("camPos", QVector3D{eye.x, eye.y, eye.z});
-
   // Scope the using declaration
   {
     using namespace SceneMatrices;
@@ -37,7 +25,7 @@ void MaterialPBR::update()
   }
 }
 
-const char* MaterialPBR::shaderFileName() const
+const char* MaterialWireframe::shaderFileName() const
 {
-  return "shaderPrograms/redPBR.json";
+  return "shaderPrograms/wireframe.json";
 }

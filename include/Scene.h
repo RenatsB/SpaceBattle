@@ -10,14 +10,17 @@
 #include <QResizeEvent>
 #include <QEvent>
 #include <memory>
-#include "Buffer.h"
+#include "MeshVBO.h"
 #include "Camera.h"
 
 
-//----------------------------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------------
 /// @brief Enum used to access matrices in a more readable way.
-//----------------------------------------------------------------------------------------------------------------------
-namespace SceneMatrices { enum MATRIX { MODEL_VIEW, PROJECTION, NORMAL }; }
+//-------------------------------------------------------------------------------------------------------
+namespace SceneMatrices
+{
+enum MATRIX { MODEL_VIEW, PROJECTION, NORMAL };
+}
 
 class Scene : public QOpenGLWidget, protected QOpenGLFunctions
 {
@@ -51,19 +54,19 @@ public:
   virtual ~Scene() = default;
   //-----------------------------------------------------------------------------------------------------
   /// @brief Receives and acts on a key event.
-  /// @param _event is the key event that was received.
+  /// @param [io] io_event is the key event that was received.
   //-----------------------------------------------------------------------------------------------------
-  void keyPress(QKeyEvent* _event);
+  virtual void keyPress(QKeyEvent* io_event);
   //-----------------------------------------------------------------------------------------------------
   /// @brief Receives and acts on a mouse event, when moved.
-  /// @param _event is the mouse event that was received.
+  /// @param [io] io_event is the mouse event that was received.
   //-----------------------------------------------------------------------------------------------------
-  void mouseMove(QMouseEvent * _event);
+  virtual void mouseMove(QMouseEvent * io_event);
   //-----------------------------------------------------------------------------------------------------
   /// @brief Receives and acts on a mouse event, when clicked.
-  /// @param _event is the mouse event that was received.
+  /// @param [io] io_event is the mouse event that was received.
   //-----------------------------------------------------------------------------------------------------
-  void mouseClick(QMouseEvent * _event);
+  virtual void mouseClick(QMouseEvent * io_event);
   //-----------------------------------------------------------------------------------------------------
   /// @brief Used to intialise the scene, subclasses must call this base function.
   //-----------------------------------------------------------------------------------------------------
@@ -76,28 +79,28 @@ protected:
   void initializeGL();
   //-----------------------------------------------------------------------------------------------------
   /// @brief this is called whenever the window is re-sized
-  /// @param[in] _w the width of the resized window
-  /// @param[in] _h the height of the resized window
+  /// @param [in] _w the width of the resized window
+  /// @param [in] _h the height of the resized window
   //-----------------------------------------------------------------------------------------------------
   void resizeGL(int _w , int _h);
   //-----------------------------------------------------------------------------------------------------
   /// @brief this is the main gl drawing routine which is called whenever the window needs to be re-drawn,
   /// you should implement your draw calls in renderScene as this function calls those.
-  ///-----------------------------------------------------------------------------------------------------
+  //-----------------------------------------------------------------------------------------------------
   void paintGL();
   //-----------------------------------------------------------------------------------------------------
   /// @brief you should implement this function to draw your openGL scene, the start of your,
   /// implementation should call this base function.
   //-----------------------------------------------------------------------------------------------------
   virtual void renderScene();
-  //----------------------------------------------------------------------------------------------------------------------
+  //-----------------------------------------------------------------------------------------------------
   /// @brief Array of matrices, that stores the model view, projection, and normal matrices.
-  //----------------------------------------------------------------------------------------------------------------------
+  //-----------------------------------------------------------------------------------------------------
   std::array<glm::mat4, 3> m_matrices;
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief a reference pointer to the camera that is used to view this scene.
-  //----------------------------------------------------------------------------------------------------------------------
-  Camera* m_camera;
+  //-----------------------------------------------------------------------------------------------------
+  /// @brief a pointer to the camera that is used to view this scene.
+  //-----------------------------------------------------------------------------------------------------
+  std::shared_ptr<Camera> m_camera;
 
 };
 

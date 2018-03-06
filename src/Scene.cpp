@@ -9,7 +9,7 @@
 //----------------------------------------------------------------------------------------------------------------------
 Scene::Scene(const std::shared_ptr<Camera> &io_camera , QWidget *io_parent) :
   QOpenGLWidget(io_parent),
-  m_camera(io_camera.get())
+  m_camera(io_camera)
 {
   // set this widget to have the initial keyboard focus
   // re-size the widget to that of the parent (in this case the GLFrame passed in on construction)
@@ -34,20 +34,20 @@ void Scene::resizeGL( int _w, int _h )
   m_camera->resize(_w, _h);
 }
 //----------------------------------------------------------------------------------------------------------------------
-void Scene::keyPress(QKeyEvent* _event)
+void Scene::keyPress(QKeyEvent* io_event)
 {
-  m_camera->handleKey(_event->key(), (_event->type()==QKeyEvent::KeyPress));
+  m_camera->handleKey(io_event->key(), (io_event->type()==QKeyEvent::KeyPress));
 }
 //----------------------------------------------------------------------------------------------------------------------
-void Scene::mouseMove(QMouseEvent * _event)
+void Scene::mouseMove(QMouseEvent * io_event)
 {
-  m_camera->handleMouseMove(glm::vec2{_event->pos().x(), _event->pos().y()});
+  m_camera->handleMouseMove(glm::vec2{io_event->pos().x(), io_event->pos().y()});
   update();
 }
 //----------------------------------------------------------------------------------------------------------------------
-void Scene::mouseClick(QMouseEvent * _event)
+void Scene::mouseClick(QMouseEvent * io_event)
 {
-  m_camera->handleMouseClick(*_event);
+  m_camera->handleMouseClick(*io_event);
   update();
 }
 //----------------------------------------------------------------------------------------------------------------------
@@ -69,7 +69,7 @@ void Scene::paintGL()
 void Scene::renderScene()
 {
   // Clear the screen
-  glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+  glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   // Update our camera view
   m_camera->update();
@@ -82,5 +82,3 @@ void Scene::renderScene()
   }
 }
 //------------------------------------------------------------------------------------------------------------------------------
-
-

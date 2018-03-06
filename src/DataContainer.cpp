@@ -11,49 +11,6 @@ DataContainer* DataContainer::instance()
   return s_instance;
 }
 
-/*bool DataContainer::loadGeometry(const std::string _path)
-{
-  unsigned newID = 0;
-  for(auto it = m_geoUnordered.begin(); it != m_geoUnordered.end(); ++it)
-  {
-    if(it->second == newID)
-    {
-      ++newID;
-    }
-  }
-  Mesh temp;
-  temp.load(_path);
-  //catch exception
-
-  m_geoUnordered.push_back(temp, newID);
-  //catch exception
-
-  return true;
-}
-
-void DataContainer::removeGeo(const unsigned _id)
-{
-  for(auto it = m_geoUnordered.begin(); it != m_geoUnordered.end(); ++it)
-  {
-    if(it->second == _id)
-    {
-      m_geoUnordered.erase(it);
-    }
-  }
-}
-
-void DataContainer::updateMaterial(unsigned _id)
-{
-  for(auto it = m_matUnordered.begin(); it != m_matUnordered.end(); ++it)
-  {
-    if(it->second == _id)
-    {
-      it->first->update();
-    }
-  }
-}
-*/
-
 bool DataContainer::loadGeometry(const std::string _path)
 {
   std::unique_ptr<Mesh> temp;
@@ -66,18 +23,70 @@ bool DataContainer::loadGeometry(const std::string _path)
   return true;
 }
 
-void DataContainer::removeGeo(const unsigned _id)
+void DataContainer::removeGeo(const size_t _id)
 {
-  auto it = m_geo.begin()+_id;
+  auto it = m_geo.begin()+static_cast<long>(_id);
   m_geo.erase(it);
 }
 
-void DataContainer::updateMaterial(unsigned _id)
+void DataContainer::updateMaterial(size_t _id)
 {
   m_mat.at(_id).get()->update();
 }
 
-Mesh* DataContainer::findGeo(unsigned _id)
+Mesh* DataContainer::findGeo(size_t _id)
 {
-  return m_geo.at(_id).get();
+  if(_id < m_geo.size())
+  {
+    return m_geo.at(_id).get();
+  }
+  else
+  {
+    return nullptr;
+  }
+}
+
+void DataContainer::matReserve(size_t _amount)
+{
+  m_mat.reserve(_amount);
+}
+
+void DataContainer::geoReserve(size_t _amount)
+{
+  for(size_t i = 0; i < _amount; ++i)
+  {
+    m_geo.emplace_back(new Mesh);
+  }
+}
+
+void DataContainer::matPut(Material* _new)
+{
+  m_mat.emplace_back(_new);
+}
+
+void DataContainer::geoPut(Mesh* _new)
+{
+  m_geo.emplace_back(_new);
+}
+
+size_t DataContainer::matSize() const
+{
+  return m_mat.size();
+}
+
+size_t DataContainer::geosize() const
+{
+  return m_geo.size();
+}
+
+Material* DataContainer::findMat(size_t _id)
+{
+  if(_id < m_mat.size())
+  {
+     return m_mat.at(_id).get();
+  }
+  else
+  {
+    return nullptr;
+  }
 }

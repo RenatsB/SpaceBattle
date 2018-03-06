@@ -1,4 +1,3 @@
-
 TEMPLATE = app
 TARGET = MyLittleEditor
 
@@ -29,20 +28,16 @@ INCLUDEPATH += \
     $$PWD/shaders
 
 HEADERS += $$files(./include/*.h)
-#HEADERS -= $$PWD/include/DemoScene.h
 SOURCES += $$files(./src/*.cpp)
-#SOURCES -= $$PWD/include/DemoSceme.cpp
 
 
 OTHER_FILES += \
     $$files(shaders/*, true) \
-    $$files(models/*, true)
+    $$files(shaderPrograms/*, true) \
+$$files(models/*, true)
 
 FORMS += ui/mainwindow.ui
 
 linux:{
     LIBS += -lGL -lGLU -lGLEW -lassimp
 }
-
-
-#DISTFILES +=

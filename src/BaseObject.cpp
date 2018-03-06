@@ -44,3 +44,13 @@ vec3 BaseObject::getScale () const
 {
   return m_scale;
 }
+
+void BaseObject::setActive(bool _new)
+{
+  m_isActive = _new;
+}
+
+bool BaseObject::isActive()
+{
+  return m_isActive;
+}

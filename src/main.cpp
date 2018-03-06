@@ -7,6 +7,7 @@
 #include <gtc/matrix_transform.hpp>
 #include <gtc/type_ptr.hpp>
 #include <ext.hpp>
+#include "MainScene.h"
 
 int main(int argc, char *argv[])
 {
@@ -41,10 +42,10 @@ int main(int argc, char *argv[])
   // Create a shader library
   std::shared_ptr<ShaderLib> lib(new ShaderLib);
   // Create a scene to place inside the window
-  std::shared_ptr<Scene> scene(new MainScene(cam, lib, &window));
   //std::shared_ptr<Scene> scene(new DemoScene(cam, lib, &window));
+  std::shared_ptr<Scene> scene(new MainScene(cam, lib, &window));
   // Initialise the window using our scene
-  window.init(scene.get());
+  window.init(scene);
   // show it
   window.show();
   // hand control over to Qt framework

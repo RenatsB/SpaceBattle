@@ -2,33 +2,12 @@
 #define MAINSCENE_H
 
 #include "Scene.h"
-#include <unordered_set>
-#include "SceneObject.h"
 #include "MaterialPBR.h"
 #include "MaterialPhong.h"
 #include "ShaderLib.h"
 #include "DataContainer.h"
-
-struct SOHasher
-{
-  size_t
-  operator()(const SceneObject & obj) const
-  {
-    return std::hash<unsigned>()(obj.getID());
-  }
-};
-
-// Custom comparator that compares the string objects by length
-struct SOComparator
-{
-  bool
-  operator()(const SceneObject & obj1, const SceneObject & obj2) const
-  {
-    if (obj1.getID() == obj2.getID())
-      return true;
-    return false;
-  }
-};
+#include <vector>
+#include "SceneObject.h"
 
 class MainScene : public Scene
 {
@@ -46,7 +25,7 @@ public:
      QWidget *_parent
      ) :
    Scene(io_camera, _parent),
-   m_shaderLib(io_shaderLib.get())
+   m_shaderLib(io_shaderLib)
   {}
   //-----------------------------------------------------------------------------------------------------
   /// @brief Default copy constructor.
@@ -69,28 +48,58 @@ public:
   //-----------------------------------------------------------------------------------------------------
   ~MainScene() override = default;
   virtual void init() override;
+  //-----------------------------------------------------------------------------------------------------
+  /// @brief Used to intialise the models, vbo and vao.
+  //-----------------------------------------------------------------------------------------------------
+  void initGeo();
+  //-----------------------------------------------------------------------------------------------------
+  /// @brief Used to create our shader programs, or use exisiting ones if they have been loaded.
+  //-----------------------------------------------------------------------------------------------------
+  void initMaterials();
+  //-----------------------------------------------------------------------------------------------------
+  /// @brief Receives and acts on a key event.
+  /// @param [io] io_event is the key event that was received.
+  //-----------------------------------------------------------------------------------------------------
+  //virtual void keyPress(QKeyEvent* io_event) override;
 
 public slots:
 
 private:
-  void loadMesh(unsigned _id);
+  void createSceneObject();
+  void loadMesh(size_t _id);
+  void loadMesh(size_t _meshID, size_t _shaderID);
+  void loadMesh(Mesh _raw, size_t _shaderID);
   void loadAllMeshData();
+  //-----------------------------------------------------------------------------------------------------
+  /// @brief Used to write our mesh data into the vbo.
+  //-----------------------------------------------------------------------------------------------------
+  void writeMeshAttributes(size_t _id);
+  //-----------------------------------------------------------------------------------------------------
+  /// @brief Used to pass attribute pointers to the current shader program.
+  //-----------------------------------------------------------------------------------------------------
+  void setAttributeBuffers();
   std::array<int, 3> countAllSceneGeo() const;
   virtual void renderScene() override;
-  void makeGrid(float s);
-  void generateGridGeo();
-  void updateGridSize(unsigned _new);
 
 private:
-  ShaderLib* m_shaderLib;
+  //-----------------------------------------------------------------------------------------------------
+  /// @brief Wraps up our OpenGL buffers and VAO.
+  //-----------------------------------------------------------------------------------------------------
+  MeshVBO m_meshVBO;
+  //-----------------------------------------------------------------------------------------------------
+  /// @brief Vertex array object, default constructed with a pointer to this OpenGL widget,
+  /// a dynamic_cast is used due to Scene's multiple inheritence.
+  //-----------------------------------------------------------------------------------------------------
+  std::unique_ptr<QOpenGLVertexArrayObject> m_vao {
+    new QOpenGLVertexArrayObject(dynamic_cast<QObject*>(this))
+  };
+  std::shared_ptr<ShaderLib> m_shaderLib;
   DataContainer m_drawData;
-  size_t m_currentMaterial = 0;
-  Buffer m_buffer;
   std::vector<std::array<int, 3>> m_bufferObjects;
-  unsigned m_gridSize = 28;
-  std::array<glm::vec3, 784> m_gridArray;
+  Mesh m_grid;
+  std::unique_ptr<SceneObject> m_gridObject;
 
-  std::unordered_set<SceneObject, SOHasher, SOComparator> m_sceneObjects;
+  std::vector<SceneObject> m_sceneObjects;
 
 };
 
