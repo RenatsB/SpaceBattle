@@ -43,13 +43,13 @@ void MainScene::initGeo()
   m_vao->bind();
   // Create and bind our Vertex Buffer Object
   m_meshVBO.init();
-  updateBuffer(0);
+  updateBuffer(0, 0);
 }
 //-----------------------------------------------------------------------------------------------------
-void MainScene::updateBuffer(size_t _id)
+void MainScene::updateBuffer(const size_t _geoID, const size_t _matID)
 {
   makeCurrent();
-  auto mesh = m_drawData.instance()->findGeo(_id);
+  auto mesh = m_drawData.instance()->findGeo(_geoID);
   m_meshVBO.reset(
         sizeof(GLushort),
         mesh->getNIndicesData(),
@@ -58,15 +58,16 @@ void MainScene::updateBuffer(size_t _id)
         mesh->getNUVData(),
         mesh->getNNormData()
         );
-  writeMeshAttributes(_id);
-  setAttributeBuffers();
+  writeMeshAttributes(_geoID);
+  useMaterial(_matID);
+  //setAttributeBuffers();
 }
 //-----------------------------------------------------------------------------------------------------
 void MainScene::initMaterials()
 {
-  m_drawData.instance()->matReserve(6);
+  m_drawData.instance()->matReserve(5);
   m_drawData.instance()->matPut(new MaterialWireframe(m_camera, m_shaderLib, &m_matrices));
-  m_drawData.instance()->matPut(new MaterialEnvMap(m_camera, m_shaderLib, &m_matrices));
+  //m_drawData.instance()->matPut(new MaterialEnvMap(m_camera, m_shaderLib, &m_matrices));
   m_drawData.instance()->matPut(new MaterialPhong(m_camera, m_shaderLib, &m_matrices));
   m_drawData.instance()->matPut(new MaterialPBR(m_camera, m_shaderLib, &m_matrices, {0.5f, 0.0f, 0.0f}, 1.0f, 1.0f, 0.5f, 1.0f));
   m_drawData.instance()->matPut(new MaterialPBR(m_camera, m_shaderLib, &m_matrices, {0.1f, 0.2f, 0.5f}, 0.5f, 1.0f, 0.4f, 0.2f));
@@ -81,19 +82,27 @@ void MainScene::initMaterials()
   m_drawData.instance()->findMat(0)->apply();
 }
 
+void MainScene::useMaterial(const size_t _id)
+{
+  makeCurrent();
+  m_drawData.instance()->findMat(_id)->apply();
+  setAttributeBuffers();
+}
+
 void MainScene::init()
 {
   Scene::init();
 
   initMaterials();
   initGeo();
-
-  // Scope the using declaration
-  {
-    using namespace SceneMatrices;
-    m_matrices[MODEL_VIEW] = glm::translate(m_matrices[MODEL_VIEW], glm::vec3(0.0f, 0.0f, -2.0f));
-  }
-  createSceneObject("TEST");
+  for(size_t i = 0; i<12; ++i)
+    {
+      createSceneObject("TEST"+std::to_string(i));
+      m_sceneObjects.at(i).get()->setMat(i%3+1);
+      m_sceneObjects.at(i).get()->setScale(glm::vec3(0.2f,0.5f,0.2f));
+      m_sceneObjects.at(i).get()->setPosition(glm::vec3(sinf(glm::radians(static_cast<float>(i*30))),0.f,cosf(glm::radians(static_cast<float>(i*30)))));
+      m_sceneObjects.at(i).get()->setRotation(vec3(0.f, 30*i, 0.f));
+    }
 }
 
 //-----------------------------------------------------------------------------------------------------
@@ -101,30 +110,32 @@ void MainScene::init()
 void MainScene::renderScene()
 {
   Scene::renderScene();
+  using namespace SceneMatrices;
+  mat4 t1=m_matrices[MODEL_VIEW];
+  mat4 t2=m_matrices[PROJECTION];
+  mat4 t3=m_matrices[NORMAL];
 
-  // Scope the using declaration
-  /*{
-    using namespace SceneMatrices;
-    m_matrices[MODEL_VIEW] = glm::rotate(m_matrices[MODEL_VIEW], glm::radians(-1.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-  }*/
   m_drawData.instance()->findMat(0)->update();
   m_meshVBO.use();
-  updateBuffer(0);
+  updateBuffer(0,0);
   glDrawElements(GL_TRIANGLES, m_drawData.instance()->findGeo(0)->getNIndicesData(), GL_UNSIGNED_SHORT, nullptr);
-  //size_t bufferIt=1; //1 because 0 is reserved for the grid
   for(size_t i=0; i<m_sceneObjects.size(); ++i)
   {
-    if(m_sceneObjects.at(i).isActive())
+    if(m_sceneObjects.at(i).get()->isActive())
     {
-      m_drawData.instance()->findMat(m_sceneObjects.at(i).findMat())->update();
-      //++bufferIt;
-      m_meshVBO.use();
-      updateBuffer(i+1);
-      //glDrawArrays(GL_TRIANGLES, 0, static_cast<int>(m_bufferObjects.at(bufferIt).at(0))/3);
-      glDrawElements(GL_TRIANGLES, m_drawData.instance()->findGeo(1+m_sceneObjects.at(i).getGeo())->getNIndicesData(), GL_UNSIGNED_SHORT, nullptr);
+        m_matrices[MODEL_VIEW] = m_sceneObjects.at(i).get()->getMVmatrix();
+        m_matrices[PROJECTION] = m_camera->projMatrix() * m_camera->viewMatrix() * m_matrices[MODEL_VIEW];
+        m_matrices[NORMAL] = glm::inverse(glm::transpose(m_matrices[MODEL_VIEW]));
+
+        m_drawData.instance()->findMat(m_sceneObjects.at(i).get()->findMat())->update();
+        updateBuffer(m_sceneObjects.at(i).get()->getGeo(), m_sceneObjects.at(i).get()->findMat());
+        //updateBuffer(m_sceneObjects.at(i).get()->getGeo(), 0);
+        glDrawElements(GL_TRIANGLES, m_drawData.instance()->findGeo(1+m_sceneObjects.at(i).get()->getGeo())->getNIndicesData(), GL_UNSIGNED_SHORT, nullptr);
     }
   }
-  //glDrawElements(GL_TRIANGLES, m_drawData.findGeo(i+1).getNIndicesData(), GL_UNSIGNED_SHORT, nullptr);
+  m_matrices[MODEL_VIEW] = t1;
+  m_matrices[PROJECTION] = t2;
+  m_matrices[NORMAL] = t3;
 }
 //-----------------------------------------------------------------------------------------------------
 
@@ -134,7 +145,7 @@ std::array<int, 4> MainScene::countAllSceneGeo() const
 
   for(auto it = m_sceneObjects.begin(); it!=m_sceneObjects.end(); ++it)
   {
-    size_t id = it->getGeo();
+    size_t id = it.base()->get()->getGeo();
     numData[0]+=m_drawData.instance()->findGeo(id)->getNVertData();
     numData[1]+=m_drawData.instance()->findGeo(id)->getNNormData();
     numData[2]+=m_drawData.instance()->findGeo(id)->getNUVData();

@@ -8,6 +8,7 @@
 #include "DataContainer.h"
 #include <vector>
 #include "SceneObject.h"
+//#include <glm/gtx/quaternion.hpp>
 
 class MainScene : public Scene
 {
@@ -65,12 +66,12 @@ public:
 public slots:
 
 private:
-  void createSceneObject(std::string _name="SceneObject", glm::vec3 _pos=glm::vec3(0,0,0), glm::vec3 _rot=glm::vec3(0,0,0), glm::vec3 _sc=glm::vec3(1,1,1), size_t _geo=1, size_t _mat=0);
+  void createSceneObject(std::string _name="SceneObject", vec3 _pos=vec3(0,0,0), vec3 _rot=vec3(0,0,0), vec3 _sc=vec3(1,1,1), size_t _geo=1, size_t _mat=0);
   void loadMesh(size_t _id);
   void loadMesh(size_t _meshID, size_t _shaderID);
   void loadMesh(Mesh _raw, size_t _shaderID);
   void loadAllMeshData();
-  void updateBuffer(size_t _id);
+  void updateBuffer(const size_t _geoID, const size_t _matID);
   //-----------------------------------------------------------------------------------------------------
   /// @brief Used to write our mesh data into the vbo.
   //-----------------------------------------------------------------------------------------------------
@@ -79,6 +80,7 @@ private:
   /// @brief Used to pass attribute pointers to the current shader program.
   //-----------------------------------------------------------------------------------------------------
   void setAttributeBuffers();
+  void useMaterial(const size_t _id);
   std::array<int, 4> countAllSceneGeo() const;
   virtual void renderScene() override;
 
@@ -96,11 +98,9 @@ private:
   };
   std::shared_ptr<ShaderLib> m_shaderLib;
   DataContainer m_drawData;
-  std::vector<std::array<int, 3>> m_bufferObjects;
   Mesh m_grid;
-  std::unique_ptr<SceneObject> m_gridObject;
 
-  std::vector<SceneObject> m_sceneObjects;
+  std::vector<std::unique_ptr<SceneObject>> m_sceneObjects;
 
 };
 
