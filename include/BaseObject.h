@@ -11,6 +11,7 @@ class BaseObject
 public :
   virtual void reset() = 0;
   virtual void changeID (const size_t _newID) = 0;
+  void setTag(std::string _new);
   void moveObject (const vec3 _tr);
   void setPosition (const vec3 _tr);
   void rotateObject (const vec3 _rot);

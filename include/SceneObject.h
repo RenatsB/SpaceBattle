@@ -7,11 +7,18 @@
 class SceneObject : public BaseObject
 {
 public :
-  SceneObject()=default;
-  SceneObject(size_t _geo)
-  {m_geometry = _geo;}
-  SceneObject(std::string _name, glm::vec3 _pos, glm::vec3 _rot, glm::vec3 _sc, size_t _geo, size_t _mat)
-  { = _geo;}
+  SceneObject();
+  SceneObject(size_t _geo):
+  m_geometry(_geo)
+  {}
+  SceneObject(std::string _name = "SceneObject", glm::vec3 _pos=glm::vec3(0,0,0), glm::vec3 _rot=glm::vec3(0,0,0), glm::vec3 _sc=glm::vec3(1,1,1), size_t _geo=1, size_t _mat=0):
+  m_geometry(_geo),
+  setTag(_name),
+  setPosition(_pos),
+  setRotation(_rot),
+  setScale(_sc),
+  m_material(_mat)
+  {}
 
   ~SceneObject();
   virtual void reset() override;

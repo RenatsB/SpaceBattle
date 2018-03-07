@@ -93,7 +93,7 @@ void MainScene::init()
     using namespace SceneMatrices;
     m_matrices[MODEL_VIEW] = glm::translate(m_matrices[MODEL_VIEW], glm::vec3(0.0f, 0.0f, -2.0f));
   }
-  createSceneObject();
+  createSceneObject("TEST");
 }
 
 //-----------------------------------------------------------------------------------------------------
@@ -145,5 +145,5 @@ std::array<int, 4> MainScene::countAllSceneGeo() const
 //-----------------------------------------------------------------------------------------------------
 void MainScene::createSceneObject(std::string _name, glm::vec3 _pos, glm::vec3 _rot, glm::vec3 _sc, size_t _geo, size_t _mat)
 {
-  new SceneObject()
+  m_sceneObjects.emplace_back(new SceneObject(_name, _pos, _rot, _sc, _geo, _mat));
 }
