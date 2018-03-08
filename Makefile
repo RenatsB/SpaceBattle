@@ -60,6 +60,7 @@ SOURCES       = src/BaseObject.cpp \
 		src/MainScene.cpp \
 		src/MainWindow.cpp \
 		src/Material.cpp \
+		src/MaterialBump.cpp \
 		src/MaterialEnvMap.cpp \
 		src/MaterialFractal.cpp \
 		src/MaterialPBR.cpp \
@@ -83,6 +84,7 @@ OBJECTS       = obj/BaseObject.o \
 		obj/MainScene.o \
 		obj/MainWindow.o \
 		obj/Material.o \
+		obj/MaterialBump.o \
 		obj/MaterialEnvMap.o \
 		obj/MaterialFractal.o \
 		obj/MaterialPBR.o \
@@ -285,6 +287,7 @@ DIST          = /opt/Qt5.9.0/5.9/gcc_64/mkspecs/features/spec_pre.prf \
 		include/MainScene.h \
 		include/MainWindow.h \
 		include/Material.h \
+		include/MaterialBump.h \
 		include/MaterialEnvMap.h \
 		include/MaterialFractal.h \
 		include/MaterialPBR.h \
@@ -304,6 +307,7 @@ DIST          = /opt/Qt5.9.0/5.9/gcc_64/mkspecs/features/spec_pre.prf \
 		src/MainScene.cpp \
 		src/MainWindow.cpp \
 		src/Material.cpp \
+		src/MaterialBump.cpp \
 		src/MaterialEnvMap.cpp \
 		src/MaterialFractal.cpp \
 		src/MaterialPBR.cpp \
@@ -710,8 +714,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /opt/Qt5.9.0/5.9/gcc_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents include/BaseObject.h include/Camera.h include/CameraStates.h include/DataContainer.h include/DemoScene.h include/MainScene.h include/MainWindow.h include/Material.h include/MaterialEnvMap.h include/MaterialFractal.h include/MaterialPBR.h include/MaterialPhong.h include/MaterialWireframe.h include/Mesh.h include/MeshVBO.h include/Scene.h include/SceneObject.h include/ShaderLib.h include/TrackballCamera.h $(DISTDIR)/
-	$(COPY_FILE) --parents src/BaseObject.cpp src/Camera.cpp src/CameraStates.cpp src/DataContainer.cpp src/DemoScene.cpp src/main.cpp src/MainScene.cpp src/MainWindow.cpp src/Material.cpp src/MaterialEnvMap.cpp src/MaterialFractal.cpp src/MaterialPBR.cpp src/MaterialPhong.cpp src/MaterialWireframe.cpp src/Mesh.cpp src/MeshVBO.cpp src/Scene.cpp src/SceneObject.cpp src/ShaderLib.cpp src/TrackballCamera.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents include/BaseObject.h include/Camera.h include/CameraStates.h include/DataContainer.h include/DemoScene.h include/MainScene.h include/MainWindow.h include/Material.h include/MaterialBump.h include/MaterialEnvMap.h include/MaterialFractal.h include/MaterialPBR.h include/MaterialPhong.h include/MaterialWireframe.h include/Mesh.h include/MeshVBO.h include/Scene.h include/SceneObject.h include/ShaderLib.h include/TrackballCamera.h $(DISTDIR)/
+	$(COPY_FILE) --parents src/BaseObject.cpp src/Camera.cpp src/CameraStates.cpp src/DataContainer.cpp src/DemoScene.cpp src/main.cpp src/MainScene.cpp src/MainWindow.cpp src/Material.cpp src/MaterialBump.cpp src/MaterialEnvMap.cpp src/MaterialFractal.cpp src/MaterialPBR.cpp src/MaterialPhong.cpp src/MaterialWireframe.cpp src/Mesh.cpp src/MeshVBO.cpp src/Scene.cpp src/SceneObject.cpp src/ShaderLib.cpp src/TrackballCamera.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents ui/mainwindow.ui $(DISTDIR)/
 
 
@@ -2057,11 +2061,12 @@ obj/MainScene.o: src/MainScene.cpp include/MainScene.h \
 		include/SceneObject.h \
 		include/BaseObject.h \
 		include/MaterialWireframe.h \
-		include/MaterialFractal.h \
-		include/MaterialEnvMap.h \
+		include/MaterialBump.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLTexture \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopengltexture.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QImage
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QImage \
+		include/MaterialFractal.h \
+		include/MaterialEnvMap.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/MainScene.o src/MainScene.cpp
 
 obj/MainWindow.o: src/MainWindow.cpp include/MainWindow.h \
@@ -2304,6 +2309,147 @@ obj/Material.o: src/Material.cpp include/Material.h \
 		include/Camera.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QMouseEvent
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/Material.o src/Material.cpp
+
+obj/MaterialBump.o: src/MaterialBump.cpp include/MaterialBump.h \
+		include/Material.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QKeyEvent \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qevent.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qtguiglobal.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qglobal.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qconfig.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qtcore-config.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qsystemdetection.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qprocessordetection.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qcompilerdetection.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qtypeinfo.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qsysinfo.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qlogging.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qflags.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qatomic.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qbasicatomic.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qgenericatomic.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qatomic_msvc.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qglobalstatic.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qmutex.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qnumeric.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qversiontagging.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qtgui-config.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qwindowdefs.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qobjectdefs.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qnamespace.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qwindowdefs_win.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qregion.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qrect.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qmargins.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qsize.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qpoint.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qdatastream.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qscopedpointer.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qiodevice.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qobject.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qstring.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qchar.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qbytearray.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qrefcount.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qarraydata.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qstringbuilder.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qlist.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qalgorithms.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qiterator.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qhashfunctions.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qpair.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qbytearraylist.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qstringlist.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qregexp.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qstringmatcher.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qcoreevent.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qmetatype.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qvarlengtharray.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qcontainerfwd.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qobject_impl.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qkeysequence.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qvariant.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qmap.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qdebug.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qhash.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qtextstream.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qlocale.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qshareddata.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qvector.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qset.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qcontiguouscache.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qsharedpointer.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qurl.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qurlquery.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qfile.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qfiledevice.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qvector2d.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qtouchdevice.h \
+		include/ShaderLib.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLShaderProgram \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglshaderprogram.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopengl.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qt_windows.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopengles2ext.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglext.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qvector3d.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qvector4d.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qmatrix4x4.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qquaternion.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qgenericmatrix.h \
+		include/Camera.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QMouseEvent \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLTexture \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopengltexture.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qimage.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qcolor.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qrgb.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qrgba64.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qpaintdevice.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qpixelformat.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qtransform.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qmatrix.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qpolygon.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qline.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qpainterpath.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/QScopedPointer \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QImage \
+		include/Scene.h \
+		include/Mesh.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLFunctions \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglfunctions.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglcontext.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/QObject \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QSurfaceFormat \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qsurfaceformat.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglversionfunctions.h \
+		include/MeshVBO.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLVertexArrayObject \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglvertexarrayobject.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLBuffer \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglbuffer.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QOpenGLWidget \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qopenglwidget.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qtwidgets-config.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QWidget \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qwidget.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qpalette.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qbrush.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qpixmap.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qfont.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qfontmetrics.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qfontinfo.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qsizepolicy.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qcursor.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QResizeEvent \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/QEvent
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/MaterialBump.o src/MaterialBump.cpp
 
 obj/MaterialEnvMap.o: src/MaterialEnvMap.cpp include/MaterialEnvMap.h \
 		include/Material.h \

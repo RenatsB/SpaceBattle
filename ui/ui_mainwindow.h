@@ -39,8 +39,8 @@ public:
     QCheckBox *m_rotating;
     QSpacerItem *verticalSpacer;
     QSpacerItem *horizontalSpacer_3;
-    QPushButton *generate;
-    QPushButton *material;
+    QPushButton *select;
+    QPushButton *deselect;
     QMenuBar *menubar;
 
     void setupUi(QMainWindow *MainWindow)
@@ -87,15 +87,15 @@ public:
 
         gridLayout_2->addItem(horizontalSpacer_3, 0, 2, 1, 1);
 
-        generate = new QPushButton(s_drawGB);
-        generate->setObjectName(QStringLiteral("generate"));
+        select = new QPushButton(s_drawGB);
+        select->setObjectName(QStringLiteral("select"));
 
-        gridLayout_2->addWidget(generate, 0, 1, 1, 1);
+        gridLayout_2->addWidget(select, 0, 1, 1, 1);
 
-        material = new QPushButton(s_drawGB);
-        material->setObjectName(QStringLiteral("material"));
+        deselect = new QPushButton(s_drawGB);
+        deselect->setObjectName(QStringLiteral("deselect"));
 
-        gridLayout_2->addWidget(material, 1, 1, 1, 1);
+        gridLayout_2->addWidget(deselect, 1, 1, 1, 1);
 
 
         s_mainWindowGridLayout->addWidget(s_drawGB, 2, 5, 1, 1);
@@ -116,8 +116,8 @@ public:
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "Template", Q_NULLPTR));
         s_drawGB->setTitle(QString());
         m_rotating->setText(QApplication::translate("MainWindow", "Rotating", Q_NULLPTR));
-        generate->setText(QApplication::translate("MainWindow", "Generate", Q_NULLPTR));
-        material->setText(QApplication::translate("MainWindow", "Material", Q_NULLPTR));
+        select->setText(QApplication::translate("MainWindow", "Select", Q_NULLPTR));
+        deselect->setText(QApplication::translate("MainWindow", "Deselect", Q_NULLPTR));
     } // retranslateUi
 
 };

@@ -62,8 +62,12 @@ public:
   /// @param [io] io_event is the key event that was received.
   //-----------------------------------------------------------------------------------------------------
   //virtual void keyPress(QKeyEvent* io_event) override;
+  void selectObject(const size_t _id);
+  void deselectObject(const size_t _id);
 
 public slots:
+  void select();
+  void deselect();
 
 private:
   void createSceneObject(std::string _name="SceneObject", vec3 _pos=vec3(0,0,0), vec3 _rot=vec3(0,0,0), vec3 _sc=vec3(1,1,1), size_t _geo=1, size_t _mat=0);
@@ -83,6 +87,7 @@ private:
   void useMaterial(const size_t _id);
   std::array<int, 4> countAllSceneGeo() const;
   virtual void renderScene() override;
+  bool isSelected(const size_t _id) const;
 
 private:
   //-----------------------------------------------------------------------------------------------------
@@ -101,6 +106,7 @@ private:
   Mesh m_grid;
 
   std::vector<std::unique_ptr<SceneObject>> m_sceneObjects;
+  std::vector<size_t> m_selected;
 
 };
 

@@ -2,6 +2,7 @@
 #include "MaterialWireframe.h"
 #include "MaterialPBR.h"
 #include "MaterialPhong.h"
+#include "MaterialBump.h"
 #include "MaterialFractal.h"
 #include "MaterialEnvMap.h"
 
@@ -34,10 +35,14 @@ void MainScene::setAttributeBuffers()
 //-----------------------------------------------------------------------------------------------------
 void MainScene::initGeo()
 {
-  m_drawData.instance()->geoReserve(3);
+  m_drawData.instance()->geoReserve(7);
   m_drawData.instance()->findGeo(0)->load("models/Grid.obj");
   m_drawData.instance()->findGeo(1)->load("models/cube.obj");
-  m_drawData.instance()->findGeo(2)->load("models/Sphere.obj");
+  m_drawData.instance()->findGeo(2)->load("models/Asteroid.obj");
+  m_drawData.instance()->findGeo(3)->load("models/mandarin.obj");
+  m_drawData.instance()->findGeo(4)->load("models/Suzanne.obj");
+  m_drawData.instance()->findGeo(5)->load("models/test2.obj");
+  m_drawData.instance()->findGeo(6)->load("models/Sphere.obj");
   // Create and bind our Vertex Array Object
   m_vao->create();
   m_vao->bind();
@@ -65,13 +70,14 @@ void MainScene::updateBuffer(const size_t _geoID, const size_t _matID)
 //-----------------------------------------------------------------------------------------------------
 void MainScene::initMaterials()
 {
-  m_drawData.instance()->matReserve(5);
+  m_drawData.instance()->matReserve(7);
   m_drawData.instance()->matPut(new MaterialWireframe(m_camera, m_shaderLib, &m_matrices));
-  //m_drawData.instance()->matPut(new MaterialEnvMap(m_camera, m_shaderLib, &m_matrices));
   m_drawData.instance()->matPut(new MaterialPhong(m_camera, m_shaderLib, &m_matrices));
   m_drawData.instance()->matPut(new MaterialPBR(m_camera, m_shaderLib, &m_matrices, {0.5f, 0.0f, 0.0f}, 1.0f, 1.0f, 0.5f, 1.0f));
   m_drawData.instance()->matPut(new MaterialPBR(m_camera, m_shaderLib, &m_matrices, {0.1f, 0.2f, 0.5f}, 0.5f, 1.0f, 0.4f, 0.2f));
+  m_drawData.instance()->matPut(new MaterialBump(m_camera, m_shaderLib, &m_matrices));
   m_drawData.instance()->matPut(new MaterialFractal(m_camera, m_shaderLib, &m_matrices));
+  m_drawData.instance()->matPut(new MaterialEnvMap(m_camera, m_shaderLib, &m_matrices));
   for (size_t i = 0; i < m_drawData.instance()->matSize(); ++i)
   {
     auto mat = m_drawData.instance()->findMat(i);
@@ -98,9 +104,10 @@ void MainScene::init()
   for(size_t i = 0; i<12; ++i)
     {
       createSceneObject("TEST"+std::to_string(i));
+      m_sceneObjects.at(i).get()->setGeometry(i%6+1);
       m_sceneObjects.at(i).get()->setMat(i%3+1);
-      m_sceneObjects.at(i).get()->setScale(glm::vec3(0.2f,0.5f,0.2f));
-      m_sceneObjects.at(i).get()->setPosition(glm::vec3(sinf(glm::radians(static_cast<float>(i*30))),0.f,cosf(glm::radians(static_cast<float>(i*30)))));
+      m_sceneObjects.at(i).get()->setScale(glm::vec3(0.2f,0.2f,0.2f));
+      m_sceneObjects.at(i).get()->setPosition(glm::vec3(sinf(glm::radians(static_cast<float>(i*0.5))),0.f,cosf(glm::radians(static_cast<float>(i*0.5)))));
       m_sceneObjects.at(i).get()->setRotation(vec3(0.f, 30*i, 0.f));
     }
 }
@@ -130,7 +137,14 @@ void MainScene::renderScene()
         m_drawData.instance()->findMat(m_sceneObjects.at(i).get()->findMat())->update();
         updateBuffer(m_sceneObjects.at(i).get()->getGeo(), m_sceneObjects.at(i).get()->findMat());
         //updateBuffer(m_sceneObjects.at(i).get()->getGeo(), 0);
-        glDrawElements(GL_TRIANGLES, m_drawData.instance()->findGeo(1+m_sceneObjects.at(i).get()->getGeo())->getNIndicesData(), GL_UNSIGNED_SHORT, nullptr);
+        glDrawElements(GL_TRIANGLES, m_drawData.instance()->findGeo(m_sceneObjects.at(i).get()->getGeo())->getNIndicesData(), GL_UNSIGNED_SHORT, nullptr);
+
+        if(isSelected(i))
+        {
+            m_drawData.instance()->findMat(m_sceneObjects.at(i).get()->findMat())->update();
+            updateBuffer(m_sceneObjects.at(i).get()->getGeo(), 0);
+            glDrawElements(GL_TRIANGLES, m_drawData.instance()->findGeo(m_sceneObjects.at(i).get()->getGeo())->getNIndicesData(), GL_UNSIGNED_SHORT, nullptr);
+        }
     }
   }
   m_matrices[MODEL_VIEW] = t1;
@@ -157,4 +171,71 @@ std::array<int, 4> MainScene::countAllSceneGeo() const
 void MainScene::createSceneObject(std::string _name, glm::vec3 _pos, glm::vec3 _rot, glm::vec3 _sc, size_t _geo, size_t _mat)
 {
   m_sceneObjects.emplace_back(new SceneObject(_name, _pos, _rot, _sc, _geo, _mat));
+}
+//-----------------------------------------------------------------------------------------------------
+void MainScene::selectObject(const size_t _id)
+{
+  if(m_selected.empty())
+  {
+    m_selected.push_back(_id);
+  }
+  else
+  {
+    bool check = false;
+    for(auto it = m_selected.begin(); it<m_selected.end(); ++it)
+    {
+      if(_id == *it.base())
+      {
+        check = true;
+        break;
+      }
+    }
+    if(!check)
+      m_selected.push_back(_id);
+  }
+}
+void MainScene::deselectObject(const size_t _id)
+{
+  for(auto it = m_selected.begin(); it<m_selected.end(); ++it)
+  {
+    if(*it.base() == _id)
+    {
+      m_selected.erase(it);
+      break;
+    }
+  }
+}
+
+void MainScene::select()
+{
+  if(m_selected.size() < m_sceneObjects.size())
+  {
+    if(!m_selected.empty())
+    {
+      selectObject(m_selected.at(m_selected.size()-1) + 1);
+    }
+    else
+    {
+      selectObject(0);
+    }
+
+  }
+}
+
+void MainScene::deselect()
+{
+  if(!m_selected.empty())
+  {
+    deselectObject(m_selected.at(m_selected.size()-1));
+  }
+}
+
+bool MainScene::isSelected(const size_t _id) const
+{
+  for(auto s : m_selected)
+  {
+    if(s == _id)
+      return true;
+  }
+  return false;
 }

@@ -113,16 +113,16 @@
         </spacer>
        </item>
        <item row="0" column="1">
-        <widget class="QPushButton" name="generate">
+        <widget class="QPushButton" name="select">
          <property name="text">
-          <string>Generate</string>
+          <string>Select</string>
          </property>
         </widget>
        </item>
        <item row="1" column="1">
-        <widget class="QPushButton" name="material">
+        <widget class="QPushButton" name="deselect">
          <property name="text">
-          <string>Material</string>
+          <string>Deselect</string>
          </property>
         </widget>
        </item>
