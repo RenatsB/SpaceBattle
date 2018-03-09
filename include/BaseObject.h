@@ -12,13 +12,6 @@ using namespace glm;
 class BaseObject
 {
 public :
-  BaseObject():
-    m_pos(vec3(0,0,0)),
-    m_rot(vec3(0,0,0)),
-    m_scale(vec3(1,1,1)),
-    m_tag("SceneObject"),
-    m_MVmatrix(1)
-  {}
   BaseObject(std::string _name = "SceneObject", vec3 _pos=vec3(0,0,0), vec3 _rot=vec3(0,0,0), vec3 _sc=vec3(1,1,1)):
     m_pos(_pos),
     m_rot(_rot),
@@ -26,7 +19,6 @@ public :
     m_tag(_name),
     m_MVmatrix(1)
   {}
-  //BaseObject()=default;
   virtual void reset() = 0;
   virtual void changeID (const size_t _newID) = 0;
   void setTag(std::string _new);

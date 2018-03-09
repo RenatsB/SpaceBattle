@@ -136,7 +136,6 @@ void MainScene::renderScene()
 
         m_drawData.instance()->findMat(m_sceneObjects.at(i).get()->findMat())->update();
         updateBuffer(m_sceneObjects.at(i).get()->getGeo(), m_sceneObjects.at(i).get()->findMat());
-        //updateBuffer(m_sceneObjects.at(i).get()->getGeo(), 0);
         glDrawElements(GL_TRIANGLES, m_drawData.instance()->findGeo(m_sceneObjects.at(i).get()->getGeo())->getNIndicesData(), GL_UNSIGNED_SHORT, nullptr);
 
         if(isSelected(i))
@@ -218,7 +217,6 @@ void MainScene::select()
     {
       selectObject(0);
     }
-
   }
 }
 
@@ -239,3 +237,153 @@ bool MainScene::isSelected(const size_t _id) const
   }
   return false;
 }
+
+void MainScene::move(unsigned short _axis, float _val)
+{
+
+  for(auto obj : m_selected)
+  {
+    m_sceneObjects.at(obj)->moveObject(constructTranslateVector(_axis, _val));
+  }
+}
+
+void MainScene::scale(unsigned short _axis, float _val)
+{
+
+  for(auto obj : m_selected)
+  {
+    m_sceneObjects.at(obj)->scaleObject(constructTranslateVector(_axis, _val));
+  }
+}
+
+void MainScene::rotate(unsigned short _axis, float _val)
+{
+
+  for(auto obj : m_selected)
+  {
+    m_sceneObjects.at(obj)->rotateObject(constructTranslateVector(_axis, _val));
+  }
+}
+
+vec3 MainScene::constructTranslateVector(unsigned short _axis, float _val) const
+{
+  vec3 ret(0,0,0);
+  switch(_axis)
+  {
+    case 0 : {ret.x = _val; break;}
+    case 1 : {ret.y = _val; break;}
+    case 2 : {ret.z = _val; break;}
+    case 3 : {ret.x = _val; ret.y = _val; break;}
+    case 4 : {ret.y = _val; ret.z = _val;break;}
+    case 6 : {ret.x = _val; ret.z = _val;break;}
+    default : {ret.x = _val; ret.y = _val; ret.z = _val;break;}
+  }
+  return ret;
+}
+
+void MainScene::changeMat(size_t _new)
+{
+  for(auto obj : m_selected)
+  {
+    m_sceneObjects.at(obj)->setMat(_new);
+  }
+}
+
+void MainScene::loadMat(std::string _path)
+{
+  //std::cout<<"loading material from: "<<_path<<std::endl;
+  std::cout<<"Warning: function not implemented"<<std::endl;
+}
+
+void MainScene::changeGeo(size_t _new)
+{
+  for(auto obj : m_selected)
+  {
+    m_sceneObjects.at(obj)->setGeometry(_new);
+  }
+}
+
+void MainScene::receiveGeoPath(QString _current)
+{
+  m_geoPathCmd = _current.toStdString();
+}
+
+void MainScene::loadGeo()
+{
+  std::string normal = m_geoPathCmd;
+
+  if(normal.size() > 7)
+  {
+    if(normal.substr(normal.size()-4, 4) == ".obj")
+    {
+      if(normal.substr(0, 7) == "models/")
+      {
+        std::cout<<"Loading geometry from: "<<normal<<" ..."<<std::endl;
+        m_drawData.instance()->geoReserve(1);
+        m_drawData.instance()->findGeo(m_drawData.instance()->geosize()-1)->load(normal);
+        std::cout<<"Geometry successfully loaded from: "<<normal<<std::endl;
+      }
+      else
+      {
+        std::cout<<"File is not in models folder. Aborting..."<<std::endl;
+      }
+    }
+    else
+    {
+      std::cout<<"Not an .obj extension. Aborting..."<<std::endl;
+    }
+  }
+  else
+  {
+    std::cout<<normal;
+  }
+
+}
+
+void MainScene::receiveTableInfo(QTableWidgetItem* _ref)
+{
+  unsigned short ax = static_cast<unsigned short>(_ref->column());
+  float val = static_cast<float>(_ref->data(0).toFloat());
+  unsigned short type = static_cast<unsigned short>(_ref->row());
+  switch(type)
+  {
+    case 0 : {move(ax, val); break;}
+    case 1 : {rotate(ax, val); break;}
+    case 2 : {scale(ax, val); break;}
+    default : {break;}
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

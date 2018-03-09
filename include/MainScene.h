@@ -8,7 +8,7 @@
 #include "DataContainer.h"
 #include <vector>
 #include "SceneObject.h"
-//#include <glm/gtx/quaternion.hpp>
+#include <QTableWidget>
 
 class MainScene : public Scene
 {
@@ -68,6 +68,15 @@ public:
 public slots:
   void select();
   void deselect();
+  void move(unsigned short _axis, float _val);
+  void scale(unsigned short _axis, float _val);
+  void rotate(unsigned short _axis, float _val);
+  void changeMat(size_t _new);
+  void loadMat(std::string _path);
+  void changeGeo(size_t _new);
+  void receiveGeoPath(QString _current);
+  void loadGeo();
+  void receiveTableInfo(QTableWidgetItem* _ref);
 
 private:
   void createSceneObject(std::string _name="SceneObject", vec3 _pos=vec3(0,0,0), vec3 _rot=vec3(0,0,0), vec3 _sc=vec3(1,1,1), size_t _geo=1, size_t _mat=0);
@@ -88,6 +97,7 @@ private:
   std::array<int, 4> countAllSceneGeo() const;
   virtual void renderScene() override;
   bool isSelected(const size_t _id) const;
+  vec3 constructTranslateVector(unsigned short _axis, float _val) const;
 
 private:
   //-----------------------------------------------------------------------------------------------------
@@ -107,6 +117,8 @@ private:
 
   std::vector<std::unique_ptr<SceneObject>> m_sceneObjects;
   std::vector<size_t> m_selected;
+
+  std::string m_geoPathCmd;
 
 };
 

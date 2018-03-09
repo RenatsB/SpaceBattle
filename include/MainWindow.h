@@ -58,6 +58,7 @@ private:
   /// @brief A pointer to the scene that should be placed in the central widget.
   //-----------------------------------------------------------------------------------------------------
   std::shared_ptr<Scene> m_scene = nullptr;
+  std::string m_cmd;
 
 };
 
