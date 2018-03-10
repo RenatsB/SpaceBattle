@@ -19,11 +19,13 @@
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
+#include <QtWidgets/QListView>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QTableWidget>
+#include <QtWidgets/QTreeView>
 #include <QtWidgets/QWidget>
 
 QT_BEGIN_NAMESPACE
@@ -33,14 +35,16 @@ class Ui_MainWindow
 public:
     QWidget *centralwidget;
     QGridLayout *s_mainWindowGridLayout;
-    QSpacerItem *horizontalSpacer_5;
     QSpacerItem *horizontalSpacer_6;
+    QSpacerItem *horizontalSpacer_5;
     QSpacerItem *horizontalSpacer_2;
     QSpacerItem *horizontalSpacer;
+    QGroupBox *groupBox;
+    QGridLayout *gridLayout_4;
+    QTreeView *hierarchyView;
     QGroupBox *s_drawGB;
     QGridLayout *gridLayout_2;
-    QCheckBox *m_rotating;
-    QSpacerItem *verticalSpacer;
+    QCheckBox *m_wireframe;
     QPushButton *select;
     QPushButton *deselect;
     QLabel *label;
@@ -48,6 +52,7 @@ public:
     QLineEdit *loadGeoInput;
     QPushButton *loadGeo;
     QLabel *label_2;
+    QListView *fileExplorer;
     QMenuBar *menubar;
 
     void setupUi(QMainWindow *MainWindow)
@@ -59,36 +64,57 @@ public:
         centralwidget->setObjectName(QStringLiteral("centralwidget"));
         s_mainWindowGridLayout = new QGridLayout(centralwidget);
         s_mainWindowGridLayout->setObjectName(QStringLiteral("s_mainWindowGridLayout"));
-        horizontalSpacer_5 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
-
-        s_mainWindowGridLayout->addItem(horizontalSpacer_5, 0, 3, 1, 1);
-
         horizontalSpacer_6 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
         s_mainWindowGridLayout->addItem(horizontalSpacer_6, 0, 1, 1, 1);
+
+        horizontalSpacer_5 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        s_mainWindowGridLayout->addItem(horizontalSpacer_5, 0, 3, 1, 1);
 
         horizontalSpacer_2 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
         s_mainWindowGridLayout->addItem(horizontalSpacer_2, 0, 2, 1, 1);
 
-        horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+        horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::MinimumExpanding, QSizePolicy::Minimum);
 
         s_mainWindowGridLayout->addItem(horizontalSpacer, 0, 4, 1, 1);
+
+        groupBox = new QGroupBox(centralwidget);
+        groupBox->setObjectName(QStringLiteral("groupBox"));
+        QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+        sizePolicy.setHorizontalStretch(20);
+        sizePolicy.setVerticalStretch(20);
+        sizePolicy.setHeightForWidth(groupBox->sizePolicy().hasHeightForWidth());
+        groupBox->setSizePolicy(sizePolicy);
+        groupBox->setMinimumSize(QSize(20, 20));
+        groupBox->setMaximumSize(QSize(200, 900));
+        gridLayout_4 = new QGridLayout(groupBox);
+        gridLayout_4->setObjectName(QStringLiteral("gridLayout_4"));
+        hierarchyView = new QTreeView(groupBox);
+        hierarchyView->setObjectName(QStringLiteral("hierarchyView"));
+        QSizePolicy sizePolicy1(QSizePolicy::Fixed, QSizePolicy::MinimumExpanding);
+        sizePolicy1.setHorizontalStretch(0);
+        sizePolicy1.setVerticalStretch(0);
+        sizePolicy1.setHeightForWidth(hierarchyView->sizePolicy().hasHeightForWidth());
+        hierarchyView->setSizePolicy(sizePolicy1);
+        hierarchyView->setMaximumSize(QSize(300, 900));
+
+        gridLayout_4->addWidget(hierarchyView, 0, 0, 1, 1);
+
+
+        s_mainWindowGridLayout->addWidget(groupBox, 2, 0, 1, 1);
 
         s_drawGB = new QGroupBox(centralwidget);
         s_drawGB->setObjectName(QStringLiteral("s_drawGB"));
         gridLayout_2 = new QGridLayout(s_drawGB);
         gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
-        m_rotating = new QCheckBox(s_drawGB);
-        m_rotating->setObjectName(QStringLiteral("m_rotating"));
-        m_rotating->setEnabled(true);
-        m_rotating->setTristate(false);
+        m_wireframe = new QCheckBox(s_drawGB);
+        m_wireframe->setObjectName(QStringLiteral("m_wireframe"));
+        m_wireframe->setEnabled(true);
+        m_wireframe->setTristate(false);
 
-        gridLayout_2->addWidget(m_rotating, 2, 0, 1, 1);
-
-        verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
-
-        gridLayout_2->addItem(verticalSpacer, 12, 0, 1, 1);
+        gridLayout_2->addWidget(m_wireframe, 2, 0, 1, 1);
 
         select = new QPushButton(s_drawGB);
         select->setObjectName(QStringLiteral("select"));
@@ -141,12 +167,12 @@ public:
         QTableWidgetItem *__qtablewidgetitem14 = new QTableWidgetItem();
         tableWidget->setItem(2, 2, __qtablewidgetitem14);
         tableWidget->setObjectName(QStringLiteral("tableWidget"));
-        QSizePolicy sizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-        sizePolicy.setHorizontalStretch(0);
-        sizePolicy.setVerticalStretch(0);
-        sizePolicy.setHeightForWidth(tableWidget->sizePolicy().hasHeightForWidth());
-        tableWidget->setSizePolicy(sizePolicy);
-        tableWidget->setMaximumSize(QSize(220, 120));
+        QSizePolicy sizePolicy2(QSizePolicy::Expanding, QSizePolicy::Expanding);
+        sizePolicy2.setHorizontalStretch(0);
+        sizePolicy2.setVerticalStretch(0);
+        sizePolicy2.setHeightForWidth(tableWidget->sizePolicy().hasHeightForWidth());
+        tableWidget->setSizePolicy(sizePolicy2);
+        tableWidget->setMaximumSize(QSize(220, 180));
         tableWidget->setAutoFillBackground(false);
         tableWidget->setInputMethodHints(Qt::ImhDigitsOnly);
         tableWidget->setDragEnabled(true);
@@ -169,6 +195,11 @@ public:
 
         gridLayout_2->addWidget(label_2, 9, 0, 1, 1);
 
+        fileExplorer = new QListView(s_drawGB);
+        fileExplorer->setObjectName(QStringLiteral("fileExplorer"));
+
+        gridLayout_2->addWidget(fileExplorer, 12, 0, 1, 1);
+
 
         s_mainWindowGridLayout->addWidget(s_drawGB, 2, 5, 1, 1);
 
@@ -186,8 +217,9 @@ public:
     void retranslateUi(QMainWindow *MainWindow)
     {
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "Template", Q_NULLPTR));
+        groupBox->setTitle(QString());
         s_drawGB->setTitle(QString());
-        m_rotating->setText(QApplication::translate("MainWindow", "Rotating", Q_NULLPTR));
+        m_wireframe->setText(QApplication::translate("MainWindow", "Wireframe", Q_NULLPTR));
         select->setText(QApplication::translate("MainWindow", "Select", Q_NULLPTR));
         deselect->setText(QApplication::translate("MainWindow", "Deselect", Q_NULLPTR));
         label->setText(QApplication::translate("MainWindow", "Transformations:", Q_NULLPTR));
@@ -227,7 +259,7 @@ public:
         tableWidget->setSortingEnabled(__sortingEnabled);
 
         loadGeo->setText(QApplication::translate("MainWindow", "Load", Q_NULLPTR));
-        label_2->setText(QApplication::translate("MainWindow", "Load geometry:", Q_NULLPTR));
+        label_2->setText(QApplication::translate("MainWindow", "Load file:", Q_NULLPTR));
     } // retranslateUi
 
 };

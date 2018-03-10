@@ -72,11 +72,14 @@ public slots:
   void scale(unsigned short _axis, float _val);
   void rotate(unsigned short _axis, float _val);
   void changeMat(size_t _new);
-  void loadMat(std::string _path);
+  //void loadMat(std::string _path);
   void changeGeo(size_t _new);
-  void receiveGeoPath(QString _current);
-  void loadGeo();
+  //void receiveGeoPath(QString _current);
+  //void loadGeo();
+  void loadFile();
+  void receiveFileCmd(QString _current);
   void receiveTableInfo(QTableWidgetItem* _ref);
+
 
 private:
   void createSceneObject(std::string _name="SceneObject", vec3 _pos=vec3(0,0,0), vec3 _rot=vec3(0,0,0), vec3 _sc=vec3(1,1,1), size_t _geo=1, size_t _mat=0);
@@ -84,6 +87,7 @@ private:
   void loadMesh(size_t _meshID, size_t _shaderID);
   void loadMesh(Mesh _raw, size_t _shaderID);
   void loadAllMeshData();
+  void deduceCreateMat(QString &_name);
   void updateBuffer(const size_t _geoID, const size_t _matID);
   //-----------------------------------------------------------------------------------------------------
   /// @brief Used to write our mesh data into the vbo.
@@ -118,7 +122,7 @@ private:
   std::vector<std::unique_ptr<SceneObject>> m_sceneObjects;
   std::vector<size_t> m_selected;
 
-  std::string m_geoPathCmd;
+  std::string m_fileLoadCmd;
 
 };
 

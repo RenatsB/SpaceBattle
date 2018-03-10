@@ -7,12 +7,10 @@ void MainWindow::init(const std::shared_ptr<Scene> &io_scene)
   m_scene = io_scene;
   m_ui.setupUi(this);
   m_ui.s_mainWindowGridLayout->addWidget(m_scene.get(),0,0,3,5);
-  //QSignalMapper *mapper = new QSignalMapper(this; mapper->seMapping(m_ui.loadGeo, ));
-  connect(m_ui.m_rotating, SIGNAL(clicked(bool)),m_scene.get(), SLOT(rotating(bool)));
   connect(m_ui.select, SIGNAL( clicked(bool)), m_scene.get(), SLOT(select()));
   connect(m_ui.deselect, SIGNAL( clicked(bool)), m_scene.get(), SLOT(deselect()));
-  connect(m_ui.loadGeoInput, SIGNAL( textEdited(QString)), m_scene.get(), SLOT(receiveGeoPath(QString)));
-  connect(m_ui.loadGeo, SIGNAL( clicked(bool)), m_scene.get(), SLOT(loadGeo()));
+  connect(m_ui.loadGeoInput, SIGNAL( textEdited(QString)), m_scene.get(), SLOT(receiveFileCmd(QString)));
+  connect(m_ui.loadGeo, SIGNAL( clicked(bool)), m_scene.get(), SLOT(loadFile()));
   connect(m_ui.tableWidget, SIGNAL( itemChanged(QTableWidgetItem*)), m_scene.get(), SLOT(receiveTableInfo(QTableWidgetItem*)));
 }
 

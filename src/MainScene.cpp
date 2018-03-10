@@ -5,6 +5,7 @@
 #include "MaterialBump.h"
 #include "MaterialFractal.h"
 #include "MaterialEnvMap.h"
+#include <sys/stat.h>
 
 //-----------------------------------------------------------------------------------------------------
 void MainScene::writeMeshAttributes(size_t _id)
@@ -30,19 +31,13 @@ void MainScene::setAttributeBuffers()
     prog->enableAttributeArray(buff);
     prog->setAttributeBuffer(buff, GL_FLOAT, m_meshVBO.offset(buff), tupleSize[buff]);
   }
-
 }
 //-----------------------------------------------------------------------------------------------------
 void MainScene::initGeo()
 {
-  m_drawData.instance()->geoReserve(7);
+  m_drawData.instance()->geoReserve(2);
   m_drawData.instance()->findGeo(0)->load("models/Grid.obj");
   m_drawData.instance()->findGeo(1)->load("models/cube.obj");
-  m_drawData.instance()->findGeo(2)->load("models/Asteroid.obj");
-  m_drawData.instance()->findGeo(3)->load("models/mandarin.obj");
-  m_drawData.instance()->findGeo(4)->load("models/Suzanne.obj");
-  m_drawData.instance()->findGeo(5)->load("models/test2.obj");
-  m_drawData.instance()->findGeo(6)->load("models/Sphere.obj");
   // Create and bind our Vertex Array Object
   m_vao->create();
   m_vao->bind();
@@ -65,19 +60,13 @@ void MainScene::updateBuffer(const size_t _geoID, const size_t _matID)
         );
   writeMeshAttributes(_geoID);
   useMaterial(_matID);
-  //setAttributeBuffers();
 }
 //-----------------------------------------------------------------------------------------------------
 void MainScene::initMaterials()
 {
-  m_drawData.instance()->matReserve(7);
+  m_drawData.instance()->matReserve(2);
   m_drawData.instance()->matPut(new MaterialWireframe(m_camera, m_shaderLib, &m_matrices));
   m_drawData.instance()->matPut(new MaterialPhong(m_camera, m_shaderLib, &m_matrices));
-  m_drawData.instance()->matPut(new MaterialPBR(m_camera, m_shaderLib, &m_matrices, {0.5f, 0.0f, 0.0f}, 1.0f, 1.0f, 0.5f, 1.0f));
-  m_drawData.instance()->matPut(new MaterialPBR(m_camera, m_shaderLib, &m_matrices, {0.1f, 0.2f, 0.5f}, 0.5f, 1.0f, 0.4f, 0.2f));
-  m_drawData.instance()->matPut(new MaterialBump(m_camera, m_shaderLib, &m_matrices));
-  m_drawData.instance()->matPut(new MaterialFractal(m_camera, m_shaderLib, &m_matrices));
-  m_drawData.instance()->matPut(new MaterialEnvMap(m_camera, m_shaderLib, &m_matrices));
   for (size_t i = 0; i < m_drawData.instance()->matSize(); ++i)
   {
     auto mat = m_drawData.instance()->findMat(i);
@@ -104,8 +93,8 @@ void MainScene::init()
   for(size_t i = 0; i<12; ++i)
     {
       createSceneObject("TEST"+std::to_string(i));
-      m_sceneObjects.at(i).get()->setGeometry(i%6+1);
-      m_sceneObjects.at(i).get()->setMat(i%3+1);
+      m_sceneObjects.at(i).get()->setGeometry(1);
+      m_sceneObjects.at(i).get()->setMat(1);
       m_sceneObjects.at(i).get()->setScale(glm::vec3(0.2f,0.2f,0.2f));
       m_sceneObjects.at(i).get()->setPosition(glm::vec3(sinf(glm::radians(static_cast<float>(i*0.5))),0.f,cosf(glm::radians(static_cast<float>(i*0.5)))));
       m_sceneObjects.at(i).get()->setRotation(vec3(0.f, 30*i, 0.f));
@@ -128,6 +117,8 @@ void MainScene::renderScene()
   glDrawElements(GL_TRIANGLES, m_drawData.instance()->findGeo(0)->getNIndicesData(), GL_UNSIGNED_SHORT, nullptr);
   for(size_t i=0; i<m_sceneObjects.size(); ++i)
   {
+    m_sceneObjects.at(i).get()->setGeometry(i%(m_drawData.instance()->geosize()-1)+1);
+    m_sceneObjects.at(i).get()->setMat(i%(m_drawData.instance()->matSize()-1)+1);
     if(m_sceneObjects.at(i).get()->isActive())
     {
         m_matrices[MODEL_VIEW] = m_sceneObjects.at(i).get()->getMVmatrix();
@@ -289,12 +280,6 @@ void MainScene::changeMat(size_t _new)
   }
 }
 
-void MainScene::loadMat(std::string _path)
-{
-  //std::cout<<"loading material from: "<<_path<<std::endl;
-  std::cout<<"Warning: function not implemented"<<std::endl;
-}
-
 void MainScene::changeGeo(size_t _new)
 {
   for(auto obj : m_selected)
@@ -303,41 +288,9 @@ void MainScene::changeGeo(size_t _new)
   }
 }
 
-void MainScene::receiveGeoPath(QString _current)
+void MainScene::receiveFileCmd(QString _current)
 {
-  m_geoPathCmd = _current.toStdString();
-}
-
-void MainScene::loadGeo()
-{
-  std::string normal = m_geoPathCmd;
-
-  if(normal.size() > 7)
-  {
-    if(normal.substr(normal.size()-4, 4) == ".obj")
-    {
-      if(normal.substr(0, 7) == "models/")
-      {
-        std::cout<<"Loading geometry from: "<<normal<<" ..."<<std::endl;
-        m_drawData.instance()->geoReserve(1);
-        m_drawData.instance()->findGeo(m_drawData.instance()->geosize()-1)->load(normal);
-        std::cout<<"Geometry successfully loaded from: "<<normal<<std::endl;
-      }
-      else
-      {
-        std::cout<<"File is not in models folder. Aborting..."<<std::endl;
-      }
-    }
-    else
-    {
-      std::cout<<"Not an .obj extension. Aborting..."<<std::endl;
-    }
-  }
-  else
-  {
-    std::cout<<normal;
-  }
-
+  m_fileLoadCmd = _current.toStdString();
 }
 
 void MainScene::receiveTableInfo(QTableWidgetItem* _ref)
@@ -354,9 +307,166 @@ void MainScene::receiveTableInfo(QTableWidgetItem* _ref)
   }
 }
 
+inline bool fileExists (const std::string& name) {
+  struct stat buffer;
+  return (stat (name.c_str(), &buffer) == 0);
+}
 
+void MainScene::deduceCreateMat(QString& _name)
+{
+  std::cout<<"Attempting to deduce material type and load it..."<<std::endl;
+  std::string normal = _name.toStdString();
+  unsigned short matType = 0; //wireframe by default
+  std::string check = normal.substr(0,_name.size()-5);
+  if(check == "phong"){matType = 1;}
+  else if(check == "bump"){matType = 3;}
+  else if(check == "fractal"){matType = 4;}
+  else if(check == "envMap"){matType = 5;}
+  else if(check.substr(check.size()-6, 6) == "redPBR"){matType = 2;}
+  switch(matType)
+  {
+  case 0:{
+    m_drawData.instance()->matReserve(1);
+    m_drawData.instance()->matPut(new MaterialWireframe(m_camera, m_shaderLib, &m_matrices));
+    auto mat = m_drawData.instance()->findMat(m_drawData.instance()->matSize()-1);
+    auto name = m_shaderLib->loadShaderProg(mat->shaderFileName());
+    mat->setShaderName(name);
+    break;}
+  case 1:{
+    m_drawData.instance()->matReserve(1);
+    m_drawData.instance()->matPut(new MaterialPhong(m_camera, m_shaderLib, &m_matrices));
+    auto mat = m_drawData.instance()->findMat(m_drawData.instance()->matSize()-1);
+    auto name = m_shaderLib->loadShaderProg(mat->shaderFileName());
+    mat->setShaderName(name);
+    break;}
+  case 3:{
+    m_drawData.instance()->matReserve(1);
+    m_drawData.instance()->matPut(new MaterialBump(m_camera, m_shaderLib, &m_matrices));
+    auto mat = m_drawData.instance()->findMat(m_drawData.instance()->matSize()-1);
+    auto name = m_shaderLib->loadShaderProg(mat->shaderFileName());
+    mat->setShaderName(name);
+    break;}
+  case 4:{
+    m_drawData.instance()->matReserve(1);
+    m_drawData.instance()->matPut(new MaterialFractal(m_camera, m_shaderLib, &m_matrices));
+    auto mat = m_drawData.instance()->findMat(m_drawData.instance()->matSize()-1);
+    auto name = m_shaderLib->loadShaderProg(mat->shaderFileName());
+    mat->setShaderName(name);
+    break;}
+  case 5:{
+    m_drawData.instance()->matReserve(1);
+    m_drawData.instance()->matPut(new MaterialEnvMap(m_camera, m_shaderLib, &m_matrices));
+    auto mat = m_drawData.instance()->findMat(m_drawData.instance()->matSize()-1);
+    auto name = m_shaderLib->loadShaderProg(mat->shaderFileName());
+    mat->setShaderName(name);
+    break;}
+  case 2:{
+    std::string params = check.substr(0, check.size()-6);
+    if(!params.empty())
+    {
+      std::cout<<"Deducing PBR params..."<<std::endl;
+      QString h1; h1 = h1.fromStdString(normal.substr(0,3));
+      float a = h1.toFloat();
+      QString h2; h2 = h2.fromStdString(normal.substr(5,3));
+      float b = h2.toFloat();
+      QString h3; h3 = h3.fromStdString(normal.substr(9,3));
+      float c = h3.toFloat();
+      m_drawData.instance()->matReserve(1);
+      m_drawData.instance()->matPut(new MaterialPBR(m_camera, m_shaderLib, &m_matrices, {a, b, c}, 1.0f, 1.0f, 0.5f, 1.0f));
+      auto mat = m_drawData.instance()->findMat(m_drawData.instance()->matSize()-1);
+      auto name = m_shaderLib->loadShaderProg(mat->shaderFileName());
+      mat->setShaderName(name);
+    }
+    else
+    {
+      std::cout<<"Error: parameters for PBR set incorrectly. Use: (<R.R>,<G.G>,<B.B> redPBR.json) to load PBR material."<<std::endl;
+      return;
+    }
+    break;
+  }
+  }
+  std::cout<<"Material successfully loaded from: "<<"shaderPrograms"<<std::endl;
+}
 
+void MainScene::loadFile()
+{
+  std::string normal = m_fileLoadCmd;
 
+  if(normal.size() > 5)
+  {
+    if(normal.size() > 6) //can be json or obj
+    {
+      if(normal.substr(normal.size()-4, 4) == ".obj")
+      {
+        std::cout<<"Loading geometry from: "<<"models/"<<normal<<" ..."<<std::endl;
+        if(fileExists("models/"+normal))
+        {
+          m_drawData.instance()->geoReserve(1);
+          m_drawData.instance()->findGeo(m_drawData.instance()->geosize()-1)->load("models/"+normal);
+          std::cout<<"Geometry successfully loaded from: "<<"models/"<<normal<<std::endl;
+        }
+        else
+        {
+          std::cout<<"File is not in models folder or does not exist. Aborting..."<<std::endl;
+          return;
+        }
+      }
+      else if(normal.substr(normal.size()-5, 5) == ".json")
+      {
+        std::cout<<"Loading material from: "<<"shaderPrograms/"<<normal<<" ..."<<std::endl;
+        std::string paramCheck = normal;
+        if(normal.size() > 11)
+        {
+          paramCheck = normal.substr(normal.size()-11, 11);
+          if(paramCheck != "redPBR.json") //not pbr with params
+          {
+            paramCheck = normal;
+          }
+        }
+        if(fileExists("shaderPrograms/"+paramCheck))
+        {
+          QString converted; converted = converted.fromStdString(normal);
+          deduceCreateMat(converted);
+        }
+        else
+        {
+          std::cout<<"File is not in shaderPrograms folder or does not exist. Aborting..."<<std::endl;
+          return;
+        }
+      }
+      else
+      {
+          std::cout<<"Filename error. Passed: "<<normal<<std::endl;
+          std::cout<<"To load a mesh use <filename>.obj (must be in models/ folder)"<<std::endl;
+          std::cout<<"To load a material use <filename>.json (must be in shaderPrograms/ folder)"<<std::endl;
+      }
+    }
+    else //only obj with single-character names
+    {
+      if(normal.substr(normal.size()-4, 4) == ".obj")
+      {
+        std::cout<<"Loading geometry from: "<<normal<<" ..."<<std::endl;
+        if(fileExists("models/"+normal))
+        {
+          m_drawData.instance()->geoReserve(1);
+          m_drawData.instance()->findGeo(m_drawData.instance()->geosize()-1)->load("models/"+normal);
+          std::cout<<"Geometry successfully loaded from: "<<"models/"<<normal<<std::endl;
+        }
+        else
+        {
+          std::cout<<"File is not in models folder or does not exist. Aborting..."<<std::endl;
+          return;
+        }
+      }
+    }
+  }
+  else
+  {
+    std::cout<<"Filename error. Passed: "<<normal<<std::endl;
+    std::cout<<"To load a mesh use <filename>.obj (must be in models/ folder)"<<std::endl;
+    std::cout<<"To load a material use <filename>.json (must be in shaderPrograms/ folder)"<<std::endl;
+  }
+}
 
 
 
