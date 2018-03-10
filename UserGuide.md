@@ -1,13 +1,13 @@
-# MyLittleEditor (WIP)
-
-A small scene graph made with Qt OpenGL.
+# MyLittleEditor User Guide (WIP)
 
 ___
 
 ## **Content**
 ___
 ### 1. **[Introduction](#introduction)**
-### 2. **[Prerequisites](#making-cards-and-decks)**
+### 2. **[User Interface](#making-cards-and-decks)**
+### 3. **[How do I make an AI for PokeTCG?](#making-ais)**
+### 4. **More to come in the future.**
 ___
 
 ## **Introduction**
@@ -19,9 +19,11 @@ ___
 
 ___
 
-## **Prerequisites**
+## **User Interface**
 ___
 
-- Qt
-- Assimp (reference here)
+- UI in MyLittleEditor is based on Qt forms.
+
+- to be continued...
+
 ___
