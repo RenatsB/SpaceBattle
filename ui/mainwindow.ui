@@ -119,7 +119,7 @@
        <string/>
       </property>
       <layout class="QGridLayout" name="gridLayout_2">
-       <item row="2" column="0">
+       <item row="5" column="1">
         <widget class="QCheckBox" name="m_wireframe">
          <property name="enabled">
           <bool>true</bool>
@@ -132,28 +132,28 @@
          </property>
         </widget>
        </item>
-       <item row="0" column="0">
+       <item row="2" column="1">
         <widget class="QPushButton" name="select">
          <property name="text">
           <string>Select</string>
          </property>
         </widget>
        </item>
-       <item row="1" column="0">
+       <item row="3" column="1">
         <widget class="QPushButton" name="deselect">
          <property name="text">
           <string>Deselect</string>
          </property>
         </widget>
        </item>
-       <item row="7" column="0">
+       <item row="10" column="1">
         <widget class="QLabel" name="label">
          <property name="text">
-          <string>Transformations:</string>
+          <string>Add transformations:</string>
          </property>
         </widget>
        </item>
-       <item row="8" column="0">
+       <item row="11" column="1">
         <widget class="QTableWidget" name="tableWidget">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
@@ -161,10 +161,16 @@
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
+         <property name="minimumSize">
+          <size>
+           <width>200</width>
+           <height>120</height>
+          </size>
+         </property>
          <property name="maximumSize">
           <size>
            <width>220</width>
-           <height>180</height>
+           <height>200</height>
           </size>
          </property>
          <property name="autoFillBackground">
@@ -256,25 +262,28 @@
          </item>
         </widget>
        </item>
-       <item row="10" column="0">
+       <item row="13" column="1">
         <widget class="QLineEdit" name="loadGeoInput"/>
        </item>
-       <item row="11" column="0">
+       <item row="15" column="1">
+        <widget class="QListView" name="fileExplorer"/>
+       </item>
+       <item row="14" column="1">
         <widget class="QPushButton" name="loadGeo">
          <property name="text">
           <string>Load</string>
          </property>
         </widget>
        </item>
-       <item row="9" column="0">
+       <item row="12" column="1">
         <widget class="QLabel" name="label_2">
          <property name="text">
           <string>Load file:</string>
          </property>
         </widget>
        </item>
-       <item row="12" column="0">
-        <widget class="QListView" name="fileExplorer"/>
+       <item row="1" column="1">
+        <widget class="QLineEdit" name="m_slectLine"/>
        </item>
       </layout>
      </widget>

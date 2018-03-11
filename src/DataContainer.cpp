@@ -11,7 +11,7 @@ DataContainer* DataContainer::instance()
   return s_instance;
 }
 
-bool DataContainer::loadGeometry(const std::string _path)
+bool DataContainer::geoLoad(const std::string _path)
 {
   std::unique_ptr<Mesh> temp;
   temp.get()->load(_path);
@@ -23,18 +23,26 @@ bool DataContainer::loadGeometry(const std::string _path)
   return true;
 }
 
-void DataContainer::removeGeo(const size_t _id)
+void DataContainer::geoRemove(const size_t _id)
 {
   auto it = m_geo.begin()+static_cast<long>(_id);
   m_geo.erase(it);
 }
+void DataContainer::geoRemove(const std::string _name)
+{
+  for(auto it = m_geo.begin(); it < m_geo.end(); ++i)
+  {
+    if(it.base()->get()->getName() == _name)
+      m_geo.erase(it);
+  }
+}
 
-void DataContainer::updateMaterial(size_t _id)
+void DataContainer::matUpdate(const size_t _id)
 {
   m_mat.at(_id).get()->update();
 }
 
-Mesh* DataContainer::findGeo(size_t _id)
+Mesh* DataContainer::geoFind(const size_t _id) const
 {
   if(_id < m_geo.size())
   {
@@ -46,12 +54,12 @@ Mesh* DataContainer::findGeo(size_t _id)
   }
 }
 
-void DataContainer::matReserve(size_t _amount)
+void DataContainer::matReserve(const size_t _amount)
 {
   m_mat.reserve(_amount);
 }
 
-void DataContainer::geoReserve(size_t _amount)
+void DataContainer::geoReserve(const size_t _amount)
 {
   for(size_t i = 0; i < _amount; ++i)
   {
@@ -79,7 +87,7 @@ size_t DataContainer::geosize() const
   return m_geo.size();
 }
 
-Material* DataContainer::findMat(size_t _id)
+Material* DataContainer::matFind(const size_t _id) const
 {
   if(_id < m_mat.size())
   {

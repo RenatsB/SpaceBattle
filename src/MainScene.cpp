@@ -96,9 +96,10 @@ void MainScene::init()
       m_sceneObjects.at(i).get()->setGeometry(1);
       m_sceneObjects.at(i).get()->setMat(1);
       m_sceneObjects.at(i).get()->setScale(glm::vec3(0.2f,0.2f,0.2f));
-      m_sceneObjects.at(i).get()->setPosition(glm::vec3(sinf(glm::radians(static_cast<float>(i*0.5))),0.f,cosf(glm::radians(static_cast<float>(i*0.5)))));
+      m_sceneObjects.at(i).get()->setPosition(glm::vec3(sinf(glm::radians(static_cast<float>(i*30))),0.f,cosf(glm::radians(static_cast<float>(i*30)))));
       m_sceneObjects.at(i).get()->setRotation(vec3(0.f, 30*i, 0.f));
     }
+  m_sceneObjects.at(1)->setParent(m_sceneObjects.at(0).get());
 }
 
 //-----------------------------------------------------------------------------------------------------
@@ -117,24 +118,32 @@ void MainScene::renderScene()
   glDrawElements(GL_TRIANGLES, m_drawData.instance()->findGeo(0)->getNIndicesData(), GL_UNSIGNED_SHORT, nullptr);
   for(size_t i=0; i<m_sceneObjects.size(); ++i)
   {
-    m_sceneObjects.at(i).get()->setGeometry(i%(m_drawData.instance()->geosize()-1)+1);
-    m_sceneObjects.at(i).get()->setMat(i%(m_drawData.instance()->matSize()-1)+1);
     if(m_sceneObjects.at(i).get()->isActive())
     {
-        m_matrices[MODEL_VIEW] = m_sceneObjects.at(i).get()->getMVmatrix();
-        m_matrices[PROJECTION] = m_camera->projMatrix() * m_camera->viewMatrix() * m_matrices[MODEL_VIEW];
-        m_matrices[NORMAL] = glm::inverse(glm::transpose(m_matrices[MODEL_VIEW]));
-
+      m_sceneObjects.at(i).get()->setGeometry(i%(m_drawData.instance()->geosize()-1)+1);
+      m_sceneObjects.at(i).get()->setMat(i%(m_drawData.instance()->matSize()-1)+1);
+      m_matrices[MODEL_VIEW] = m_sceneObjects.at(i).get()->getMVmatrix();
+      m_matrices[PROJECTION] = m_camera->projMatrix() * m_camera->viewMatrix() * m_matrices[MODEL_VIEW];
+      m_matrices[NORMAL] = glm::inverse(glm::transpose(m_matrices[MODEL_VIEW]));
+      if(m_wireframe)
+      {
+        m_drawData.instance()->findMat(m_sceneObjects.at(i).get()->findMat())->update();
+        updateBuffer(m_sceneObjects.at(i).get()->getGeo(), 0);
+        glDrawElements(GL_TRIANGLES, m_drawData.instance()->findGeo(m_sceneObjects.at(i).get()->getGeo())->getNIndicesData(), GL_UNSIGNED_SHORT, nullptr);
+      }
+      else
+      {
         m_drawData.instance()->findMat(m_sceneObjects.at(i).get()->findMat())->update();
         updateBuffer(m_sceneObjects.at(i).get()->getGeo(), m_sceneObjects.at(i).get()->findMat());
         glDrawElements(GL_TRIANGLES, m_drawData.instance()->findGeo(m_sceneObjects.at(i).get()->getGeo())->getNIndicesData(), GL_UNSIGNED_SHORT, nullptr);
 
         if(isSelected(i))
         {
-            m_drawData.instance()->findMat(m_sceneObjects.at(i).get()->findMat())->update();
-            updateBuffer(m_sceneObjects.at(i).get()->getGeo(), 0);
-            glDrawElements(GL_TRIANGLES, m_drawData.instance()->findGeo(m_sceneObjects.at(i).get()->getGeo())->getNIndicesData(), GL_UNSIGNED_SHORT, nullptr);
+          m_drawData.instance()->findMat(m_sceneObjects.at(i).get()->findMat())->update();
+          updateBuffer(m_sceneObjects.at(i).get()->getGeo(), 0);
+          glDrawElements(GL_TRIANGLES, m_drawData.instance()->findGeo(m_sceneObjects.at(i).get()->getGeo())->getNIndicesData(), GL_UNSIGNED_SHORT, nullptr);
         }
+      }
     }
   }
   m_matrices[MODEL_VIEW] = t1;
@@ -468,7 +477,10 @@ void MainScene::loadFile()
   }
 }
 
-
+void MainScene::wireframe(bool _value)
+{
+  m_wireframe = _value;
+}
 
 
 

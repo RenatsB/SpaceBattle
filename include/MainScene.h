@@ -79,6 +79,7 @@ public slots:
   void loadFile();
   void receiveFileCmd(QString _current);
   void receiveTableInfo(QTableWidgetItem* _ref);
+  void wireframe(bool _value);
 
 
 private:
@@ -123,7 +124,7 @@ private:
   std::vector<size_t> m_selected;
 
   std::string m_fileLoadCmd;
-
+  bool m_wireframe = false;
 };
 
 #endif // MAINSCENE_H

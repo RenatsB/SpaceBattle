@@ -29,6 +29,9 @@ public:
   //-----------------------------------------------------------------------------------------------------
   void init(const std::shared_ptr<Scene> &io_scene);
 
+public slots :
+  void updateLoadedList();
+
 private:
   //-----------------------------------------------------------------------------------------------------
   /// @brief Used to handle a key press, will get delegated to the scene.

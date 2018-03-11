@@ -64,14 +64,44 @@ bool BaseObject::isActive()
 void BaseObject::updateMatrix()
 {
   m_MVmatrix = glm::mat4();
-    m_MVmatrix = glm::rotate(m_MVmatrix, glm::radians(m_rot.x), glm::vec3(1.0f, 0.0f, 0.0f));
-    m_MVmatrix = glm::rotate(m_MVmatrix, glm::radians(m_rot.y), glm::vec3(0.0f, 1.0f, 0.0f));
-    m_MVmatrix = glm::rotate(m_MVmatrix, glm::radians(m_rot.z), glm::vec3(0.0f, 0.0f, 1.0f));
-    m_MVmatrix = glm::translate(m_MVmatrix, m_pos);
-    m_MVmatrix = glm::scale(m_MVmatrix, m_scale);
+    if(m_parent==nullptr)
+    {
+      m_MVmatrix = glm::translate(m_MVmatrix, m_pos);
+      m_MVmatrix = glm::rotate(m_MVmatrix, glm::radians(m_rot.x), glm::vec3(1.0f, 0.0f, 0.0f));
+      m_MVmatrix = glm::rotate(m_MVmatrix, glm::radians(m_rot.y), glm::vec3(0.0f, 1.0f, 0.0f));
+      m_MVmatrix = glm::rotate(m_MVmatrix, glm::radians(m_rot.z), glm::vec3(0.0f, 0.0f, 1.0f));
+      m_MVmatrix = glm::scale(m_MVmatrix, m_scale);
+    }
+    else
+    {
+      m_MVmatrix=m_parent->getMVmatrix();
+      m_MVmatrix = glm::translate(m_MVmatrix, m_pos);
+      m_MVmatrix = glm::rotate(m_MVmatrix, glm::radians(m_rot.x), glm::vec3(1.0f, 0.0f, 0.0f));
+      m_MVmatrix = glm::rotate(m_MVmatrix, glm::radians(m_rot.y), glm::vec3(0.0f, 1.0f, 0.0f));
+      m_MVmatrix = glm::rotate(m_MVmatrix, glm::radians(m_rot.z), glm::vec3(0.0f, 0.0f, 1.0f));
+      m_MVmatrix = glm::scale(m_MVmatrix, m_scale);
+    }
+
+    if(!m_children.empty())
+    {
+      for(auto child : m_children)
+        child->updateMatrix();
+    }
 }
 
 mat4 BaseObject::getMVmatrix() const
 {
   return m_MVmatrix;
+}
+
+void BaseObject::addChild(BaseObject* _new)
+{
+  m_children.emplace_back(_new);
+  m_children.at(m_children.size()-1)->updateMatrix();
+}
+
+void BaseObject::setParent(BaseObject* _new)
+{
+  m_parent = _new;
+  m_parent->addChild(this);
 }

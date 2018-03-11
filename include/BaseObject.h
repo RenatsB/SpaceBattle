@@ -6,6 +6,7 @@
 #include <ext.hpp>
 #include <glm.hpp>
 #include <memory>
+#include <vector>
 
 using namespace glm;
 
@@ -21,7 +22,13 @@ public :
   {}
   virtual void reset() = 0;
   virtual void changeID (const size_t _newID) = 0;
-  void setTag(std::string _new);
+  void setName(std::string _new);
+  std::string getName() const;
+  void setParent(BaseObject* _new);
+  BaseObject* getParent() const;
+  void setChildren(std::vector<BaseObject*> _new);
+  void addChild(BaseObject* _new);
+  std::vector<BaseObject*> getChildren() const;
   void moveObject (const vec3 _tr);
   void setPosition (const vec3 _tr);
   void rotateObject (const vec3 _rot);
@@ -43,6 +50,7 @@ protected :
   vec3 m_scale = glm::vec3(1,1,1);
   size_t m_id;
   BaseObject* m_parent = nullptr;
+  std::vector<BaseObject*> m_children;
   std::string m_tag = "SceneObject";
   bool m_isActive = true;
   mat4 m_MVmatrix {1};
