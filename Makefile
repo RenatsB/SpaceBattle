@@ -15,7 +15,7 @@ CXX           = clang++
 DEFINES       = -DQT_DEPRECATED_WARNINGS -DQT_QML_DEBUG -DQT_OPENGL_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB
 CFLAGS        = -pipe -g -Wall -W -D_REENTRANT -fPIC $(DEFINES)
 CXXFLAGS      = -pipe -g -std=gnu++1y -Wall -W -D_REENTRANT -fPIC $(DEFINES)
-INCPATH       = -I. -isystem /usr/local/include/glm/glm -isystem /usr/local/include/glm -Iinclude -Iui -Ishaders -I/opt/Qt5.9.0/5.9/gcc_64/include -I/opt/Qt5.9.0/5.9/gcc_64/include/QtOpenGL -I/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets -I/opt/Qt5.9.0/5.9/gcc_64/include/QtGui -I/opt/Qt5.9.0/5.9/gcc_64/include/QtCore -Imoc -isystem /usr/include/libdrm -Iui -I/opt/Qt5.9.0/5.9/gcc_64/mkspecs/linux-clang
+INCPATH       = -I. -isystem /usr/local/include/glm/glm -isystem /usr/local/include/glm -INitronoidSource/include -Iinclude -Iui -Ishaders -I/opt/Qt5.9.0/5.9/gcc_64/include -I/opt/Qt5.9.0/5.9/gcc_64/include/QtOpenGL -I/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets -I/opt/Qt5.9.0/5.9/gcc_64/include/QtGui -I/opt/Qt5.9.0/5.9/gcc_64/include/QtCore -Imoc -isystem /usr/include/libdrm -Iui -I/opt/Qt5.9.0/5.9/gcc_64/mkspecs/linux-clang
 QMAKE         = /opt/Qt5.9.0/5.9/gcc_64/bin/qmake
 DEL_FILE      = rm -f
 CHK_DIR_EXISTS= test -d
@@ -52,37 +52,44 @@ OBJECTS_DIR   = obj/
 ####### Files
 
 SOURCES       = src/BaseObject.cpp \
-		src/Camera.cpp \
-		src/CameraStates.cpp \
 		src/DataContainer.cpp \
-		src/DemoScene.cpp \
+		src/GenericGeo.cpp \
+		src/GenericMat.cpp \
 		src/main.cpp \
 		src/MainScene.cpp \
 		src/MainWindow.cpp \
-		src/Material.cpp \
-		src/MaterialBump.cpp \
-		src/MaterialEnvMap.cpp \
-		src/MaterialFractal.cpp \
-		src/MaterialPBR.cpp \
-		src/MaterialPhong.cpp \
-		src/MaterialWireframe.cpp \
-		src/Mesh.cpp \
-		src/MeshVBO.cpp \
-		src/Scene.cpp \
+		src/ObjectManager.cpp \
 		src/SceneObject.cpp \
-		src/ShaderLib.cpp \
-		src/TrackballCamera.cpp moc/moc_DemoScene.cpp \
-		moc/moc_MainScene.cpp \
+		NitronoidSource/src/Camera.cpp \
+		NitronoidSource/src/CameraStates.cpp \
+		NitronoidSource/src/DemoScene.cpp \
+		NitronoidSource/src/Material.cpp \
+		NitronoidSource/src/MaterialBump.cpp \
+		NitronoidSource/src/MaterialEnvMap.cpp \
+		NitronoidSource/src/MaterialFractal.cpp \
+		NitronoidSource/src/MaterialPBR.cpp \
+		NitronoidSource/src/MaterialPhong.cpp \
+		NitronoidSource/src/MaterialWireframe.cpp \
+		NitronoidSource/src/Mesh.cpp \
+		NitronoidSource/src/MeshVBO.cpp \
+		NitronoidSource/src/Scene.cpp \
+		NitronoidSource/src/ShaderLib.cpp \
+		NitronoidSource/src/TrackballCamera.cpp moc/moc_MainScene.cpp \
 		moc/moc_MainWindow.cpp \
+		moc/moc_DemoScene.cpp \
 		moc/moc_Scene.cpp
 OBJECTS       = obj/BaseObject.o \
-		obj/Camera.o \
-		obj/CameraStates.o \
 		obj/DataContainer.o \
-		obj/DemoScene.o \
+		obj/GenericGeo.o \
+		obj/GenericMat.o \
 		obj/main.o \
 		obj/MainScene.o \
 		obj/MainWindow.o \
+		obj/ObjectManager.o \
+		obj/SceneObject.o \
+		obj/Camera.o \
+		obj/CameraStates.o \
+		obj/DemoScene.o \
 		obj/Material.o \
 		obj/MaterialBump.o \
 		obj/MaterialEnvMap.o \
@@ -93,12 +100,11 @@ OBJECTS       = obj/BaseObject.o \
 		obj/Mesh.o \
 		obj/MeshVBO.o \
 		obj/Scene.o \
-		obj/SceneObject.o \
 		obj/ShaderLib.o \
 		obj/TrackballCamera.o \
-		obj/moc_DemoScene.o \
 		obj/moc_MainScene.o \
 		obj/moc_MainWindow.o \
+		obj/moc_DemoScene.o \
 		obj/moc_Scene.o
 DIST          = /opt/Qt5.9.0/5.9/gcc_64/mkspecs/features/spec_pre.prf \
 		/opt/Qt5.9.0/5.9/gcc_64/mkspecs/common/unix.conf \
@@ -280,45 +286,51 @@ DIST          = /opt/Qt5.9.0/5.9/gcc_64/mkspecs/features/spec_pre.prf \
 		/opt/Qt5.9.0/5.9/gcc_64/mkspecs/features/yacc.prf \
 		/opt/Qt5.9.0/5.9/gcc_64/mkspecs/features/lex.prf \
 		Project.pro include/BaseObject.h \
-		include/Camera.h \
-		include/CameraStates.h \
 		include/DataContainer.h \
-		include/DemoScene.h \
+		include/GenericGeo.h \
+		include/GenericMat.h \
 		include/MainScene.h \
 		include/MainWindow.h \
-		include/Material.h \
-		include/MaterialBump.h \
-		include/MaterialEnvMap.h \
-		include/MaterialFractal.h \
-		include/MaterialPBR.h \
-		include/MaterialPhong.h \
-		include/MaterialWireframe.h \
-		include/Mesh.h \
-		include/MeshVBO.h \
-		include/Scene.h \
+		include/ObjectManager.h \
 		include/SceneObject.h \
-		include/ShaderLib.h \
-		include/TrackballCamera.h src/BaseObject.cpp \
-		src/Camera.cpp \
-		src/CameraStates.cpp \
+		NitronoidSource/include/Camera.h \
+		NitronoidSource/include/CameraStates.h \
+		NitronoidSource/include/DemoScene.h \
+		NitronoidSource/include/Material.h \
+		NitronoidSource/include/MaterialBump.h \
+		NitronoidSource/include/MaterialEnvMap.h \
+		NitronoidSource/include/MaterialFractal.h \
+		NitronoidSource/include/MaterialPBR.h \
+		NitronoidSource/include/MaterialPhong.h \
+		NitronoidSource/include/MaterialWireframe.h \
+		NitronoidSource/include/Mesh.h \
+		NitronoidSource/include/MeshVBO.h \
+		NitronoidSource/include/Scene.h \
+		NitronoidSource/include/ShaderLib.h \
+		NitronoidSource/include/TrackballCamera.h src/BaseObject.cpp \
 		src/DataContainer.cpp \
-		src/DemoScene.cpp \
+		src/GenericGeo.cpp \
+		src/GenericMat.cpp \
 		src/main.cpp \
 		src/MainScene.cpp \
 		src/MainWindow.cpp \
-		src/Material.cpp \
-		src/MaterialBump.cpp \
-		src/MaterialEnvMap.cpp \
-		src/MaterialFractal.cpp \
-		src/MaterialPBR.cpp \
-		src/MaterialPhong.cpp \
-		src/MaterialWireframe.cpp \
-		src/Mesh.cpp \
-		src/MeshVBO.cpp \
-		src/Scene.cpp \
+		src/ObjectManager.cpp \
 		src/SceneObject.cpp \
-		src/ShaderLib.cpp \
-		src/TrackballCamera.cpp
+		NitronoidSource/src/Camera.cpp \
+		NitronoidSource/src/CameraStates.cpp \
+		NitronoidSource/src/DemoScene.cpp \
+		NitronoidSource/src/Material.cpp \
+		NitronoidSource/src/MaterialBump.cpp \
+		NitronoidSource/src/MaterialEnvMap.cpp \
+		NitronoidSource/src/MaterialFractal.cpp \
+		NitronoidSource/src/MaterialPBR.cpp \
+		NitronoidSource/src/MaterialPhong.cpp \
+		NitronoidSource/src/MaterialWireframe.cpp \
+		NitronoidSource/src/Mesh.cpp \
+		NitronoidSource/src/MeshVBO.cpp \
+		NitronoidSource/src/Scene.cpp \
+		NitronoidSource/src/ShaderLib.cpp \
+		NitronoidSource/src/TrackballCamera.cpp
 QMAKE_TARGET  = MyLittleEditor
 DESTDIR       = 
 TARGET        = MyLittleEditor
@@ -714,8 +726,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /opt/Qt5.9.0/5.9/gcc_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents include/BaseObject.h include/Camera.h include/CameraStates.h include/DataContainer.h include/DemoScene.h include/MainScene.h include/MainWindow.h include/Material.h include/MaterialBump.h include/MaterialEnvMap.h include/MaterialFractal.h include/MaterialPBR.h include/MaterialPhong.h include/MaterialWireframe.h include/Mesh.h include/MeshVBO.h include/Scene.h include/SceneObject.h include/ShaderLib.h include/TrackballCamera.h $(DISTDIR)/
-	$(COPY_FILE) --parents src/BaseObject.cpp src/Camera.cpp src/CameraStates.cpp src/DataContainer.cpp src/DemoScene.cpp src/main.cpp src/MainScene.cpp src/MainWindow.cpp src/Material.cpp src/MaterialBump.cpp src/MaterialEnvMap.cpp src/MaterialFractal.cpp src/MaterialPBR.cpp src/MaterialPhong.cpp src/MaterialWireframe.cpp src/Mesh.cpp src/MeshVBO.cpp src/Scene.cpp src/SceneObject.cpp src/ShaderLib.cpp src/TrackballCamera.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents include/BaseObject.h include/DataContainer.h include/GenericGeo.h include/GenericMat.h include/MainScene.h include/MainWindow.h include/ObjectManager.h include/SceneObject.h NitronoidSource/include/Camera.h NitronoidSource/include/CameraStates.h NitronoidSource/include/DemoScene.h NitronoidSource/include/Material.h NitronoidSource/include/MaterialBump.h NitronoidSource/include/MaterialEnvMap.h NitronoidSource/include/MaterialFractal.h NitronoidSource/include/MaterialPBR.h NitronoidSource/include/MaterialPhong.h NitronoidSource/include/MaterialWireframe.h NitronoidSource/include/Mesh.h NitronoidSource/include/MeshVBO.h NitronoidSource/include/Scene.h NitronoidSource/include/ShaderLib.h NitronoidSource/include/TrackballCamera.h $(DISTDIR)/
+	$(COPY_FILE) --parents src/BaseObject.cpp src/DataContainer.cpp src/GenericGeo.cpp src/GenericMat.cpp src/main.cpp src/MainScene.cpp src/MainWindow.cpp src/ObjectManager.cpp src/SceneObject.cpp NitronoidSource/src/Camera.cpp NitronoidSource/src/CameraStates.cpp NitronoidSource/src/DemoScene.cpp NitronoidSource/src/Material.cpp NitronoidSource/src/MaterialBump.cpp NitronoidSource/src/MaterialEnvMap.cpp NitronoidSource/src/MaterialFractal.cpp NitronoidSource/src/MaterialPBR.cpp NitronoidSource/src/MaterialPhong.cpp NitronoidSource/src/MaterialWireframe.cpp NitronoidSource/src/Mesh.cpp NitronoidSource/src/MeshVBO.cpp NitronoidSource/src/Scene.cpp NitronoidSource/src/ShaderLib.cpp NitronoidSource/src/TrackballCamera.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents ui/mainwindow.ui $(DISTDIR)/
 
 
@@ -748,11 +760,11 @@ compiler_moc_predefs_clean:
 moc/moc_predefs.h: /opt/Qt5.9.0/5.9/gcc_64/mkspecs/features/data/dummy.cpp
 	clang++ -pipe -g -std=gnu++1y -Wall -W -dM -E -o moc/moc_predefs.h /opt/Qt5.9.0/5.9/gcc_64/mkspecs/features/data/dummy.cpp
 
-compiler_moc_header_make_all: moc/moc_DemoScene.cpp moc/moc_MainScene.cpp moc/moc_MainWindow.cpp moc/moc_Scene.cpp
+compiler_moc_header_make_all: moc/moc_MainScene.cpp moc/moc_MainWindow.cpp moc/moc_DemoScene.cpp moc/moc_Scene.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc/moc_DemoScene.cpp moc/moc_MainScene.cpp moc/moc_MainWindow.cpp moc/moc_Scene.cpp
-moc/moc_DemoScene.cpp: include/Scene.h \
-		include/Mesh.h \
+	-$(DEL_FILE) moc/moc_MainScene.cpp moc/moc_MainWindow.cpp moc/moc_DemoScene.cpp moc/moc_Scene.cpp
+moc/moc_MainScene.cpp: NitronoidSource/include/Scene.h \
+		NitronoidSource/include/Mesh.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLFunctions \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglfunctions.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qtguiglobal.h \
@@ -827,7 +839,7 @@ moc/moc_DemoScene.cpp: include/Scene.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qcontiguouscache.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qsharedpointer.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qsharedpointer_impl.h \
-		include/MeshVBO.h \
+		NitronoidSource/include/MeshVBO.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLVertexArrayObject \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglvertexarrayobject.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLBuffer \
@@ -874,12 +886,12 @@ moc/moc_DemoScene.cpp: include/Scene.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qtouchdevice.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QResizeEvent \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/QEvent \
-		include/Camera.h \
+		NitronoidSource/include/Camera.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QMouseEvent \
-		include/MaterialPBR.h \
-		include/Material.h \
+		NitronoidSource/include/MaterialPBR.h \
+		NitronoidSource/include/Material.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QKeyEvent \
-		include/ShaderLib.h \
+		NitronoidSource/include/ShaderLib.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLShaderProgram \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglshaderprogram.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qvector3d.h \
@@ -887,156 +899,36 @@ moc/moc_DemoScene.cpp: include/Scene.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qmatrix4x4.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qquaternion.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qgenericmatrix.h \
-		include/MaterialPhong.h \
-		include/DemoScene.h \
-		moc/moc_predefs.h \
-		/opt/Qt5.9.0/5.9/gcc_64/bin/moc
-	/opt/Qt5.9.0/5.9/gcc_64/bin/moc $(DEFINES) --include moc/moc_predefs.h -I/opt/Qt5.9.0/5.9/gcc_64/mkspecs/linux-clang -I/home/s4917836/Study/Progr/Projects/MyLittleEditor -I/usr/local/include/glm/glm -I/usr/local/include/glm -I/home/s4917836/Study/Progr/Projects/MyLittleEditor/include -I/home/s4917836/Study/Progr/Projects/MyLittleEditor/ui -I/home/s4917836/Study/Progr/Projects/MyLittleEditor/shaders -I/opt/Qt5.9.0/5.9/gcc_64/include -I/opt/Qt5.9.0/5.9/gcc_64/include/QtOpenGL -I/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets -I/opt/Qt5.9.0/5.9/gcc_64/include/QtGui -I/opt/Qt5.9.0/5.9/gcc_64/include/QtCore -I/usr/local/include/c++/6.4.0 -I/usr/local/include/c++/6.4.0/x86_64-pc-linux-gnu -I/usr/local/include/c++/6.4.0/backward -I/usr/local/include -I/usr/local/lib/clang/5.0.0/include -I/usr/include include/DemoScene.h -o moc/moc_DemoScene.cpp
-
-moc/moc_MainScene.cpp: include/Scene.h \
-		include/Mesh.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLFunctions \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglfunctions.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qtguiglobal.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qglobal.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qconfig-bootstrapped.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qconfig.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qtcore-config.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qsystemdetection.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qprocessordetection.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qcompilerdetection.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qtypeinfo.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qsysinfo.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qlogging.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qflags.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qatomic.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qbasicatomic.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qatomic_bootstrap.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qgenericatomic.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qatomic_cxx11.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qatomic_msvc.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qglobalstatic.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qmutex.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qnumeric.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qversiontagging.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qtgui-config.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopengl.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qt_windows.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopengles2ext.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglext.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglcontext.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qnamespace.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/QObject \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qobject.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qobjectdefs.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qobjectdefs_impl.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qstring.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qchar.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qbytearray.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qrefcount.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qarraydata.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qstringbuilder.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qlist.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qalgorithms.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qiterator.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qhashfunctions.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qpair.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qbytearraylist.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qstringlist.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qregexp.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qstringmatcher.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qcoreevent.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qscopedpointer.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qmetatype.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qvarlengtharray.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qcontainerfwd.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qobject_impl.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/QScopedPointer \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QSurfaceFormat \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qsurfaceformat.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglversionfunctions.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qhash.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qvariant.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qmap.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qdebug.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qtextstream.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qiodevice.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qlocale.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qshareddata.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qvector.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qpoint.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qset.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qcontiguouscache.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qsharedpointer.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qsharedpointer_impl.h \
-		include/MeshVBO.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLVertexArrayObject \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglvertexarrayobject.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLBuffer \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglbuffer.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QOpenGLWidget \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qopenglwidget.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qtwidgets-config.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QWidget \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qwidget.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qwindowdefs.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qwindowdefs_win.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qmargins.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qpaintdevice.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qrect.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qsize.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qpalette.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qcolor.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qrgb.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qrgba64.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qbrush.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qmatrix.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qpolygon.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qregion.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qdatastream.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qline.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qtransform.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qpainterpath.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qimage.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qpixelformat.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qpixmap.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qfont.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qfontmetrics.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qfontinfo.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qsizepolicy.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qcursor.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qkeysequence.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qevent.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qurl.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qurlquery.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qfile.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qfiledevice.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qvector2d.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qtouchdevice.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QResizeEvent \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/QEvent \
-		include/Camera.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QMouseEvent \
-		include/MaterialPBR.h \
-		include/Material.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QKeyEvent \
-		include/ShaderLib.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLShaderProgram \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglshaderprogram.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qvector3d.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qvector4d.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qmatrix4x4.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qquaternion.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qgenericmatrix.h \
-		include/MaterialPhong.h \
+		NitronoidSource/include/MaterialPhong.h \
 		include/DataContainer.h \
+		include/GenericGeo.h \
+		include/GenericMat.h \
 		include/SceneObject.h \
 		include/BaseObject.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QTableWidget \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qtablewidget.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qtableview.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qabstractitemview.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qabstractscrollarea.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qframe.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qabstractitemmodel.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qitemselectionmodel.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qstyleoption.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qabstractspinbox.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qvalidator.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qregularexpression.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qicon.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qslider.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qabstractslider.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qstyle.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qtabbar.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qtabwidget.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qrubberband.h \
 		include/MainScene.h \
 		moc/moc_predefs.h \
 		/opt/Qt5.9.0/5.9/gcc_64/bin/moc
-	/opt/Qt5.9.0/5.9/gcc_64/bin/moc $(DEFINES) --include moc/moc_predefs.h -I/opt/Qt5.9.0/5.9/gcc_64/mkspecs/linux-clang -I/home/s4917836/Study/Progr/Projects/MyLittleEditor -I/usr/local/include/glm/glm -I/usr/local/include/glm -I/home/s4917836/Study/Progr/Projects/MyLittleEditor/include -I/home/s4917836/Study/Progr/Projects/MyLittleEditor/ui -I/home/s4917836/Study/Progr/Projects/MyLittleEditor/shaders -I/opt/Qt5.9.0/5.9/gcc_64/include -I/opt/Qt5.9.0/5.9/gcc_64/include/QtOpenGL -I/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets -I/opt/Qt5.9.0/5.9/gcc_64/include/QtGui -I/opt/Qt5.9.0/5.9/gcc_64/include/QtCore -I/usr/local/include/c++/6.4.0 -I/usr/local/include/c++/6.4.0/x86_64-pc-linux-gnu -I/usr/local/include/c++/6.4.0/backward -I/usr/local/include -I/usr/local/lib/clang/5.0.0/include -I/usr/include include/MainScene.h -o moc/moc_MainScene.cpp
+	/opt/Qt5.9.0/5.9/gcc_64/bin/moc $(DEFINES) --include moc/moc_predefs.h -I/opt/Qt5.9.0/5.9/gcc_64/mkspecs/linux-clang -I/home/s4917836/Study/Progr/Projects/MyLittleEditor -I/usr/local/include/glm/glm -I/usr/local/include/glm -I/home/s4917836/Study/Progr/Projects/MyLittleEditor/NitronoidSource/include -I/home/s4917836/Study/Progr/Projects/MyLittleEditor/include -I/home/s4917836/Study/Progr/Projects/MyLittleEditor/ui -I/home/s4917836/Study/Progr/Projects/MyLittleEditor/shaders -I/opt/Qt5.9.0/5.9/gcc_64/include -I/opt/Qt5.9.0/5.9/gcc_64/include/QtOpenGL -I/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets -I/opt/Qt5.9.0/5.9/gcc_64/include/QtGui -I/opt/Qt5.9.0/5.9/gcc_64/include/QtCore -I/usr/local/include/c++/6.4.0 -I/usr/local/include/c++/6.4.0/x86_64-pc-linux-gnu -I/usr/local/include/c++/6.4.0/backward -I/usr/local/include -I/usr/local/lib/clang/5.0.0/include -I/usr/include include/MainScene.h -o moc/moc_MainScene.cpp
 
 moc/moc_MainWindow.cpp: /opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QMainWindow \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qmainwindow.h \
@@ -1141,9 +1033,9 @@ moc/moc_MainWindow.cpp: /opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QMainWindow \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qtouchdevice.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qtabwidget.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qicon.h \
-		include/DemoScene.h \
-		include/Scene.h \
-		include/Mesh.h \
+		NitronoidSource/include/DemoScene.h \
+		NitronoidSource/include/Scene.h \
+		NitronoidSource/include/Mesh.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLFunctions \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglfunctions.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopengl.h \
@@ -1156,7 +1048,7 @@ moc/moc_MainWindow.cpp: /opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QMainWindow \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QSurfaceFormat \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qsurfaceformat.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglversionfunctions.h \
-		include/MeshVBO.h \
+		NitronoidSource/include/MeshVBO.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLVertexArrayObject \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglvertexarrayobject.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLBuffer \
@@ -1166,12 +1058,12 @@ moc/moc_MainWindow.cpp: /opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QMainWindow \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QWidget \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QResizeEvent \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/QEvent \
-		include/Camera.h \
+		NitronoidSource/include/Camera.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QMouseEvent \
-		include/MaterialPBR.h \
-		include/Material.h \
+		NitronoidSource/include/MaterialPBR.h \
+		NitronoidSource/include/Material.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QKeyEvent \
-		include/ShaderLib.h \
+		NitronoidSource/include/ShaderLib.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLShaderProgram \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglshaderprogram.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qvector3d.h \
@@ -1179,14 +1071,76 @@ moc/moc_MainWindow.cpp: /opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QMainWindow \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qmatrix4x4.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qquaternion.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qgenericmatrix.h \
-		include/MaterialPhong.h \
+		NitronoidSource/include/MaterialPhong.h \
 		ui/ui_mainwindow.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/QVariant \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QAction \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qaction.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qactiongroup.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QApplication \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qapplication.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qcoreapplication.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qeventloop.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qdesktopwidget.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qguiapplication.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qinputmethod.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QButtonGroup \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qbuttongroup.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QCheckBox \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qcheckbox.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qabstractbutton.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QGridLayout \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qgridlayout.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qlayout.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qlayoutitem.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qboxlayout.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QGroupBox \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qgroupbox.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qframe.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QHeaderView \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qheaderview.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qabstractitemview.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qabstractscrollarea.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qabstractitemmodel.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qitemselectionmodel.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qstyleoption.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qabstractspinbox.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qvalidator.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qregularexpression.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qslider.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qabstractslider.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qstyle.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qtabbar.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qrubberband.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QLabel \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qlabel.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QLineEdit \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qlineedit.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qtextcursor.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qtextformat.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qpen.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qtextoption.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QListView \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qlistview.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QMenuBar \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qmenubar.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qmenu.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QPushButton \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qpushbutton.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QSpacerItem \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QTableWidget \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qtablewidget.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qtableview.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QTreeView \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qtreeview.h \
 		include/MainWindow.h \
 		moc/moc_predefs.h \
 		/opt/Qt5.9.0/5.9/gcc_64/bin/moc
-	/opt/Qt5.9.0/5.9/gcc_64/bin/moc $(DEFINES) --include moc/moc_predefs.h -I/opt/Qt5.9.0/5.9/gcc_64/mkspecs/linux-clang -I/home/s4917836/Study/Progr/Projects/MyLittleEditor -I/usr/local/include/glm/glm -I/usr/local/include/glm -I/home/s4917836/Study/Progr/Projects/MyLittleEditor/include -I/home/s4917836/Study/Progr/Projects/MyLittleEditor/ui -I/home/s4917836/Study/Progr/Projects/MyLittleEditor/shaders -I/opt/Qt5.9.0/5.9/gcc_64/include -I/opt/Qt5.9.0/5.9/gcc_64/include/QtOpenGL -I/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets -I/opt/Qt5.9.0/5.9/gcc_64/include/QtGui -I/opt/Qt5.9.0/5.9/gcc_64/include/QtCore -I/usr/local/include/c++/6.4.0 -I/usr/local/include/c++/6.4.0/x86_64-pc-linux-gnu -I/usr/local/include/c++/6.4.0/backward -I/usr/local/include -I/usr/local/lib/clang/5.0.0/include -I/usr/include include/MainWindow.h -o moc/moc_MainWindow.cpp
+	/opt/Qt5.9.0/5.9/gcc_64/bin/moc $(DEFINES) --include moc/moc_predefs.h -I/opt/Qt5.9.0/5.9/gcc_64/mkspecs/linux-clang -I/home/s4917836/Study/Progr/Projects/MyLittleEditor -I/usr/local/include/glm/glm -I/usr/local/include/glm -I/home/s4917836/Study/Progr/Projects/MyLittleEditor/NitronoidSource/include -I/home/s4917836/Study/Progr/Projects/MyLittleEditor/include -I/home/s4917836/Study/Progr/Projects/MyLittleEditor/ui -I/home/s4917836/Study/Progr/Projects/MyLittleEditor/shaders -I/opt/Qt5.9.0/5.9/gcc_64/include -I/opt/Qt5.9.0/5.9/gcc_64/include/QtOpenGL -I/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets -I/opt/Qt5.9.0/5.9/gcc_64/include/QtGui -I/opt/Qt5.9.0/5.9/gcc_64/include/QtCore -I/usr/local/include/c++/6.4.0 -I/usr/local/include/c++/6.4.0/x86_64-pc-linux-gnu -I/usr/local/include/c++/6.4.0/backward -I/usr/local/include -I/usr/local/lib/clang/5.0.0/include -I/usr/include include/MainWindow.h -o moc/moc_MainWindow.cpp
 
-moc/moc_Scene.cpp: include/Mesh.h \
+moc/moc_DemoScene.cpp: NitronoidSource/include/Scene.h \
+		NitronoidSource/include/Mesh.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLFunctions \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglfunctions.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qtguiglobal.h \
@@ -1261,7 +1215,7 @@ moc/moc_Scene.cpp: include/Mesh.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qcontiguouscache.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qsharedpointer.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qsharedpointer_impl.h \
-		include/MeshVBO.h \
+		NitronoidSource/include/MeshVBO.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLVertexArrayObject \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglvertexarrayobject.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLBuffer \
@@ -1308,12 +1262,153 @@ moc/moc_Scene.cpp: include/Mesh.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qtouchdevice.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QResizeEvent \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/QEvent \
-		include/Camera.h \
+		NitronoidSource/include/Camera.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QMouseEvent \
-		include/Scene.h \
+		NitronoidSource/include/MaterialPBR.h \
+		NitronoidSource/include/Material.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QKeyEvent \
+		NitronoidSource/include/ShaderLib.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLShaderProgram \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglshaderprogram.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qvector3d.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qvector4d.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qmatrix4x4.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qquaternion.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qgenericmatrix.h \
+		NitronoidSource/include/MaterialPhong.h \
+		NitronoidSource/include/DemoScene.h \
 		moc/moc_predefs.h \
 		/opt/Qt5.9.0/5.9/gcc_64/bin/moc
-	/opt/Qt5.9.0/5.9/gcc_64/bin/moc $(DEFINES) --include moc/moc_predefs.h -I/opt/Qt5.9.0/5.9/gcc_64/mkspecs/linux-clang -I/home/s4917836/Study/Progr/Projects/MyLittleEditor -I/usr/local/include/glm/glm -I/usr/local/include/glm -I/home/s4917836/Study/Progr/Projects/MyLittleEditor/include -I/home/s4917836/Study/Progr/Projects/MyLittleEditor/ui -I/home/s4917836/Study/Progr/Projects/MyLittleEditor/shaders -I/opt/Qt5.9.0/5.9/gcc_64/include -I/opt/Qt5.9.0/5.9/gcc_64/include/QtOpenGL -I/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets -I/opt/Qt5.9.0/5.9/gcc_64/include/QtGui -I/opt/Qt5.9.0/5.9/gcc_64/include/QtCore -I/usr/local/include/c++/6.4.0 -I/usr/local/include/c++/6.4.0/x86_64-pc-linux-gnu -I/usr/local/include/c++/6.4.0/backward -I/usr/local/include -I/usr/local/lib/clang/5.0.0/include -I/usr/include include/Scene.h -o moc/moc_Scene.cpp
+	/opt/Qt5.9.0/5.9/gcc_64/bin/moc $(DEFINES) --include moc/moc_predefs.h -I/opt/Qt5.9.0/5.9/gcc_64/mkspecs/linux-clang -I/home/s4917836/Study/Progr/Projects/MyLittleEditor -I/usr/local/include/glm/glm -I/usr/local/include/glm -I/home/s4917836/Study/Progr/Projects/MyLittleEditor/NitronoidSource/include -I/home/s4917836/Study/Progr/Projects/MyLittleEditor/include -I/home/s4917836/Study/Progr/Projects/MyLittleEditor/ui -I/home/s4917836/Study/Progr/Projects/MyLittleEditor/shaders -I/opt/Qt5.9.0/5.9/gcc_64/include -I/opt/Qt5.9.0/5.9/gcc_64/include/QtOpenGL -I/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets -I/opt/Qt5.9.0/5.9/gcc_64/include/QtGui -I/opt/Qt5.9.0/5.9/gcc_64/include/QtCore -I/usr/local/include/c++/6.4.0 -I/usr/local/include/c++/6.4.0/x86_64-pc-linux-gnu -I/usr/local/include/c++/6.4.0/backward -I/usr/local/include -I/usr/local/lib/clang/5.0.0/include -I/usr/include NitronoidSource/include/DemoScene.h -o moc/moc_DemoScene.cpp
+
+moc/moc_Scene.cpp: NitronoidSource/include/Mesh.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLFunctions \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglfunctions.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qtguiglobal.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qglobal.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qconfig.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qtcore-config.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qsystemdetection.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qprocessordetection.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qcompilerdetection.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qtypeinfo.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qsysinfo.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qlogging.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qflags.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qatomic.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qbasicatomic.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qgenericatomic.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qatomic_msvc.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qglobalstatic.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qmutex.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qnumeric.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qversiontagging.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qtgui-config.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopengl.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qt_windows.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopengles2ext.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglext.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglcontext.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qnamespace.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/QObject \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qobject.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qobjectdefs.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qstring.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qchar.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qbytearray.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qrefcount.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qarraydata.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qstringbuilder.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qlist.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qalgorithms.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qiterator.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qhashfunctions.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qpair.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qbytearraylist.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qstringlist.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qregexp.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qstringmatcher.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qcoreevent.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qscopedpointer.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qmetatype.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qvarlengtharray.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qcontainerfwd.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qobject_impl.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/QScopedPointer \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QSurfaceFormat \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qsurfaceformat.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglversionfunctions.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qhash.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qvariant.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qmap.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qdebug.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qtextstream.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qiodevice.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qlocale.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qshareddata.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qvector.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qpoint.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qset.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qcontiguouscache.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qsharedpointer.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		NitronoidSource/include/MeshVBO.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLVertexArrayObject \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglvertexarrayobject.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLBuffer \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglbuffer.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QOpenGLWidget \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qopenglwidget.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qtwidgets-config.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QWidget \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qwidget.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qwindowdefs.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qwindowdefs_win.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qmargins.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qpaintdevice.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qrect.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qsize.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qpalette.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qcolor.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qrgb.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qrgba64.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qbrush.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qmatrix.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qpolygon.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qregion.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qdatastream.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qline.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qtransform.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qpainterpath.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qimage.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qpixelformat.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qpixmap.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qfont.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qfontmetrics.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qfontinfo.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qsizepolicy.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qcursor.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qkeysequence.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qevent.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qurl.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qurlquery.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qfile.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qfiledevice.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qvector2d.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qtouchdevice.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QResizeEvent \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/QEvent \
+		NitronoidSource/include/Camera.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QMouseEvent \
+		NitronoidSource/include/Scene.h \
+		moc/moc_predefs.h \
+		/opt/Qt5.9.0/5.9/gcc_64/bin/moc
+	/opt/Qt5.9.0/5.9/gcc_64/bin/moc $(DEFINES) --include moc/moc_predefs.h -I/opt/Qt5.9.0/5.9/gcc_64/mkspecs/linux-clang -I/home/s4917836/Study/Progr/Projects/MyLittleEditor -I/usr/local/include/glm/glm -I/usr/local/include/glm -I/home/s4917836/Study/Progr/Projects/MyLittleEditor/NitronoidSource/include -I/home/s4917836/Study/Progr/Projects/MyLittleEditor/include -I/home/s4917836/Study/Progr/Projects/MyLittleEditor/ui -I/home/s4917836/Study/Progr/Projects/MyLittleEditor/shaders -I/opt/Qt5.9.0/5.9/gcc_64/include -I/opt/Qt5.9.0/5.9/gcc_64/include/QtOpenGL -I/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets -I/opt/Qt5.9.0/5.9/gcc_64/include/QtGui -I/opt/Qt5.9.0/5.9/gcc_64/include/QtCore -I/usr/local/include/c++/6.4.0 -I/usr/local/include/c++/6.4.0/x86_64-pc-linux-gnu -I/usr/local/include/c++/6.4.0/backward -I/usr/local/include -I/usr/local/lib/clang/5.0.0/include -I/usr/include NitronoidSource/include/Scene.h -o moc/moc_Scene.cpp
 
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
@@ -1337,428 +1432,16 @@ compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean compiler_ui
 obj/BaseObject.o: src/BaseObject.cpp include/BaseObject.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/BaseObject.o src/BaseObject.cpp
 
-obj/Camera.o: src/Camera.cpp include/Camera.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QMouseEvent \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qevent.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qtguiglobal.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qglobal.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qconfig-bootstrapped.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qconfig.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qtcore-config.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qsystemdetection.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qprocessordetection.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qcompilerdetection.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qtypeinfo.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qsysinfo.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qlogging.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qflags.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qatomic.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qbasicatomic.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qatomic_bootstrap.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qgenericatomic.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qatomic_cxx11.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qatomic_msvc.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qglobalstatic.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qmutex.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qnumeric.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qversiontagging.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qtgui-config.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qwindowdefs.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qobjectdefs.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qnamespace.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qobjectdefs_impl.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qwindowdefs_win.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qregion.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qrect.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qmargins.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qsize.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qpoint.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qdatastream.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qscopedpointer.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qiodevice.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qobject.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qstring.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qchar.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qbytearray.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qrefcount.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qarraydata.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qstringbuilder.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qlist.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qalgorithms.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qiterator.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qhashfunctions.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qpair.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qbytearraylist.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qstringlist.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qregexp.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qstringmatcher.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qcoreevent.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qmetatype.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qvarlengtharray.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qcontainerfwd.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qobject_impl.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qkeysequence.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qvariant.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qmap.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qdebug.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qhash.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qtextstream.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qlocale.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qshareddata.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qvector.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qset.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qcontiguouscache.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qsharedpointer.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qsharedpointer_impl.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qurl.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qurlquery.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qfile.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qfiledevice.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qvector2d.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qtouchdevice.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/Camera.o src/Camera.cpp
-
-obj/CameraStates.o: src/CameraStates.cpp include/CameraStates.h \
-		include/Camera.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QMouseEvent \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qevent.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qtguiglobal.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qglobal.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qconfig-bootstrapped.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qconfig.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qtcore-config.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qsystemdetection.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qprocessordetection.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qcompilerdetection.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qtypeinfo.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qsysinfo.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qlogging.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qflags.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qatomic.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qbasicatomic.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qatomic_bootstrap.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qgenericatomic.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qatomic_cxx11.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qatomic_msvc.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qglobalstatic.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qmutex.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qnumeric.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qversiontagging.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qtgui-config.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qwindowdefs.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qobjectdefs.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qnamespace.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qobjectdefs_impl.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qwindowdefs_win.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qregion.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qrect.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qmargins.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qsize.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qpoint.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qdatastream.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qscopedpointer.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qiodevice.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qobject.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qstring.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qchar.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qbytearray.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qrefcount.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qarraydata.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qstringbuilder.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qlist.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qalgorithms.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qiterator.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qhashfunctions.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qpair.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qbytearraylist.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qstringlist.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qregexp.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qstringmatcher.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qcoreevent.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qmetatype.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qvarlengtharray.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qcontainerfwd.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qobject_impl.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qkeysequence.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qvariant.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qmap.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qdebug.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qhash.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qtextstream.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qlocale.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qshareddata.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qvector.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qset.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qcontiguouscache.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qsharedpointer.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qsharedpointer_impl.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qurl.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qurlquery.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qfile.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qfiledevice.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qvector2d.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qtouchdevice.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QKeyEvent
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/CameraStates.o src/CameraStates.cpp
-
 obj/DataContainer.o: src/DataContainer.cpp include/DataContainer.h \
-		include/Mesh.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLFunctions \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglfunctions.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qtguiglobal.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qglobal.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qconfig-bootstrapped.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qconfig.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qtcore-config.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qsystemdetection.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qprocessordetection.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qcompilerdetection.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qtypeinfo.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qsysinfo.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qlogging.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qflags.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qatomic.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qbasicatomic.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qatomic_bootstrap.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qgenericatomic.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qatomic_cxx11.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qatomic_msvc.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qglobalstatic.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qmutex.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qnumeric.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qversiontagging.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qtgui-config.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopengl.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qt_windows.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopengles2ext.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglext.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglcontext.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qnamespace.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/QObject \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qobject.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qobjectdefs.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qobjectdefs_impl.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qstring.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qchar.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qbytearray.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qrefcount.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qarraydata.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qstringbuilder.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qlist.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qalgorithms.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qiterator.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qhashfunctions.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qpair.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qbytearraylist.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qstringlist.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qregexp.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qstringmatcher.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qcoreevent.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qscopedpointer.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qmetatype.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qvarlengtharray.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qcontainerfwd.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qobject_impl.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/QScopedPointer \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QSurfaceFormat \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qsurfaceformat.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglversionfunctions.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qhash.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qvariant.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qmap.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qdebug.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qtextstream.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qiodevice.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qlocale.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qshareddata.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qvector.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qpoint.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qset.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qcontiguouscache.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qsharedpointer.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qsharedpointer_impl.h \
-		include/MeshVBO.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLVertexArrayObject \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglvertexarrayobject.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLBuffer \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglbuffer.h \
-		include/MaterialPhong.h \
-		include/Material.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QKeyEvent \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qevent.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qwindowdefs.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qwindowdefs_win.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qregion.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qrect.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qmargins.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qsize.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qdatastream.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qkeysequence.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qurl.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qurlquery.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qfile.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qfiledevice.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qvector2d.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qtouchdevice.h \
-		include/ShaderLib.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLShaderProgram \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglshaderprogram.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qvector3d.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qvector4d.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qmatrix4x4.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qquaternion.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qgenericmatrix.h \
-		include/Camera.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QMouseEvent \
-		include/MaterialPBR.h
+		include/GenericGeo.h \
+		include/GenericMat.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/DataContainer.o src/DataContainer.cpp
 
-obj/DemoScene.o: src/DemoScene.cpp include/DemoScene.h \
-		include/Scene.h \
-		include/Mesh.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLFunctions \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglfunctions.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qtguiglobal.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qglobal.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qconfig-bootstrapped.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qconfig.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qtcore-config.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qsystemdetection.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qprocessordetection.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qcompilerdetection.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qtypeinfo.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qsysinfo.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qlogging.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qflags.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qatomic.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qbasicatomic.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qatomic_bootstrap.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qgenericatomic.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qatomic_cxx11.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qatomic_msvc.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qglobalstatic.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qmutex.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qnumeric.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qversiontagging.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qtgui-config.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopengl.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qt_windows.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopengles2ext.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglext.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglcontext.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qnamespace.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/QObject \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qobject.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qobjectdefs.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qobjectdefs_impl.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qstring.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qchar.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qbytearray.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qrefcount.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qarraydata.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qstringbuilder.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qlist.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qalgorithms.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qiterator.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qhashfunctions.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qpair.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qbytearraylist.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qstringlist.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qregexp.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qstringmatcher.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qcoreevent.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qscopedpointer.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qmetatype.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qvarlengtharray.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qcontainerfwd.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qobject_impl.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/QScopedPointer \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QSurfaceFormat \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qsurfaceformat.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglversionfunctions.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qhash.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qvariant.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qmap.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qdebug.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qtextstream.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qiodevice.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qlocale.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qshareddata.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qvector.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qpoint.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qset.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qcontiguouscache.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qsharedpointer.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qsharedpointer_impl.h \
-		include/MeshVBO.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLVertexArrayObject \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglvertexarrayobject.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLBuffer \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglbuffer.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QOpenGLWidget \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qopenglwidget.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qtwidgets-config.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QWidget \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qwidget.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qwindowdefs.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qwindowdefs_win.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qmargins.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qpaintdevice.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qrect.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qsize.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qpalette.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qcolor.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qrgb.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qrgba64.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qbrush.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qmatrix.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qpolygon.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qregion.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qdatastream.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qline.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qtransform.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qpainterpath.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qimage.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qpixelformat.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qpixmap.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qfont.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qfontmetrics.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qfontinfo.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qsizepolicy.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qcursor.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qkeysequence.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qevent.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qurl.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qurlquery.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qfile.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qfiledevice.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qvector2d.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qtouchdevice.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QResizeEvent \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/QEvent \
-		include/Camera.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QMouseEvent \
-		include/MaterialPBR.h \
-		include/Material.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QKeyEvent \
-		include/ShaderLib.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLShaderProgram \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglshaderprogram.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qvector3d.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qvector4d.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qmatrix4x4.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qquaternion.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qgenericmatrix.h \
-		include/MaterialPhong.h \
-		include/MaterialWireframe.h \
-		include/MaterialFractal.h \
-		include/MaterialEnvMap.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLTexture \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopengltexture.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QImage \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLContext
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/DemoScene.o src/DemoScene.cpp
+obj/GenericGeo.o: src/GenericGeo.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/GenericGeo.o src/GenericGeo.cpp
+
+obj/GenericMat.o: src/GenericMat.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/GenericMat.o src/GenericMat.cpp
 
 obj/main.o: src/main.cpp /opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QApplication \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qapplication.h \
@@ -1871,9 +1554,9 @@ obj/main.o: src/main.cpp /opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QApplication 
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qmainwindow.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qtabwidget.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qicon.h \
-		include/DemoScene.h \
-		include/Scene.h \
-		include/Mesh.h \
+		NitronoidSource/include/DemoScene.h \
+		NitronoidSource/include/Scene.h \
+		NitronoidSource/include/Mesh.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLFunctions \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglfunctions.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopengl.h \
@@ -1886,7 +1569,7 @@ obj/main.o: src/main.cpp /opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QApplication 
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QSurfaceFormat \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qsurfaceformat.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglversionfunctions.h \
-		include/MeshVBO.h \
+		NitronoidSource/include/MeshVBO.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLVertexArrayObject \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglvertexarrayobject.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLBuffer \
@@ -1896,12 +1579,12 @@ obj/main.o: src/main.cpp /opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QApplication 
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QWidget \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QResizeEvent \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/QEvent \
-		include/Camera.h \
+		NitronoidSource/include/Camera.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QMouseEvent \
-		include/MaterialPBR.h \
-		include/Material.h \
+		NitronoidSource/include/MaterialPBR.h \
+		NitronoidSource/include/Material.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QKeyEvent \
-		include/ShaderLib.h \
+		NitronoidSource/include/ShaderLib.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLShaderProgram \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglshaderprogram.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qvector3d.h \
@@ -1909,19 +1592,75 @@ obj/main.o: src/main.cpp /opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QApplication 
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qmatrix4x4.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qquaternion.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qgenericmatrix.h \
-		include/MaterialPhong.h \
+		NitronoidSource/include/MaterialPhong.h \
 		ui/ui_mainwindow.h \
-		include/TrackballCamera.h \
-		include/CameraStates.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/QVariant \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QAction \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qaction.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qactiongroup.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QButtonGroup \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qbuttongroup.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QCheckBox \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qcheckbox.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qabstractbutton.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QGridLayout \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qgridlayout.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qlayout.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qlayoutitem.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qboxlayout.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QGroupBox \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qgroupbox.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qframe.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QHeaderView \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qheaderview.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qabstractitemview.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qabstractscrollarea.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qabstractitemmodel.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qitemselectionmodel.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qstyleoption.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qabstractspinbox.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qvalidator.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qregularexpression.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qslider.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qabstractslider.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qstyle.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qtabbar.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qrubberband.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QLabel \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qlabel.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QLineEdit \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qlineedit.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qtextcursor.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qtextformat.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qpen.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qtextoption.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QListView \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qlistview.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QMenuBar \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qmenubar.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qmenu.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QPushButton \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qpushbutton.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QSpacerItem \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QTableWidget \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qtablewidget.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qtableview.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QTreeView \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qtreeview.h \
+		NitronoidSource/include/TrackballCamera.h \
+		NitronoidSource/include/CameraStates.h \
 		include/MainScene.h \
 		include/DataContainer.h \
+		include/GenericGeo.h \
+		include/GenericMat.h \
 		include/SceneObject.h \
 		include/BaseObject.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/main.o src/main.cpp
 
 obj/MainScene.o: src/MainScene.cpp include/MainScene.h \
-		include/Scene.h \
-		include/Mesh.h \
+		NitronoidSource/include/Scene.h \
+		NitronoidSource/include/Mesh.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLFunctions \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglfunctions.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qtguiglobal.h \
@@ -1996,7 +1735,7 @@ obj/MainScene.o: src/MainScene.cpp include/MainScene.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qcontiguouscache.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qsharedpointer.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qsharedpointer_impl.h \
-		include/MeshVBO.h \
+		NitronoidSource/include/MeshVBO.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLVertexArrayObject \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglvertexarrayobject.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLBuffer \
@@ -2043,12 +1782,12 @@ obj/MainScene.o: src/MainScene.cpp include/MainScene.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qtouchdevice.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QResizeEvent \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/QEvent \
-		include/Camera.h \
+		NitronoidSource/include/Camera.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QMouseEvent \
-		include/MaterialPBR.h \
-		include/Material.h \
+		NitronoidSource/include/MaterialPBR.h \
+		NitronoidSource/include/Material.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QKeyEvent \
-		include/ShaderLib.h \
+		NitronoidSource/include/ShaderLib.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLShaderProgram \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglshaderprogram.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qvector3d.h \
@@ -2056,17 +1795,39 @@ obj/MainScene.o: src/MainScene.cpp include/MainScene.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qmatrix4x4.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qquaternion.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qgenericmatrix.h \
-		include/MaterialPhong.h \
+		NitronoidSource/include/MaterialPhong.h \
 		include/DataContainer.h \
+		include/GenericGeo.h \
+		include/GenericMat.h \
 		include/SceneObject.h \
 		include/BaseObject.h \
-		include/MaterialWireframe.h \
-		include/MaterialBump.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QTableWidget \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qtablewidget.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qtableview.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qabstractitemview.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qabstractscrollarea.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qframe.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qabstractitemmodel.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qitemselectionmodel.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qstyleoption.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qabstractspinbox.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qvalidator.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qregularexpression.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qicon.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qslider.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qabstractslider.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qstyle.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qtabbar.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qtabwidget.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qrubberband.h \
+		NitronoidSource/include/MaterialWireframe.h \
+		NitronoidSource/include/MaterialBump.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLTexture \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopengltexture.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QImage \
-		include/MaterialFractal.h \
-		include/MaterialEnvMap.h
+		NitronoidSource/include/MaterialFractal.h \
+		NitronoidSource/include/MaterialEnvMap.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/MainScene.o src/MainScene.cpp
 
 obj/MainWindow.o: src/MainWindow.cpp include/MainWindow.h \
@@ -2173,9 +1934,9 @@ obj/MainWindow.o: src/MainWindow.cpp include/MainWindow.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qtouchdevice.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qtabwidget.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qicon.h \
-		include/DemoScene.h \
-		include/Scene.h \
-		include/Mesh.h \
+		NitronoidSource/include/DemoScene.h \
+		NitronoidSource/include/Scene.h \
+		NitronoidSource/include/Mesh.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLFunctions \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglfunctions.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopengl.h \
@@ -2188,7 +1949,7 @@ obj/MainWindow.o: src/MainWindow.cpp include/MainWindow.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QSurfaceFormat \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qsurfaceformat.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglversionfunctions.h \
-		include/MeshVBO.h \
+		NitronoidSource/include/MeshVBO.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLVertexArrayObject \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglvertexarrayobject.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLBuffer \
@@ -2198,12 +1959,12 @@ obj/MainWindow.o: src/MainWindow.cpp include/MainWindow.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QWidget \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QResizeEvent \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/QEvent \
-		include/Camera.h \
+		NitronoidSource/include/Camera.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QMouseEvent \
-		include/MaterialPBR.h \
-		include/Material.h \
+		NitronoidSource/include/MaterialPBR.h \
+		NitronoidSource/include/Material.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QKeyEvent \
-		include/ShaderLib.h \
+		NitronoidSource/include/ShaderLib.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLShaderProgram \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglshaderprogram.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qvector3d.h \
@@ -2211,11 +1972,394 @@ obj/MainWindow.o: src/MainWindow.cpp include/MainWindow.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qmatrix4x4.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qquaternion.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qgenericmatrix.h \
-		include/MaterialPhong.h \
-		ui/ui_mainwindow.h
+		NitronoidSource/include/MaterialPhong.h \
+		ui/ui_mainwindow.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/QVariant \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QAction \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qaction.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qactiongroup.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QApplication \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qapplication.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qcoreapplication.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qeventloop.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qdesktopwidget.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qguiapplication.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qinputmethod.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QButtonGroup \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qbuttongroup.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QCheckBox \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qcheckbox.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qabstractbutton.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QGridLayout \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qgridlayout.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qlayout.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qlayoutitem.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qboxlayout.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QGroupBox \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qgroupbox.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qframe.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QHeaderView \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qheaderview.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qabstractitemview.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qabstractscrollarea.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qabstractitemmodel.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qitemselectionmodel.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qstyleoption.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qabstractspinbox.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qvalidator.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qregularexpression.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qslider.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qabstractslider.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qstyle.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qtabbar.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qrubberband.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QLabel \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qlabel.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QLineEdit \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qlineedit.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qtextcursor.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qtextformat.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qpen.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qtextoption.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QListView \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qlistview.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QMenuBar \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qmenubar.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qmenu.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QPushButton \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qpushbutton.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QSpacerItem \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QTableWidget \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qtablewidget.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qtableview.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QTreeView \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qtreeview.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/MainWindow.o src/MainWindow.cpp
 
-obj/Material.o: src/Material.cpp include/Material.h \
+obj/ObjectManager.o: src/ObjectManager.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/ObjectManager.o src/ObjectManager.cpp
+
+obj/SceneObject.o: src/SceneObject.cpp include/SceneObject.h \
+		include/DataContainer.h \
+		include/GenericGeo.h \
+		include/GenericMat.h \
+		include/BaseObject.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/SceneObject.o src/SceneObject.cpp
+
+obj/Camera.o: NitronoidSource/src/Camera.cpp NitronoidSource/include/Camera.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QMouseEvent \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qevent.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qtguiglobal.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qglobal.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qconfig.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qtcore-config.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qsystemdetection.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qprocessordetection.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qcompilerdetection.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qtypeinfo.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qsysinfo.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qlogging.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qflags.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qatomic.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qbasicatomic.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qgenericatomic.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qatomic_msvc.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qglobalstatic.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qmutex.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qnumeric.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qversiontagging.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qtgui-config.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qwindowdefs.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qobjectdefs.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qnamespace.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qwindowdefs_win.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qregion.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qrect.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qmargins.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qsize.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qpoint.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qdatastream.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qscopedpointer.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qiodevice.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qobject.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qstring.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qchar.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qbytearray.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qrefcount.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qarraydata.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qstringbuilder.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qlist.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qalgorithms.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qiterator.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qhashfunctions.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qpair.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qbytearraylist.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qstringlist.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qregexp.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qstringmatcher.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qcoreevent.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qmetatype.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qvarlengtharray.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qcontainerfwd.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qobject_impl.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qkeysequence.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qvariant.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qmap.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qdebug.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qhash.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qtextstream.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qlocale.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qshareddata.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qvector.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qset.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qcontiguouscache.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qsharedpointer.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qurl.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qurlquery.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qfile.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qfiledevice.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qvector2d.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qtouchdevice.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/Camera.o NitronoidSource/src/Camera.cpp
+
+obj/CameraStates.o: NitronoidSource/src/CameraStates.cpp NitronoidSource/include/CameraStates.h \
+		NitronoidSource/include/Camera.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QMouseEvent \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qevent.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qtguiglobal.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qglobal.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qconfig.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qtcore-config.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qsystemdetection.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qprocessordetection.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qcompilerdetection.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qtypeinfo.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qsysinfo.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qlogging.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qflags.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qatomic.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qbasicatomic.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qgenericatomic.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qatomic_msvc.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qglobalstatic.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qmutex.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qnumeric.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qversiontagging.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qtgui-config.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qwindowdefs.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qobjectdefs.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qnamespace.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qwindowdefs_win.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qregion.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qrect.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qmargins.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qsize.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qpoint.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qdatastream.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qscopedpointer.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qiodevice.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qobject.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qstring.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qchar.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qbytearray.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qrefcount.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qarraydata.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qstringbuilder.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qlist.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qalgorithms.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qiterator.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qhashfunctions.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qpair.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qbytearraylist.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qstringlist.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qregexp.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qstringmatcher.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qcoreevent.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qmetatype.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qvarlengtharray.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qcontainerfwd.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qobject_impl.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qkeysequence.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qvariant.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qmap.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qdebug.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qhash.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qtextstream.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qlocale.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qshareddata.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qvector.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qset.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qcontiguouscache.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qsharedpointer.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qurl.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qurlquery.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qfile.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qfiledevice.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qvector2d.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qtouchdevice.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QKeyEvent
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/CameraStates.o NitronoidSource/src/CameraStates.cpp
+
+obj/DemoScene.o: NitronoidSource/src/DemoScene.cpp NitronoidSource/include/DemoScene.h \
+		NitronoidSource/include/Scene.h \
+		NitronoidSource/include/Mesh.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLFunctions \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglfunctions.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qtguiglobal.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qglobal.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qconfig.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qtcore-config.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qsystemdetection.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qprocessordetection.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qcompilerdetection.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qtypeinfo.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qsysinfo.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qlogging.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qflags.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qatomic.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qbasicatomic.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qgenericatomic.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qatomic_msvc.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qglobalstatic.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qmutex.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qnumeric.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qversiontagging.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qtgui-config.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopengl.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qt_windows.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopengles2ext.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglext.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglcontext.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qnamespace.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/QObject \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qobject.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qobjectdefs.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qstring.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qchar.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qbytearray.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qrefcount.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qarraydata.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qstringbuilder.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qlist.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qalgorithms.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qiterator.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qhashfunctions.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qpair.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qbytearraylist.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qstringlist.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qregexp.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qstringmatcher.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qcoreevent.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qscopedpointer.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qmetatype.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qvarlengtharray.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qcontainerfwd.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qobject_impl.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/QScopedPointer \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QSurfaceFormat \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qsurfaceformat.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglversionfunctions.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qhash.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qvariant.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qmap.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qdebug.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qtextstream.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qiodevice.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qlocale.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qshareddata.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qvector.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qpoint.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qset.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qcontiguouscache.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qsharedpointer.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		NitronoidSource/include/MeshVBO.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLVertexArrayObject \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglvertexarrayobject.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLBuffer \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglbuffer.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QOpenGLWidget \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qopenglwidget.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qtwidgets-config.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QWidget \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qwidget.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qwindowdefs.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qwindowdefs_win.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qmargins.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qpaintdevice.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qrect.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qsize.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qpalette.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qcolor.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qrgb.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qrgba64.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qbrush.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qmatrix.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qpolygon.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qregion.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qdatastream.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qline.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qtransform.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qpainterpath.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qimage.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qpixelformat.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qpixmap.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qfont.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qfontmetrics.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qfontinfo.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qsizepolicy.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qcursor.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qkeysequence.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qevent.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qurl.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qurlquery.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qfile.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qfiledevice.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qvector2d.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qtouchdevice.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QResizeEvent \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/QEvent \
+		NitronoidSource/include/Camera.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QMouseEvent \
+		NitronoidSource/include/MaterialPBR.h \
+		NitronoidSource/include/Material.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QKeyEvent \
+		NitronoidSource/include/ShaderLib.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLShaderProgram \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglshaderprogram.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qvector3d.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qvector4d.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qmatrix4x4.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qquaternion.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qgenericmatrix.h \
+		NitronoidSource/include/MaterialPhong.h \
+		NitronoidSource/include/MaterialWireframe.h \
+		NitronoidSource/include/MaterialFractal.h \
+		NitronoidSource/include/MaterialEnvMap.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLTexture \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopengltexture.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QImage \
+		NitronoidSource/include/MaterialBump.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLContext
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/DemoScene.o NitronoidSource/src/DemoScene.cpp
+
+obj/Material.o: NitronoidSource/src/Material.cpp NitronoidSource/include/Material.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QKeyEvent \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qevent.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qtguiglobal.h \
@@ -2294,7 +2438,7 @@ obj/Material.o: src/Material.cpp include/Material.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qfiledevice.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qvector2d.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qtouchdevice.h \
-		include/ShaderLib.h \
+		NitronoidSource/include/ShaderLib.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLShaderProgram \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglshaderprogram.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopengl.h \
@@ -2306,12 +2450,12 @@ obj/Material.o: src/Material.cpp include/Material.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qmatrix4x4.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qquaternion.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qgenericmatrix.h \
-		include/Camera.h \
+		NitronoidSource/include/Camera.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QMouseEvent
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/Material.o src/Material.cpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/Material.o NitronoidSource/src/Material.cpp
 
-obj/MaterialBump.o: src/MaterialBump.cpp include/MaterialBump.h \
-		include/Material.h \
+obj/MaterialBump.o: NitronoidSource/src/MaterialBump.cpp NitronoidSource/include/MaterialBump.h \
+		NitronoidSource/include/Material.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QKeyEvent \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qevent.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qtguiglobal.h \
@@ -2390,7 +2534,7 @@ obj/MaterialBump.o: src/MaterialBump.cpp include/MaterialBump.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qfiledevice.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qvector2d.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qtouchdevice.h \
-		include/ShaderLib.h \
+		NitronoidSource/include/ShaderLib.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLShaderProgram \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglshaderprogram.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopengl.h \
@@ -2402,7 +2546,7 @@ obj/MaterialBump.o: src/MaterialBump.cpp include/MaterialBump.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qmatrix4x4.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qquaternion.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qgenericmatrix.h \
-		include/Camera.h \
+		NitronoidSource/include/Camera.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QMouseEvent \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLTexture \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopengltexture.h \
@@ -2419,8 +2563,8 @@ obj/MaterialBump.o: src/MaterialBump.cpp include/MaterialBump.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qpainterpath.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/QScopedPointer \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QImage \
-		include/Scene.h \
-		include/Mesh.h \
+		NitronoidSource/include/Scene.h \
+		NitronoidSource/include/Mesh.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLFunctions \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglfunctions.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglcontext.h \
@@ -2428,7 +2572,7 @@ obj/MaterialBump.o: src/MaterialBump.cpp include/MaterialBump.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QSurfaceFormat \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qsurfaceformat.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglversionfunctions.h \
-		include/MeshVBO.h \
+		NitronoidSource/include/MeshVBO.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLVertexArrayObject \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglvertexarrayobject.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLBuffer \
@@ -2449,10 +2593,10 @@ obj/MaterialBump.o: src/MaterialBump.cpp include/MaterialBump.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qcursor.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QResizeEvent \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/QEvent
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/MaterialBump.o src/MaterialBump.cpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/MaterialBump.o NitronoidSource/src/MaterialBump.cpp
 
-obj/MaterialEnvMap.o: src/MaterialEnvMap.cpp include/MaterialEnvMap.h \
-		include/Material.h \
+obj/MaterialEnvMap.o: NitronoidSource/src/MaterialEnvMap.cpp NitronoidSource/include/MaterialEnvMap.h \
+		NitronoidSource/include/Material.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QKeyEvent \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qevent.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qtguiglobal.h \
@@ -2531,7 +2675,7 @@ obj/MaterialEnvMap.o: src/MaterialEnvMap.cpp include/MaterialEnvMap.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qfiledevice.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qvector2d.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qtouchdevice.h \
-		include/ShaderLib.h \
+		NitronoidSource/include/ShaderLib.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLShaderProgram \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglshaderprogram.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopengl.h \
@@ -2543,7 +2687,7 @@ obj/MaterialEnvMap.o: src/MaterialEnvMap.cpp include/MaterialEnvMap.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qmatrix4x4.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qquaternion.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qgenericmatrix.h \
-		include/Camera.h \
+		NitronoidSource/include/Camera.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QMouseEvent \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLTexture \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopengltexture.h \
@@ -2560,8 +2704,8 @@ obj/MaterialEnvMap.o: src/MaterialEnvMap.cpp include/MaterialEnvMap.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qpainterpath.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/QScopedPointer \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QImage \
-		include/Scene.h \
-		include/Mesh.h \
+		NitronoidSource/include/Scene.h \
+		NitronoidSource/include/Mesh.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLFunctions \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglfunctions.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglcontext.h \
@@ -2569,7 +2713,7 @@ obj/MaterialEnvMap.o: src/MaterialEnvMap.cpp include/MaterialEnvMap.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QSurfaceFormat \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qsurfaceformat.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglversionfunctions.h \
-		include/MeshVBO.h \
+		NitronoidSource/include/MeshVBO.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLVertexArrayObject \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglvertexarrayobject.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLBuffer \
@@ -2590,10 +2734,10 @@ obj/MaterialEnvMap.o: src/MaterialEnvMap.cpp include/MaterialEnvMap.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qcursor.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QResizeEvent \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/QEvent
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/MaterialEnvMap.o src/MaterialEnvMap.cpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/MaterialEnvMap.o NitronoidSource/src/MaterialEnvMap.cpp
 
-obj/MaterialFractal.o: src/MaterialFractal.cpp include/MaterialFractal.h \
-		include/Material.h \
+obj/MaterialFractal.o: NitronoidSource/src/MaterialFractal.cpp NitronoidSource/include/MaterialFractal.h \
+		NitronoidSource/include/Material.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QKeyEvent \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qevent.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qtguiglobal.h \
@@ -2672,7 +2816,7 @@ obj/MaterialFractal.o: src/MaterialFractal.cpp include/MaterialFractal.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qfiledevice.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qvector2d.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qtouchdevice.h \
-		include/ShaderLib.h \
+		NitronoidSource/include/ShaderLib.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLShaderProgram \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglshaderprogram.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopengl.h \
@@ -2684,10 +2828,10 @@ obj/MaterialFractal.o: src/MaterialFractal.cpp include/MaterialFractal.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qmatrix4x4.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qquaternion.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qgenericmatrix.h \
-		include/Camera.h \
+		NitronoidSource/include/Camera.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QMouseEvent \
-		include/Scene.h \
-		include/Mesh.h \
+		NitronoidSource/include/Scene.h \
+		NitronoidSource/include/Mesh.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLFunctions \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglfunctions.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglcontext.h \
@@ -2696,7 +2840,7 @@ obj/MaterialFractal.o: src/MaterialFractal.cpp include/MaterialFractal.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QSurfaceFormat \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qsurfaceformat.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglversionfunctions.h \
-		include/MeshVBO.h \
+		NitronoidSource/include/MeshVBO.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLVertexArrayObject \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglvertexarrayobject.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLBuffer \
@@ -2731,10 +2875,10 @@ obj/MaterialFractal.o: src/MaterialFractal.cpp include/MaterialFractal.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLFunctions_4_1_Core \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglfunctions_4_1_core.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLVersionFunctions
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/MaterialFractal.o src/MaterialFractal.cpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/MaterialFractal.o NitronoidSource/src/MaterialFractal.cpp
 
-obj/MaterialPBR.o: src/MaterialPBR.cpp include/MaterialPBR.h \
-		include/Material.h \
+obj/MaterialPBR.o: NitronoidSource/src/MaterialPBR.cpp NitronoidSource/include/MaterialPBR.h \
+		NitronoidSource/include/Material.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QKeyEvent \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qevent.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qtguiglobal.h \
@@ -2813,7 +2957,7 @@ obj/MaterialPBR.o: src/MaterialPBR.cpp include/MaterialPBR.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qfiledevice.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qvector2d.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qtouchdevice.h \
-		include/ShaderLib.h \
+		NitronoidSource/include/ShaderLib.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLShaderProgram \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglshaderprogram.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopengl.h \
@@ -2825,10 +2969,10 @@ obj/MaterialPBR.o: src/MaterialPBR.cpp include/MaterialPBR.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qmatrix4x4.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qquaternion.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qgenericmatrix.h \
-		include/Camera.h \
+		NitronoidSource/include/Camera.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QMouseEvent \
-		include/Scene.h \
-		include/Mesh.h \
+		NitronoidSource/include/Scene.h \
+		NitronoidSource/include/Mesh.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLFunctions \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglfunctions.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglcontext.h \
@@ -2837,7 +2981,7 @@ obj/MaterialPBR.o: src/MaterialPBR.cpp include/MaterialPBR.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QSurfaceFormat \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qsurfaceformat.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglversionfunctions.h \
-		include/MeshVBO.h \
+		NitronoidSource/include/MeshVBO.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLVertexArrayObject \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglvertexarrayobject.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLBuffer \
@@ -2869,10 +3013,10 @@ obj/MaterialPBR.o: src/MaterialPBR.cpp include/MaterialPBR.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qcursor.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QResizeEvent \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/QEvent
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/MaterialPBR.o src/MaterialPBR.cpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/MaterialPBR.o NitronoidSource/src/MaterialPBR.cpp
 
-obj/MaterialPhong.o: src/MaterialPhong.cpp include/MaterialPhong.h \
-		include/Material.h \
+obj/MaterialPhong.o: NitronoidSource/src/MaterialPhong.cpp NitronoidSource/include/MaterialPhong.h \
+		NitronoidSource/include/Material.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QKeyEvent \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qevent.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qtguiglobal.h \
@@ -2951,7 +3095,7 @@ obj/MaterialPhong.o: src/MaterialPhong.cpp include/MaterialPhong.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qfiledevice.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qvector2d.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qtouchdevice.h \
-		include/ShaderLib.h \
+		NitronoidSource/include/ShaderLib.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLShaderProgram \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglshaderprogram.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopengl.h \
@@ -2963,10 +3107,10 @@ obj/MaterialPhong.o: src/MaterialPhong.cpp include/MaterialPhong.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qmatrix4x4.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qquaternion.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qgenericmatrix.h \
-		include/Camera.h \
+		NitronoidSource/include/Camera.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QMouseEvent \
-		include/Scene.h \
-		include/Mesh.h \
+		NitronoidSource/include/Scene.h \
+		NitronoidSource/include/Mesh.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLFunctions \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglfunctions.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglcontext.h \
@@ -2975,7 +3119,7 @@ obj/MaterialPhong.o: src/MaterialPhong.cpp include/MaterialPhong.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QSurfaceFormat \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qsurfaceformat.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglversionfunctions.h \
-		include/MeshVBO.h \
+		NitronoidSource/include/MeshVBO.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLVertexArrayObject \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglvertexarrayobject.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLBuffer \
@@ -3007,10 +3151,10 @@ obj/MaterialPhong.o: src/MaterialPhong.cpp include/MaterialPhong.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qcursor.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QResizeEvent \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/QEvent
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/MaterialPhong.o src/MaterialPhong.cpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/MaterialPhong.o NitronoidSource/src/MaterialPhong.cpp
 
-obj/MaterialWireframe.o: src/MaterialWireframe.cpp include/MaterialWireframe.h \
-		include/Material.h \
+obj/MaterialWireframe.o: NitronoidSource/src/MaterialWireframe.cpp NitronoidSource/include/MaterialWireframe.h \
+		NitronoidSource/include/Material.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QKeyEvent \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qevent.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qtguiglobal.h \
@@ -3089,7 +3233,7 @@ obj/MaterialWireframe.o: src/MaterialWireframe.cpp include/MaterialWireframe.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qfiledevice.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qvector2d.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qtouchdevice.h \
-		include/ShaderLib.h \
+		NitronoidSource/include/ShaderLib.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLShaderProgram \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglshaderprogram.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopengl.h \
@@ -3101,10 +3245,10 @@ obj/MaterialWireframe.o: src/MaterialWireframe.cpp include/MaterialWireframe.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qmatrix4x4.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qquaternion.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qgenericmatrix.h \
-		include/Camera.h \
+		NitronoidSource/include/Camera.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QMouseEvent \
-		include/Scene.h \
-		include/Mesh.h \
+		NitronoidSource/include/Scene.h \
+		NitronoidSource/include/Mesh.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLFunctions \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglfunctions.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglcontext.h \
@@ -3113,7 +3257,7 @@ obj/MaterialWireframe.o: src/MaterialWireframe.cpp include/MaterialWireframe.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QSurfaceFormat \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qsurfaceformat.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglversionfunctions.h \
-		include/MeshVBO.h \
+		NitronoidSource/include/MeshVBO.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLVertexArrayObject \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglvertexarrayobject.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLBuffer \
@@ -3145,9 +3289,9 @@ obj/MaterialWireframe.o: src/MaterialWireframe.cpp include/MaterialWireframe.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qcursor.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QResizeEvent \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/QEvent
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/MaterialWireframe.o src/MaterialWireframe.cpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/MaterialWireframe.o NitronoidSource/src/MaterialWireframe.cpp
 
-obj/Mesh.o: src/Mesh.cpp include/Mesh.h \
+obj/Mesh.o: NitronoidSource/src/Mesh.cpp NitronoidSource/include/Mesh.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLFunctions \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglfunctions.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qtguiglobal.h \
@@ -3222,14 +3366,14 @@ obj/Mesh.o: src/Mesh.cpp include/Mesh.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qcontiguouscache.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qsharedpointer.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qsharedpointer_impl.h \
-		include/MeshVBO.h \
+		NitronoidSource/include/MeshVBO.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLVertexArrayObject \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglvertexarrayobject.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLBuffer \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglbuffer.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/Mesh.o src/Mesh.cpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/Mesh.o NitronoidSource/src/Mesh.cpp
 
-obj/MeshVBO.o: src/MeshVBO.cpp include/MeshVBO.h \
+obj/MeshVBO.o: NitronoidSource/src/MeshVBO.cpp NitronoidSource/include/MeshVBO.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLVertexArrayObject \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglvertexarrayobject.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qtguiglobal.h \
@@ -3287,10 +3431,10 @@ obj/MeshVBO.o: src/MeshVBO.cpp include/MeshVBO.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglext.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLBuffer \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglbuffer.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/MeshVBO.o src/MeshVBO.cpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/MeshVBO.o NitronoidSource/src/MeshVBO.cpp
 
-obj/Scene.o: src/Scene.cpp include/Scene.h \
-		include/Mesh.h \
+obj/Scene.o: NitronoidSource/src/Scene.cpp NitronoidSource/include/Scene.h \
+		NitronoidSource/include/Mesh.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLFunctions \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglfunctions.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qtguiglobal.h \
@@ -3365,7 +3509,7 @@ obj/Scene.o: src/Scene.cpp include/Scene.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qcontiguouscache.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qsharedpointer.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qsharedpointer_impl.h \
-		include/MeshVBO.h \
+		NitronoidSource/include/MeshVBO.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLVertexArrayObject \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglvertexarrayobject.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLBuffer \
@@ -3412,7 +3556,7 @@ obj/Scene.o: src/Scene.cpp include/Scene.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qtouchdevice.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QResizeEvent \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/QEvent \
-		include/Camera.h \
+		NitronoidSource/include/Camera.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QMouseEvent \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QColorDialog \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qcolordialog.h \
@@ -3433,10 +3577,10 @@ obj/Scene.o: src/Scene.cpp include/Scene.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/QSize \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/QSizeF \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QTransform \
-		include/MaterialPBR.h \
-		include/Material.h \
+		NitronoidSource/include/MaterialPBR.h \
+		NitronoidSource/include/Material.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QKeyEvent \
-		include/ShaderLib.h \
+		NitronoidSource/include/ShaderLib.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLShaderProgram \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglshaderprogram.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qvector3d.h \
@@ -3444,123 +3588,9 @@ obj/Scene.o: src/Scene.cpp include/Scene.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qmatrix4x4.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qquaternion.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qgenericmatrix.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/Scene.o src/Scene.cpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/Scene.o NitronoidSource/src/Scene.cpp
 
-obj/SceneObject.o: src/SceneObject.cpp include/SceneObject.h \
-		include/DataContainer.h \
-		include/Mesh.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLFunctions \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglfunctions.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qtguiglobal.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qglobal.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qconfig-bootstrapped.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qconfig.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qtcore-config.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qsystemdetection.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qprocessordetection.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qcompilerdetection.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qtypeinfo.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qsysinfo.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qlogging.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qflags.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qatomic.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qbasicatomic.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qatomic_bootstrap.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qgenericatomic.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qatomic_cxx11.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qatomic_msvc.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qglobalstatic.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qmutex.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qnumeric.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qversiontagging.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qtgui-config.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopengl.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qt_windows.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopengles2ext.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglext.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglcontext.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qnamespace.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/QObject \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qobject.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qobjectdefs.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qobjectdefs_impl.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qstring.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qchar.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qbytearray.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qrefcount.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qarraydata.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qstringbuilder.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qlist.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qalgorithms.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qiterator.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qhashfunctions.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qpair.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qbytearraylist.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qstringlist.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qregexp.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qstringmatcher.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qcoreevent.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qscopedpointer.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qmetatype.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qvarlengtharray.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qcontainerfwd.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qobject_impl.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/QScopedPointer \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QSurfaceFormat \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qsurfaceformat.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglversionfunctions.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qhash.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qvariant.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qmap.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qdebug.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qtextstream.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qiodevice.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qlocale.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qshareddata.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qvector.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qpoint.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qset.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qcontiguouscache.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qsharedpointer.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qsharedpointer_impl.h \
-		include/MeshVBO.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLVertexArrayObject \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglvertexarrayobject.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLBuffer \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglbuffer.h \
-		include/MaterialPhong.h \
-		include/Material.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QKeyEvent \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qevent.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qwindowdefs.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qwindowdefs_win.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qregion.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qrect.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qmargins.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qsize.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qdatastream.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qkeysequence.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qurl.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qurlquery.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qfile.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qfiledevice.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qvector2d.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qtouchdevice.h \
-		include/ShaderLib.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLShaderProgram \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglshaderprogram.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qvector3d.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qvector4d.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qmatrix4x4.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qquaternion.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qgenericmatrix.h \
-		include/Camera.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QMouseEvent \
-		include/MaterialPBR.h \
-		include/BaseObject.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/SceneObject.o src/SceneObject.cpp
-
-obj/ShaderLib.o: src/ShaderLib.cpp include/ShaderLib.h \
+obj/ShaderLib.o: NitronoidSource/src/ShaderLib.cpp NitronoidSource/include/ShaderLib.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLShaderProgram \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglshaderprogram.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qtguiglobal.h \
@@ -3647,10 +3677,10 @@ obj/ShaderLib.o: src/ShaderLib.cpp include/ShaderLib.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qjsonvalue.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/QJsonDocument \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qjsondocument.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/ShaderLib.o src/ShaderLib.cpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/ShaderLib.o NitronoidSource/src/ShaderLib.cpp
 
-obj/TrackballCamera.o: src/TrackballCamera.cpp include/TrackballCamera.h \
-		include/Camera.h \
+obj/TrackballCamera.o: NitronoidSource/src/TrackballCamera.cpp NitronoidSource/include/TrackballCamera.h \
+		NitronoidSource/include/Camera.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QMouseEvent \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qevent.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qtguiglobal.h \
@@ -3729,17 +3759,17 @@ obj/TrackballCamera.o: src/TrackballCamera.cpp include/TrackballCamera.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qfiledevice.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qvector2d.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qtouchdevice.h \
-		include/CameraStates.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/TrackballCamera.o src/TrackballCamera.cpp
-
-obj/moc_DemoScene.o: moc/moc_DemoScene.cpp 
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/moc_DemoScene.o moc/moc_DemoScene.cpp
+		NitronoidSource/include/CameraStates.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/TrackballCamera.o NitronoidSource/src/TrackballCamera.cpp
 
 obj/moc_MainScene.o: moc/moc_MainScene.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/moc_MainScene.o moc/moc_MainScene.cpp
 
 obj/moc_MainWindow.o: moc/moc_MainWindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/moc_MainWindow.o moc/moc_MainWindow.cpp
+
+obj/moc_DemoScene.o: moc/moc_DemoScene.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/moc_DemoScene.o moc/moc_DemoScene.cpp
 
 obj/moc_Scene.o: moc/moc_Scene.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/moc_Scene.o moc/moc_Scene.cpp

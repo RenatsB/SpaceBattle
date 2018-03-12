@@ -27,7 +27,7 @@ size_t SceneObject::getGeo() const
   return m_geometry;
 }
 
-size_t SceneObject::findMat() const
+size_t SceneObject::matFind() const
 {
   return m_material;
 }

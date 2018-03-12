@@ -3,11 +3,13 @@
 
 #include "DataContainer.h"
 #include "BaseObject.h"
+#include "GenericGeo.h"
+#include "GenericMat.h"
 
 class SceneObject : public BaseObject
 {
 public :
-  SceneObject(std::string _name = "SceneObject", glm::vec3 _pos=glm::vec3(0,0,0), glm::vec3 _rot=glm::vec3(0,0,0), glm::vec3 _sc=glm::vec3(1,1,1), size_t _geo=1, size_t _mat=0):
+  SceneObject(std::string _name = "SceneObject", glm::vec3 _pos=glm::vec3(0,0,0), glm::vec3 _rot=glm::vec3(0,0,0), glm::vec3 _sc=glm::vec3(1,1,1), GenericGeo* _geo, GenericMat* _mat):
     BaseObject(_name, _pos, _rot, _sc),
     m_geometry(_geo),
     m_material(_mat)
@@ -19,11 +21,11 @@ public :
   virtual size_t getID() const override;
   void setGeometry(size_t _new);
   size_t getGeo() const;
-  size_t findMat() const;
+  size_t matFind() const;
   void setMat(size_t _new);
 private :
-  size_t m_geometry;
-  size_t m_material = 0;
+  std::unique_ptr<GenericGeo> m_geometry;
+  std::unique_ptr<GenericMat> m_material;
 };
 
 #endif

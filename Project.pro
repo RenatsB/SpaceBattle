@@ -23,12 +23,15 @@ DEFINES += QT_DEPRECATED_WARNINGS
 INCLUDEPATH += \
     /usr/local/include/glm/glm \
     /usr/local/include/glm \
+    $$PWD/NitronoidSource/include \
     $$PWD/include \
     $$PWD/ui \
     $$PWD/shaders
 
 HEADERS += $$files(./include/*.h)
+HEADERS += $$files(./NitronoidSource/include/*.h)
 SOURCES += $$files(./src/*.cpp)
+SOURCES += $$files(./NitronoidSource/src/*.cpp)
 
 
 OTHER_FILES += \

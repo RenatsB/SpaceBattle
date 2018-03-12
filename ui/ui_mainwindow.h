@@ -50,9 +50,10 @@ public:
     QLabel *label;
     QTableWidget *tableWidget;
     QLineEdit *loadGeoInput;
+    QListView *fileExplorer;
     QPushButton *loadGeo;
     QLabel *label_2;
-    QListView *fileExplorer;
+    QLineEdit *m_slectLine;
     QMenuBar *menubar;
 
     void setupUi(QMainWindow *MainWindow)
@@ -114,22 +115,22 @@ public:
         m_wireframe->setEnabled(true);
         m_wireframe->setTristate(false);
 
-        gridLayout_2->addWidget(m_wireframe, 2, 0, 1, 1);
+        gridLayout_2->addWidget(m_wireframe, 5, 1, 1, 1);
 
         select = new QPushButton(s_drawGB);
         select->setObjectName(QStringLiteral("select"));
 
-        gridLayout_2->addWidget(select, 0, 0, 1, 1);
+        gridLayout_2->addWidget(select, 2, 1, 1, 1);
 
         deselect = new QPushButton(s_drawGB);
         deselect->setObjectName(QStringLiteral("deselect"));
 
-        gridLayout_2->addWidget(deselect, 1, 0, 1, 1);
+        gridLayout_2->addWidget(deselect, 3, 1, 1, 1);
 
         label = new QLabel(s_drawGB);
         label->setObjectName(QStringLiteral("label"));
 
-        gridLayout_2->addWidget(label, 7, 0, 1, 1);
+        gridLayout_2->addWidget(label, 10, 1, 1, 1);
 
         tableWidget = new QTableWidget(s_drawGB);
         if (tableWidget->columnCount() < 3)
@@ -172,33 +173,39 @@ public:
         sizePolicy2.setVerticalStretch(0);
         sizePolicy2.setHeightForWidth(tableWidget->sizePolicy().hasHeightForWidth());
         tableWidget->setSizePolicy(sizePolicy2);
-        tableWidget->setMaximumSize(QSize(220, 180));
+        tableWidget->setMinimumSize(QSize(200, 120));
+        tableWidget->setMaximumSize(QSize(220, 200));
         tableWidget->setAutoFillBackground(false);
         tableWidget->setInputMethodHints(Qt::ImhDigitsOnly);
         tableWidget->setDragEnabled(true);
         tableWidget->horizontalHeader()->setDefaultSectionSize(67);
 
-        gridLayout_2->addWidget(tableWidget, 8, 0, 1, 1);
+        gridLayout_2->addWidget(tableWidget, 11, 1, 1, 1);
 
         loadGeoInput = new QLineEdit(s_drawGB);
         loadGeoInput->setObjectName(QStringLiteral("loadGeoInput"));
 
-        gridLayout_2->addWidget(loadGeoInput, 10, 0, 1, 1);
-
-        loadGeo = new QPushButton(s_drawGB);
-        loadGeo->setObjectName(QStringLiteral("loadGeo"));
-
-        gridLayout_2->addWidget(loadGeo, 11, 0, 1, 1);
-
-        label_2 = new QLabel(s_drawGB);
-        label_2->setObjectName(QStringLiteral("label_2"));
-
-        gridLayout_2->addWidget(label_2, 9, 0, 1, 1);
+        gridLayout_2->addWidget(loadGeoInput, 13, 1, 1, 1);
 
         fileExplorer = new QListView(s_drawGB);
         fileExplorer->setObjectName(QStringLiteral("fileExplorer"));
 
-        gridLayout_2->addWidget(fileExplorer, 12, 0, 1, 1);
+        gridLayout_2->addWidget(fileExplorer, 15, 1, 1, 1);
+
+        loadGeo = new QPushButton(s_drawGB);
+        loadGeo->setObjectName(QStringLiteral("loadGeo"));
+
+        gridLayout_2->addWidget(loadGeo, 14, 1, 1, 1);
+
+        label_2 = new QLabel(s_drawGB);
+        label_2->setObjectName(QStringLiteral("label_2"));
+
+        gridLayout_2->addWidget(label_2, 12, 1, 1, 1);
+
+        m_slectLine = new QLineEdit(s_drawGB);
+        m_slectLine->setObjectName(QStringLiteral("m_slectLine"));
+
+        gridLayout_2->addWidget(m_slectLine, 1, 1, 1, 1);
 
 
         s_mainWindowGridLayout->addWidget(s_drawGB, 2, 5, 1, 1);
@@ -222,7 +229,7 @@ public:
         m_wireframe->setText(QApplication::translate("MainWindow", "Wireframe", Q_NULLPTR));
         select->setText(QApplication::translate("MainWindow", "Select", Q_NULLPTR));
         deselect->setText(QApplication::translate("MainWindow", "Deselect", Q_NULLPTR));
-        label->setText(QApplication::translate("MainWindow", "Transformations:", Q_NULLPTR));
+        label->setText(QApplication::translate("MainWindow", "Add transformations:", Q_NULLPTR));
         QTableWidgetItem *___qtablewidgetitem = tableWidget->horizontalHeaderItem(0);
         ___qtablewidgetitem->setText(QApplication::translate("MainWindow", "X", Q_NULLPTR));
         QTableWidgetItem *___qtablewidgetitem1 = tableWidget->horizontalHeaderItem(1);

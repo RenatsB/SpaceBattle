@@ -1,7 +1,7 @@
 #include <QApplication>
 #include "MainWindow.h"
-#include "TrackballCamera.h"
-#include "ShaderLib.h"
+#include <TrackballCamera.h>
+#include <ShaderLib.h>
 #include <random>
 #include <glm.hpp>
 #include <gtc/matrix_transform.hpp>

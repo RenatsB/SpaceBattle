@@ -1,10 +1,10 @@
 #ifndef MAINSCENE_H
 #define MAINSCENE_H
 
-#include "Scene.h"
-#include "MaterialPBR.h"
-#include "MaterialPhong.h"
-#include "ShaderLib.h"
+#include <Scene.h>
+#include <MaterialPBR.h>
+#include <MaterialPhong.h>
+#include <ShaderLib.h>
 #include "DataContainer.h"
 #include <vector>
 #include "SceneObject.h"
@@ -62,8 +62,8 @@ public:
   /// @param [io] io_event is the key event that was received.
   //-----------------------------------------------------------------------------------------------------
   //virtual void keyPress(QKeyEvent* io_event) override;
-  void selectObject(const size_t _id);
-  void deselectObject(const size_t _id);
+  //void selectObject(const size_t _id);
+  //void deselectObject(const size_t _id);
 
 public slots:
   void select();
@@ -72,22 +72,17 @@ public slots:
   void scale(unsigned short _axis, float _val);
   void rotate(unsigned short _axis, float _val);
   void changeMat(size_t _new);
-  //void loadMat(std::string _path);
   void changeGeo(size_t _new);
-  //void receiveGeoPath(QString _current);
-  //void loadGeo();
   void loadFile();
   void receiveFileCmd(QString _current);
   void receiveTableInfo(QTableWidgetItem* _ref);
   void wireframe(bool _value);
 
+signals:
+  void addObjectName(QString _new, QString _parent);
 
 private:
   void createSceneObject(std::string _name="SceneObject", vec3 _pos=vec3(0,0,0), vec3 _rot=vec3(0,0,0), vec3 _sc=vec3(1,1,1), size_t _geo=1, size_t _mat=0);
-  void loadMesh(size_t _id);
-  void loadMesh(size_t _meshID, size_t _shaderID);
-  void loadMesh(Mesh _raw, size_t _shaderID);
-  void loadAllMeshData();
   void deduceCreateMat(QString &_name);
   void updateBuffer(const size_t _geoID, const size_t _matID);
   //-----------------------------------------------------------------------------------------------------
@@ -99,10 +94,9 @@ private:
   //-----------------------------------------------------------------------------------------------------
   void setAttributeBuffers();
   void useMaterial(const size_t _id);
-  std::array<int, 4> countAllSceneGeo() const;
   virtual void renderScene() override;
-  bool isSelected(const size_t _id) const;
-  vec3 constructTranslateVector(unsigned short _axis, float _val) const;
+  //bool isSelected(const size_t _id) const;
+  //vec3 constructTranslateVector(unsigned short _axis, float _val) const;
 
 private:
   //-----------------------------------------------------------------------------------------------------
@@ -117,11 +111,11 @@ private:
     new QOpenGLVertexArrayObject(dynamic_cast<QObject*>(this))
   };
   std::shared_ptr<ShaderLib> m_shaderLib;
-  DataContainer m_drawData;
-  Mesh m_grid;
+  //DataContainer m_drawData;
+  //Mesh m_grid;
 
-  std::vector<std::unique_ptr<SceneObject>> m_sceneObjects;
-  std::vector<size_t> m_selected;
+  //std::vector<std::unique_ptr<SceneObject>> m_sceneObjects;
+  //std::vector<size_t> m_selected;
 
   std::string m_fileLoadCmd;
   bool m_wireframe = false;

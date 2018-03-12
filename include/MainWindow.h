@@ -2,10 +2,10 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "DemoScene.h"
+#include <DemoScene.h>
 #include "ui_mainwindow.h"
 #include <memory>
-#include "Scene.h"
+#include <Scene.h>
 
 class MainWindow : public QMainWindow
 {
@@ -29,8 +29,8 @@ public:
   //-----------------------------------------------------------------------------------------------------
   void init(const std::shared_ptr<Scene> &io_scene);
 
-public slots :
-  void updateLoadedList();
+//public slots :
+  //void updateLoadedList();
 
 private:
   //-----------------------------------------------------------------------------------------------------

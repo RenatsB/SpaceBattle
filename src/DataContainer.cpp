@@ -11,31 +11,19 @@ DataContainer* DataContainer::instance()
   return s_instance;
 }
 
-bool DataContainer::geoLoad(const std::string _path)
-{
-  std::unique_ptr<Mesh> temp;
-  temp.get()->load(_path);
-  //catch exception
-
-  m_geo.emplace_back(std::move(temp));
-  //catch exception
-
-  return true;
-}
-
 void DataContainer::geoRemove(const size_t _id)
 {
   auto it = m_geo.begin()+static_cast<long>(_id);
   m_geo.erase(it);
 }
-void DataContainer::geoRemove(const std::string _name)
+/*void DataContainer::geoRemove(const std::string _name)
 {
-  for(auto it = m_geo.begin(); it < m_geo.end(); ++i)
+  for(auto it = m_geo.begin(); it < m_geo.end(); ++it)
   {
     if(it.base()->get()->getName() == _name)
       m_geo.erase(it);
   }
-}
+}*/
 
 void DataContainer::matUpdate(const size_t _id)
 {
@@ -98,3 +86,4 @@ Material* DataContainer::matFind(const size_t _id) const
     return nullptr;
   }
 }
+
