@@ -17,6 +17,7 @@ public:
   ~GenericMat()=default;
   size_t getMatID() const;
   std::string getMatName() const;
+  virtual void update();
 protected:
   size_t m_id;
   std::string m_name;

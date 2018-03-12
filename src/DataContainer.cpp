@@ -30,7 +30,7 @@ void DataContainer::matUpdate(const size_t _id)
   m_mat.at(_id).get()->update();
 }
 
-Mesh* DataContainer::geoFind(const size_t _id) const
+GenericGeo* DataContainer::geoFind(const size_t _id) const
 {
   if(_id < m_geo.size())
   {
@@ -51,16 +51,16 @@ void DataContainer::geoReserve(const size_t _amount)
 {
   for(size_t i = 0; i < _amount; ++i)
   {
-    m_geo.emplace_back(new Mesh);
+    m_geo.emplace_back(new GenericGeo);
   }
 }
 
-void DataContainer::matPut(Material* _new)
+void DataContainer::matPut(GenericMat* _new)
 {
   m_mat.emplace_back(_new);
 }
 
-void DataContainer::geoPut(Mesh* _new)
+void DataContainer::geoPut(GenericGeo* _new)
 {
   m_geo.emplace_back(_new);
 }
@@ -75,7 +75,7 @@ size_t DataContainer::geosize() const
   return m_geo.size();
 }
 
-Material* DataContainer::matFind(const size_t _id) const
+GenericMat* DataContainer::matFind(const size_t _id) const
 {
   if(_id < m_mat.size())
   {

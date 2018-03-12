@@ -6,6 +6,7 @@
 #include <MaterialPhong.h>
 #include <ShaderLib.h>
 #include "DataContainer.h"
+#include "ObjectManager.h"
 #include <vector>
 #include "SceneObject.h"
 #include <QTableWidget>
@@ -111,13 +112,15 @@ private:
     new QOpenGLVertexArrayObject(dynamic_cast<QObject*>(this))
   };
   std::shared_ptr<ShaderLib> m_shaderLib;
-  //DataContainer m_drawData;
+  DataContainer m_drawData;
+  ObjectManager m_objects;
   //Mesh m_grid;
 
   //std::vector<std::unique_ptr<SceneObject>> m_sceneObjects;
   //std::vector<size_t> m_selected;
 
   std::string m_fileLoadCmd;
+  size_t m_selectCmd;
   bool m_wireframe = false;
 };
 

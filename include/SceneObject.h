@@ -9,7 +9,7 @@
 class SceneObject : public BaseObject
 {
 public :
-  SceneObject(std::string _name = "SceneObject", glm::vec3 _pos=glm::vec3(0,0,0), glm::vec3 _rot=glm::vec3(0,0,0), glm::vec3 _sc=glm::vec3(1,1,1), GenericGeo* _geo, GenericMat* _mat):
+  SceneObject(std::string _name = "SceneObject", glm::vec3 _pos=glm::vec3(0,0,0), glm::vec3 _rot=glm::vec3(0,0,0), glm::vec3 _sc=glm::vec3(1,1,1), GenericGeo* _geo=new GenericGeo, GenericMat* _mat=new GenericMat):
     BaseObject(_name, _pos, _rot, _sc),
     m_geometry(_geo),
     m_material(_mat)
