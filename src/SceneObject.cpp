@@ -19,20 +19,20 @@ size_t SceneObject::getID () const
 
 void SceneObject::setGeometry(size_t _new)
 {
-  m_geometry = _new;
+  m_geometry->setGeoID(_new);
 }
 
 size_t SceneObject::getGeo() const
 {
-  return m_geometry;
+  return m_geometry->getGeoID();
 }
 
 size_t SceneObject::matFind() const
 {
-  return m_material;
+  return m_material->getMatID();
 }
 
 void SceneObject::setMat(size_t _new)
 {
-  m_material = _new;
+  m_material->setMatID(_new);
 }

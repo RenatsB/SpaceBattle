@@ -10,7 +10,7 @@ public:
   BaseMesh& operator=(const BaseMesh&) = default;
   BaseMesh(BaseMesh&&) = default;
   BaseMesh& operator=(BaseMesh&&) = default;
-  virtual ~BaseMesh();
+  virtual ~BaseMesh()=default;
   virtual void load(const std::string &_fname)=0;
   virtual void reset()=0;
 };

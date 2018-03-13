@@ -17,6 +17,8 @@ public:
   virtual ~GenericGeo()=default;
   size_t getGeoID() const;
   std::string getGeoName() const;
+  void setGeoID(size_t _id);
+  void setGeoName(std::string &_name);
 protected:
   size_t m_id = 0;
   std::string m_name = "mesh";

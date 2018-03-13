@@ -10,7 +10,7 @@ public:
   BaseMaterial& operator=(const BaseMaterial&) = default;
   BaseMaterial(BaseMaterial&&) = default;
   BaseMaterial& operator=(BaseMaterial&&) = default;
-  virtual ~BaseMaterial();
+  virtual ~BaseMaterial()=default;
   virtual void init()=0;
   virtual void update()=0;
   virtual void apply();

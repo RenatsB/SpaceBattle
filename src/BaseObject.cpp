@@ -1,5 +1,10 @@
 #include "BaseObject.h"
 
+void BaseObject::changeID(const size_t _newID)
+{
+  m_id = _newID;
+}
+
 void BaseObject::moveObject (const vec3 _tr)
 {
   m_pos += _tr;

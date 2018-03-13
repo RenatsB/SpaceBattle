@@ -10,7 +10,12 @@ std::string GenericGeo::getGeoName() const
   return m_name;
 }
 
-/*void load(const std::string &_fname, const size_t _meshNum = 0)
+void GenericGeo::setGeoID(size_t _id)
 {
-  return;
-}*/
+  m_id = _id;
+}
+
+void GenericGeo::setGeoName(std::string &_name)
+{
+  m_name = _name;
+}

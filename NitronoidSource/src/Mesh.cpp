@@ -4,7 +4,7 @@
 #include <assimp/postprocess.h>
 
 
-void Mesh::load(const std::string &_fname, const size_t _meshNum)
+void Mesh::load(const std::string &_fname)
 {
   Assimp::Importer importer;
   // And have it read the given file with some example postprocessing
@@ -14,7 +14,7 @@ void Mesh::load(const std::string &_fname, const size_t _meshNum)
         _fname,
         aiProcessPreset_TargetRealtime_MaxQuality |
         aiProcess_FlipUVs);
-  const aiMesh* mesh = scene->mMeshes[_meshNum];
+  const aiMesh* mesh = scene->mMeshes[0];
 
   // Calculate the amount of vertices we will store (3 per face)
   size_t numVerts = mesh->mNumVertices;

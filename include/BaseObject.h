@@ -20,8 +20,9 @@ public :
     m_tag(_name),
     m_MVmatrix(1)
   {}
+  virtual ~BaseObject()=default;
   virtual void reset() = 0;
-  virtual void changeID (const size_t _newID) = 0;
+  virtual void changeID (const size_t _newID);
   void setName(std::string _new);
   std::string getName() const;
   void setParent(BaseObject* _new);
@@ -43,7 +44,6 @@ public :
   bool isActive();
   void updateMatrix();
   mat4 getMVmatrix() const;
-  virtual ~BaseObject() = default;
 protected :
   vec3 m_pos = glm::vec3(0,0,0);
   vec3 m_rot = glm::vec3(0,0,0);

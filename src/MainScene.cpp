@@ -35,9 +35,12 @@ void MainScene::setAttributeBuffers()
 //-----------------------------------------------------------------------------------------------------
 void MainScene::initGeo()
 {
-  m_drawData->geoReserve(2);
-  static_cast<Mesh*>(m_drawData->geoFind(0))->load("models/Grid.obj");
-  static_cast<Mesh*>(m_drawData->geoFind(1))->load("models/cube.obj");
+  Mesh* temp1= new Mesh;
+  Mesh* temp2= new Mesh;
+  temp1->load("models/Grid.obj");
+  temp2->load("models/cube.obj");
+  m_drawData->geoPut(temp1);
+  m_drawData->geoPut(temp2);
   // Create and bind our Vertex Array Object
   m_vao->create();
   m_vao->bind();
@@ -64,9 +67,10 @@ void MainScene::updateBuffer(const size_t _geoID, const size_t _matID)
 //-----------------------------------------------------------------------------------------------------
 void MainScene::initMaterials()
 {
-  m_drawData->matReserve(2);
-  m_drawData->matPut(new MaterialWireframe(m_camera, m_shaderLib, &m_matrices));
-  m_drawData->matPut(new MaterialPhong(m_camera, m_shaderLib, &m_matrices));
+  Material* temp1 = new MaterialWireframe(m_camera, m_shaderLib, &m_matrices);
+  Material* temp2 = new MaterialPhong(m_camera, m_shaderLib, &m_matrices);
+  m_drawData->matPut(temp1);
+  m_drawData->matPut(temp2);
   for (size_t i = 0; i < m_drawData->matSize(); ++i)
   {
     auto mat = m_drawData->matFind(i);
@@ -93,11 +97,11 @@ void MainScene::init()
   for(size_t i = 0; i<1000; ++i)
     {
       createSceneObject("TEST"+std::to_string(i));
-      m_sceneObjects.at(i).get()->setGeometry(1);
-      m_sceneObjects.at(i).get()->setMat(1);
-      m_sceneObjects.at(i).get()->setScale(glm::vec3(0.2f,0.2f,0.2f));
-      m_sceneObjects.at(i).get()->setPosition(glm::vec3(sinf(glm::radians(static_cast<float>(i*30))),static_cast<float>(i/32.0f),cosf(glm::radians(static_cast<float>(i*30)))));
-      m_sceneObjects.at(i).get()->setRotation(vec3(0.f, 30*i, 0.f));
+      m_objects->getObject(i)->setGeometry(1);
+      m_objects->getObject(i)->setMat(1);
+      m_objects->getObject(i)->setScale(glm::vec3(0.2f,0.2f,0.2f));
+      m_objects->getObject(i)->setPosition(glm::vec3(sinf(glm::radians(static_cast<float>(i*30))),static_cast<float>(i/32.0f),cosf(glm::radians(static_cast<float>(i*30)))));
+      m_objects->getObject(i)->setRotation(vec3(0.f, 30*i, 0.f));
     }
   //m_sceneObjects.at(1)->setParent(m_sceneObjects.at(0).get());
 
@@ -116,33 +120,33 @@ void MainScene::renderScene()
   m_drawData->matFind(0)->update();
   m_meshVBO.use();
   updateBuffer(0,0);
-  glDrawElements(GL_TRIANGLES, m_drawData->geoFind(0)->getNIndicesData(), GL_UNSIGNED_SHORT, nullptr);
-  for(size_t i=0; i<m_sceneObjects.size(); ++i)
+  glDrawElements(GL_TRIANGLES, static_cast<Mesh*>(m_drawData->geoFind(0))->getNIndicesData(), GL_UNSIGNED_SHORT, nullptr);
+  for(size_t i=0; i<m_objects->getObjectCount(); ++i)
   {
-    if(m_sceneObjects.at(i).get()->isActive())
+    if(m_objects->objectAt(i)->isActive())
     {
-      m_sceneObjects.at(i).get()->setGeometry(i%(m_drawData->geosize()-1)+1);
-      m_sceneObjects.at(i).get()->setMat(i%(m_drawData->matSize()-1)+1);
-      m_matrices[MODEL_VIEW] = m_sceneObjects.at(i).get()->getMVmatrix();
+      m_objects->objectAt(i)->setGeometry(i%(m_drawData->geosize()-1)+1);
+      m_objects->objectAt(i)->setMat(i%(m_drawData->matSize()-1)+1);
+      m_matrices[MODEL_VIEW] = m_objects->objectAt(i)->getMVmatrix();
       m_matrices[PROJECTION] = m_camera->projMatrix() * m_camera->viewMatrix() * m_matrices[MODEL_VIEW];
       m_matrices[NORMAL] = glm::inverse(glm::transpose(m_matrices[MODEL_VIEW]));
       if(m_wireframe)
       {
-        m_drawData->matFind(m_sceneObjects.at(i).get()->matFind())->update();
-        updateBuffer(m_sceneObjects.at(i).get()->getGeo(), 0);
-        glDrawElements(GL_TRIANGLES, m_drawData->geoFind(m_sceneObjects.at(i).get()->getGeo())->getNIndicesData(), GL_UNSIGNED_SHORT, nullptr);
+        m_drawData->matFind(m_objects->objectAt(i)->matFind())->update();
+        updateBuffer(m_objects->objectAt(i)->getGeo(), 0);
+        glDrawElements(GL_TRIANGLES, static_cast<Mesh*>(m_drawData->geoFind(m_objects->objectAt(i)->getGeo()))->getNIndicesData(), GL_UNSIGNED_SHORT, nullptr);
       }
       else
       {
-        m_drawData->matFind(m_sceneObjects.at(i).get()->matFind())->update();
-        updateBuffer(m_sceneObjects.at(i).get()->getGeo(), m_sceneObjects.at(i).get()->matFind());
-        glDrawElements(GL_TRIANGLES, m_drawData->geoFind(m_sceneObjects.at(i).get()->getGeo())->getNIndicesData(), GL_UNSIGNED_SHORT, nullptr);
+        m_drawData->matFind(m_objects->objectAt(i)->matFind())->update();
+        updateBuffer(m_objects->objectAt(i)->getGeo(), m_objects->objectAt(i)->matFind());
+        glDrawElements(GL_TRIANGLES, static_cast<Mesh*>(m_drawData->geoFind(m_objects->objectAt(i)->getGeo()))->getNIndicesData(), GL_UNSIGNED_SHORT, nullptr);
 
-        if(isSelected(i))
+        if(m_objects->isSelected(i))
         {
-          m_drawData.instance()->matFind(m_sceneObjects.at(i).get()->matFind())->update();
-          updateBuffer(m_sceneObjects.at(i).get()->getGeo(), 0);
-          glDrawElements(GL_TRIANGLES, m_drawData->geoFind(m_sceneObjects.at(i).get()->getGeo())->getNIndicesData(), GL_UNSIGNED_SHORT, nullptr);
+          m_drawData->matFind(m_objects->objectAt(i)->matFind())->update();
+          updateBuffer(m_objects->objectAt(i)->getGeo(), 0);
+          glDrawElements(GL_TRIANGLES, static_cast<Mesh*>(m_drawData->geoFind(m_objects->objectAt(i)->getGeo()))->getNIndicesData(), GL_UNSIGNED_SHORT, nullptr);
         }
       }
     }
@@ -154,43 +158,31 @@ void MainScene::renderScene()
 //-----------------------------------------------------------------------------------------------------
 void MainScene::createSceneObject(std::string _name, glm::vec3 _pos, glm::vec3 _rot, glm::vec3 _sc, size_t _geo, size_t _mat)
 {
-  m_sceneObjects.emplace_back(new SceneObject(_name, _pos, _rot, _sc, _geo, _mat));
+  m_objects->createSceneObject(_name, _pos, _rot, _sc, _geo, _mat);
 }
 //-----------------------------------------------------------------------------------------------------
 void MainScene::select()
 {
-  if(m_selected.size() < m_sceneObjects.size())
+  if(m_selectCmd.empty())
   {
-    if(!m_selected.empty())
-    {
-      selectObject(m_selected.at(m_selected.size()-1) + 1);
-    }
-    else
-    {
-      selectObject(0);
-    }
+    m_objects->selectObject("");
+  }
+  else
+  {
+
   }
 }
 
 void MainScene::deselect()
 {
-  if(!m_selected.empty())
+  if(m_selectCmd.empty())
   {
-    deselectObject(m_selected.at(m_selected.size()-1));
+    m_objects->deselectObject("");
   }
 }
 
-bool MainScene::isSelected(const size_t _id) const
-{
-  for(auto s : m_selected)
-  {
-    if(s == _id)
-      return true;
-  }
-  return false;
-}
 
-void MainScene::changeMat(size_t _new)
+/*void MainScene::changeMat(size_t _new)
 {
   for(auto obj : m_selected)
   {
@@ -204,7 +196,7 @@ void MainScene::changeGeo(size_t _new)
   {
     m_sceneObjects.at(obj)->setGeometry(_new);
   }
-}
+}*/
 
 void MainScene::receiveFileCmd(QString _current)
 {
@@ -244,35 +236,30 @@ void MainScene::deduceCreateMat(QString& _name)
   switch(matType)
   {
   case 0:{
-    m_drawData->matReserve(1);
     m_drawData->matPut(new MaterialWireframe(m_camera, m_shaderLib, &m_matrices));
     auto mat = m_drawData->matFind(m_drawData->matSize()-1);
     auto name = m_shaderLib->loadShaderProg(mat->shaderFileName());
     mat->setShaderName(name);
     break;}
   case 1:{
-    m_drawData->matReserve(1);
     m_drawData->matPut(new MaterialPhong(m_camera, m_shaderLib, &m_matrices));
     auto mat = m_drawData->matFind(m_drawData->matSize()-1);
     auto name = m_shaderLib->loadShaderProg(mat->shaderFileName());
     mat->setShaderName(name);
     break;}
   case 3:{
-    m_drawData->matReserve(1);
     m_drawData->matPut(new MaterialBump(m_camera, m_shaderLib, &m_matrices));
     auto mat = m_drawData->matFind(m_drawData->matSize()-1);
     auto name = m_shaderLib->loadShaderProg(mat->shaderFileName());
     mat->setShaderName(name);
     break;}
   case 4:{
-    m_drawData->matReserve(1);
     m_drawData->matPut(new MaterialFractal(m_camera, m_shaderLib, &m_matrices));
-    auto mat = m_drawData->matFind(m_drawData)->matSize()-1);
+    auto mat = m_drawData->matFind(m_drawData->matSize()-1);
     auto name = m_shaderLib->loadShaderProg(mat->shaderFileName());
     mat->setShaderName(name);
     break;}
   case 5:{
-    m_drawData->matReserve(1);
     m_drawData->matPut(new MaterialEnvMap(m_camera, m_shaderLib, &m_matrices));
     auto mat = m_drawData->matFind(m_drawData->matSize()-1);
     auto name = m_shaderLib->loadShaderProg(mat->shaderFileName());
@@ -289,9 +276,8 @@ void MainScene::deduceCreateMat(QString& _name)
       float b = h2.toFloat();
       QString h3; h3 = h3.fromStdString(normal.substr(9,3));
       float c = h3.toFloat();
-      m_drawData.instance()->matReserve(1);
-      m_drawData.instance()->matPut(new MaterialPBR(m_camera, m_shaderLib, &m_matrices, {a, b, c}, 1.0f, 1.0f, 0.5f, 1.0f));
-      auto mat = m_drawData.instance()->matFind(m_drawData.instance()->matSize()-1);
+      m_drawData->matPut(new MaterialPBR(m_camera, m_shaderLib, &m_matrices, {a, b, c}, 1.0f, 1.0f, 0.5f, 1.0f));
+      auto mat = m_drawData->matFind(m_drawData->matSize()-1);
       auto name = m_shaderLib->loadShaderProg(mat->shaderFileName());
       mat->setShaderName(name);
     }
@@ -304,6 +290,13 @@ void MainScene::deduceCreateMat(QString& _name)
   }
   }
   std::cout<<"Material successfully loaded from: "<<"shaderPrograms"<<std::endl;
+}
+
+std::vector<size_t> MainScene::deduceSelectCmd(QString &_cmd)
+{
+  std::vector<size_t> ret;
+  ret.push_back(0);
+  return ret;
 }
 
 void MainScene::loadFile()
@@ -319,8 +312,9 @@ void MainScene::loadFile()
         std::cout<<"Loading geometry from: "<<"models/"<<normal<<" ..."<<std::endl;
         if(fileExists("models/"+normal))
         {
-          m_drawData.instance()->geoReserve(1);
-          m_drawData.instance()->geoFind(m_drawData.instance()->geosize()-1)->load("models/"+normal);
+          Mesh* newMesh = new Mesh;
+          newMesh->load("models/"+normal);
+          m_drawData->geoPut(newMesh);
           std::cout<<"Geometry successfully loaded from: "<<"models/"<<normal<<std::endl;
         }
         else
@@ -366,8 +360,9 @@ void MainScene::loadFile()
         std::cout<<"Loading geometry from: "<<normal<<" ..."<<std::endl;
         if(fileExists("models/"+normal))
         {
-          m_drawData.instance()->geoReserve(1);
-          m_drawData.instance()->geoFind(m_drawData.instance()->geosize()-1)->load("models/"+normal);
+          Mesh* newMesh = new Mesh;
+          newMesh->load("models/"+normal);
+          m_drawData->geoPut(newMesh);
           std::cout<<"Geometry successfully loaded from: "<<"models/"<<normal<<std::endl;
         }
         else

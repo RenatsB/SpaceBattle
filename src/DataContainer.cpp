@@ -31,19 +31,6 @@ BaseMesh* DataContainer::geoFind(const size_t _id) const
   }
 }
 
-void DataContainer::matReserve(const size_t _amount)
-{
-  m_mat.reserve(_amount);
-}
-
-/*void DataContainer::geoReserve(const size_t _amount)
-{
-  for(size_t i = 0; i < _amount; ++i)
-  {
-    m_geo.emplace_back(new );
-  }
-}*/
-
 void DataContainer::matPut(BaseMaterial* _new)
 {
   m_mat.emplace_back(_new);
