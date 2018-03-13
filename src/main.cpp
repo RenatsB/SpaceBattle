@@ -8,6 +8,8 @@
 #include <gtc/type_ptr.hpp>
 #include <ext.hpp>
 #include "MainScene.h"
+#include "DataContainer.h"
+#include "ObjectManager.h"
 
 int main(int argc, char *argv[])
 {
@@ -41,9 +43,11 @@ int main(int argc, char *argv[])
   std::shared_ptr<Camera> cam(new TrackballCamera);
   // Create a shader library
   std::shared_ptr<ShaderLib> lib(new ShaderLib);
+  std::shared_ptr<DataContainer> drawData(new DataContainer);
+  std::shared_ptr<ObjectManager> objManager(new ObjectManager);
   // Create a scene to place inside the window
   //std::shared_ptr<Scene> scene(new DemoScene(cam, lib, &window));
-  std::shared_ptr<Scene> scene(new MainScene(cam, lib, &window));
+  std::shared_ptr<Scene> scene(new MainScene(cam, lib, drawData, objManager, &window));
   // Initialise the window using our scene
   window.init(scene);
   // show it

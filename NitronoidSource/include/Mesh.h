@@ -7,8 +7,9 @@
 #include "MeshVBO.h"
 #include "vec3.hpp"
 #include "vec2.hpp"
+#include "BaseMesh.h"
 
-class Mesh
+class Mesh : public BaseMesh
 {
 public:
   //-----------------------------------------------------------------------------------------------------
@@ -20,11 +21,12 @@ public:
   /// @param [in] _fname is the path to the mesh file.
   /// @param [in] _meshNum is the index of the mesh in the file's scene.
   //-----------------------------------------------------------------------------------------------------
-  void load(const std::string &_fname, const size_t _meshNum = 0);
+  //void load(const std::string &_fname, const size_t _meshNum = 0);
+  virtual void load(const std::string &_fname)override;
   //-----------------------------------------------------------------------------------------------------
   /// @brief Used to reset the mesh arrays.
   //-----------------------------------------------------------------------------------------------------
-  void reset();
+  virtual void reset()override;
   //-----------------------------------------------------------------------------------------------------
   /// @brief Gets a pointer to the first data element in the indices array for use with openGL buffers.
   /// @return A pointer to the first element in the indices array.

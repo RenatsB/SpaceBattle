@@ -8,7 +8,3 @@ std::string GenericMat::getMatName() const
 {
   return m_name;
 }
-void GenericMat::update()
-{
-  return;
-}

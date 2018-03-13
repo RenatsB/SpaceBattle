@@ -51,7 +51,9 @@ OBJECTS_DIR   = obj/
 
 ####### Files
 
-SOURCES       = src/BaseObject.cpp \
+SOURCES       = src/BaseMaterial.cpp \
+		src/BaseMesh.cpp \
+		src/BaseObject.cpp \
 		src/DataContainer.cpp \
 		src/GenericGeo.cpp \
 		src/GenericMat.cpp \
@@ -78,7 +80,9 @@ SOURCES       = src/BaseObject.cpp \
 		moc/moc_MainWindow.cpp \
 		moc/moc_DemoScene.cpp \
 		moc/moc_Scene.cpp
-OBJECTS       = obj/BaseObject.o \
+OBJECTS       = obj/BaseMaterial.o \
+		obj/BaseMesh.o \
+		obj/BaseObject.o \
 		obj/DataContainer.o \
 		obj/GenericGeo.o \
 		obj/GenericMat.o \
@@ -285,7 +289,9 @@ DIST          = /opt/Qt5.9.0/5.9/gcc_64/mkspecs/features/spec_pre.prf \
 		/opt/Qt5.9.0/5.9/gcc_64/mkspecs/features/exceptions.prf \
 		/opt/Qt5.9.0/5.9/gcc_64/mkspecs/features/yacc.prf \
 		/opt/Qt5.9.0/5.9/gcc_64/mkspecs/features/lex.prf \
-		Project.pro include/BaseObject.h \
+		Project.pro include/BaseMaterial.h \
+		include/BaseMesh.h \
+		include/BaseObject.h \
 		include/DataContainer.h \
 		include/GenericGeo.h \
 		include/GenericMat.h \
@@ -307,7 +313,9 @@ DIST          = /opt/Qt5.9.0/5.9/gcc_64/mkspecs/features/spec_pre.prf \
 		NitronoidSource/include/MeshVBO.h \
 		NitronoidSource/include/Scene.h \
 		NitronoidSource/include/ShaderLib.h \
-		NitronoidSource/include/TrackballCamera.h src/BaseObject.cpp \
+		NitronoidSource/include/TrackballCamera.h src/BaseMaterial.cpp \
+		src/BaseMesh.cpp \
+		src/BaseObject.cpp \
 		src/DataContainer.cpp \
 		src/GenericGeo.cpp \
 		src/GenericMat.cpp \
@@ -726,8 +734,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /opt/Qt5.9.0/5.9/gcc_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents include/BaseObject.h include/DataContainer.h include/GenericGeo.h include/GenericMat.h include/MainScene.h include/MainWindow.h include/ObjectManager.h include/SceneObject.h NitronoidSource/include/Camera.h NitronoidSource/include/CameraStates.h NitronoidSource/include/DemoScene.h NitronoidSource/include/Material.h NitronoidSource/include/MaterialBump.h NitronoidSource/include/MaterialEnvMap.h NitronoidSource/include/MaterialFractal.h NitronoidSource/include/MaterialPBR.h NitronoidSource/include/MaterialPhong.h NitronoidSource/include/MaterialWireframe.h NitronoidSource/include/Mesh.h NitronoidSource/include/MeshVBO.h NitronoidSource/include/Scene.h NitronoidSource/include/ShaderLib.h NitronoidSource/include/TrackballCamera.h $(DISTDIR)/
-	$(COPY_FILE) --parents src/BaseObject.cpp src/DataContainer.cpp src/GenericGeo.cpp src/GenericMat.cpp src/main.cpp src/MainScene.cpp src/MainWindow.cpp src/ObjectManager.cpp src/SceneObject.cpp NitronoidSource/src/Camera.cpp NitronoidSource/src/CameraStates.cpp NitronoidSource/src/DemoScene.cpp NitronoidSource/src/Material.cpp NitronoidSource/src/MaterialBump.cpp NitronoidSource/src/MaterialEnvMap.cpp NitronoidSource/src/MaterialFractal.cpp NitronoidSource/src/MaterialPBR.cpp NitronoidSource/src/MaterialPhong.cpp NitronoidSource/src/MaterialWireframe.cpp NitronoidSource/src/Mesh.cpp NitronoidSource/src/MeshVBO.cpp NitronoidSource/src/Scene.cpp NitronoidSource/src/ShaderLib.cpp NitronoidSource/src/TrackballCamera.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents include/BaseMaterial.h include/BaseMesh.h include/BaseObject.h include/DataContainer.h include/GenericGeo.h include/GenericMat.h include/MainScene.h include/MainWindow.h include/ObjectManager.h include/SceneObject.h NitronoidSource/include/Camera.h NitronoidSource/include/CameraStates.h NitronoidSource/include/DemoScene.h NitronoidSource/include/Material.h NitronoidSource/include/MaterialBump.h NitronoidSource/include/MaterialEnvMap.h NitronoidSource/include/MaterialFractal.h NitronoidSource/include/MaterialPBR.h NitronoidSource/include/MaterialPhong.h NitronoidSource/include/MaterialWireframe.h NitronoidSource/include/Mesh.h NitronoidSource/include/MeshVBO.h NitronoidSource/include/Scene.h NitronoidSource/include/ShaderLib.h NitronoidSource/include/TrackballCamera.h $(DISTDIR)/
+	$(COPY_FILE) --parents src/BaseMaterial.cpp src/BaseMesh.cpp src/BaseObject.cpp src/DataContainer.cpp src/GenericGeo.cpp src/GenericMat.cpp src/main.cpp src/MainScene.cpp src/MainWindow.cpp src/ObjectManager.cpp src/SceneObject.cpp NitronoidSource/src/Camera.cpp NitronoidSource/src/CameraStates.cpp NitronoidSource/src/DemoScene.cpp NitronoidSource/src/Material.cpp NitronoidSource/src/MaterialBump.cpp NitronoidSource/src/MaterialEnvMap.cpp NitronoidSource/src/MaterialFractal.cpp NitronoidSource/src/MaterialPBR.cpp NitronoidSource/src/MaterialPhong.cpp NitronoidSource/src/MaterialWireframe.cpp NitronoidSource/src/Mesh.cpp NitronoidSource/src/MeshVBO.cpp NitronoidSource/src/Scene.cpp NitronoidSource/src/ShaderLib.cpp NitronoidSource/src/TrackballCamera.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents ui/mainwindow.ui $(DISTDIR)/
 
 
@@ -844,6 +852,7 @@ moc/moc_MainScene.cpp: NitronoidSource/include/Scene.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglvertexarrayobject.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLBuffer \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglbuffer.h \
+		include/GenericGeo.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QOpenGLWidget \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qopenglwidget.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
@@ -899,10 +908,10 @@ moc/moc_MainScene.cpp: NitronoidSource/include/Scene.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qmatrix4x4.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qquaternion.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qgenericmatrix.h \
+		include/GenericMat.h \
 		NitronoidSource/include/MaterialPhong.h \
 		include/DataContainer.h \
-		include/GenericGeo.h \
-		include/GenericMat.h \
+		include/ObjectManager.h \
 		include/SceneObject.h \
 		include/BaseObject.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QTableWidget \
@@ -1053,6 +1062,7 @@ moc/moc_MainWindow.cpp: /opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QMainWindow \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglvertexarrayobject.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLBuffer \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglbuffer.h \
+		include/GenericGeo.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QOpenGLWidget \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qopenglwidget.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QWidget \
@@ -1071,6 +1081,7 @@ moc/moc_MainWindow.cpp: /opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QMainWindow \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qmatrix4x4.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qquaternion.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qgenericmatrix.h \
+		include/GenericMat.h \
 		NitronoidSource/include/MaterialPhong.h \
 		ui/ui_mainwindow.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/QVariant \
@@ -1220,6 +1231,7 @@ moc/moc_DemoScene.cpp: NitronoidSource/include/Scene.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglvertexarrayobject.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLBuffer \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglbuffer.h \
+		include/GenericGeo.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QOpenGLWidget \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qopenglwidget.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
@@ -1275,6 +1287,7 @@ moc/moc_DemoScene.cpp: NitronoidSource/include/Scene.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qmatrix4x4.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qquaternion.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qgenericmatrix.h \
+		include/GenericMat.h \
 		NitronoidSource/include/MaterialPhong.h \
 		NitronoidSource/include/DemoScene.h \
 		moc/moc_predefs.h \
@@ -1361,6 +1374,7 @@ moc/moc_Scene.cpp: NitronoidSource/include/Mesh.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglvertexarrayobject.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLBuffer \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglbuffer.h \
+		include/GenericGeo.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QOpenGLWidget \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qopenglwidget.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
@@ -1429,6 +1443,12 @@ compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean compiler_ui
 
 ####### Compile
 
+obj/BaseMaterial.o: src/BaseMaterial.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/BaseMaterial.o src/BaseMaterial.cpp
+
+obj/BaseMesh.o: src/BaseMesh.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/BaseMesh.o src/BaseMesh.cpp
+
 obj/BaseObject.o: src/BaseObject.cpp include/BaseObject.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/BaseObject.o src/BaseObject.cpp
 
@@ -1437,10 +1457,10 @@ obj/DataContainer.o: src/DataContainer.cpp include/DataContainer.h \
 		include/GenericMat.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/DataContainer.o src/DataContainer.cpp
 
-obj/GenericGeo.o: src/GenericGeo.cpp 
+obj/GenericGeo.o: src/GenericGeo.cpp include/GenericGeo.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/GenericGeo.o src/GenericGeo.cpp
 
-obj/GenericMat.o: src/GenericMat.cpp 
+obj/GenericMat.o: src/GenericMat.cpp include/GenericMat.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/GenericMat.o src/GenericMat.cpp
 
 obj/main.o: src/main.cpp /opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QApplication \
@@ -1574,6 +1594,7 @@ obj/main.o: src/main.cpp /opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QApplication 
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglvertexarrayobject.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLBuffer \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglbuffer.h \
+		include/GenericGeo.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QOpenGLWidget \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qopenglwidget.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QWidget \
@@ -1592,6 +1613,7 @@ obj/main.o: src/main.cpp /opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QApplication 
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qmatrix4x4.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qquaternion.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qgenericmatrix.h \
+		include/GenericMat.h \
 		NitronoidSource/include/MaterialPhong.h \
 		ui/ui_mainwindow.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/QVariant \
@@ -1652,8 +1674,7 @@ obj/main.o: src/main.cpp /opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QApplication 
 		NitronoidSource/include/CameraStates.h \
 		include/MainScene.h \
 		include/DataContainer.h \
-		include/GenericGeo.h \
-		include/GenericMat.h \
+		include/ObjectManager.h \
 		include/SceneObject.h \
 		include/BaseObject.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/main.o src/main.cpp
@@ -1740,6 +1761,7 @@ obj/MainScene.o: src/MainScene.cpp include/MainScene.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglvertexarrayobject.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLBuffer \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglbuffer.h \
+		include/GenericGeo.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QOpenGLWidget \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qopenglwidget.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
@@ -1795,10 +1817,10 @@ obj/MainScene.o: src/MainScene.cpp include/MainScene.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qmatrix4x4.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qquaternion.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qgenericmatrix.h \
+		include/GenericMat.h \
 		NitronoidSource/include/MaterialPhong.h \
 		include/DataContainer.h \
-		include/GenericGeo.h \
-		include/GenericMat.h \
+		include/ObjectManager.h \
 		include/SceneObject.h \
 		include/BaseObject.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QTableWidget \
@@ -1954,6 +1976,7 @@ obj/MainWindow.o: src/MainWindow.cpp include/MainWindow.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglvertexarrayobject.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLBuffer \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglbuffer.h \
+		include/GenericGeo.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QOpenGLWidget \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qopenglwidget.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QWidget \
@@ -1972,6 +1995,7 @@ obj/MainWindow.o: src/MainWindow.cpp include/MainWindow.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qmatrix4x4.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qquaternion.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qgenericmatrix.h \
+		include/GenericMat.h \
 		NitronoidSource/include/MaterialPhong.h \
 		ui/ui_mainwindow.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/QVariant \
@@ -2037,7 +2061,12 @@ obj/MainWindow.o: src/MainWindow.cpp include/MainWindow.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qtreeview.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/MainWindow.o src/MainWindow.cpp
 
-obj/ObjectManager.o: src/ObjectManager.cpp 
+obj/ObjectManager.o: src/ObjectManager.cpp include/ObjectManager.h \
+		include/SceneObject.h \
+		include/DataContainer.h \
+		include/GenericGeo.h \
+		include/GenericMat.h \
+		include/BaseObject.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/ObjectManager.o src/ObjectManager.cpp
 
 obj/SceneObject.o: src/SceneObject.cpp include/SceneObject.h \
@@ -2293,6 +2322,7 @@ obj/DemoScene.o: NitronoidSource/src/DemoScene.cpp NitronoidSource/include/DemoS
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglvertexarrayobject.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLBuffer \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglbuffer.h \
+		include/GenericGeo.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QOpenGLWidget \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qopenglwidget.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
@@ -2348,6 +2378,7 @@ obj/DemoScene.o: NitronoidSource/src/DemoScene.cpp NitronoidSource/include/DemoS
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qmatrix4x4.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qquaternion.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qgenericmatrix.h \
+		include/GenericMat.h \
 		NitronoidSource/include/MaterialPhong.h \
 		NitronoidSource/include/MaterialWireframe.h \
 		NitronoidSource/include/MaterialFractal.h \
@@ -2451,7 +2482,8 @@ obj/Material.o: NitronoidSource/src/Material.cpp NitronoidSource/include/Materia
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qquaternion.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qgenericmatrix.h \
 		NitronoidSource/include/Camera.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QMouseEvent
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QMouseEvent \
+		include/GenericMat.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/Material.o NitronoidSource/src/Material.cpp
 
 obj/MaterialBump.o: NitronoidSource/src/MaterialBump.cpp NitronoidSource/include/MaterialBump.h \
@@ -2548,6 +2580,7 @@ obj/MaterialBump.o: NitronoidSource/src/MaterialBump.cpp NitronoidSource/include
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qgenericmatrix.h \
 		NitronoidSource/include/Camera.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QMouseEvent \
+		include/GenericMat.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLTexture \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopengltexture.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qimage.h \
@@ -2577,6 +2610,7 @@ obj/MaterialBump.o: NitronoidSource/src/MaterialBump.cpp NitronoidSource/include
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglvertexarrayobject.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLBuffer \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglbuffer.h \
+		include/GenericGeo.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QOpenGLWidget \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qopenglwidget.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
@@ -2689,6 +2723,7 @@ obj/MaterialEnvMap.o: NitronoidSource/src/MaterialEnvMap.cpp NitronoidSource/inc
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qgenericmatrix.h \
 		NitronoidSource/include/Camera.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QMouseEvent \
+		include/GenericMat.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLTexture \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopengltexture.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qimage.h \
@@ -2718,6 +2753,7 @@ obj/MaterialEnvMap.o: NitronoidSource/src/MaterialEnvMap.cpp NitronoidSource/inc
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglvertexarrayobject.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLBuffer \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglbuffer.h \
+		include/GenericGeo.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QOpenGLWidget \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qopenglwidget.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
@@ -2830,6 +2866,7 @@ obj/MaterialFractal.o: NitronoidSource/src/MaterialFractal.cpp NitronoidSource/i
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qgenericmatrix.h \
 		NitronoidSource/include/Camera.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QMouseEvent \
+		include/GenericMat.h \
 		NitronoidSource/include/Scene.h \
 		NitronoidSource/include/Mesh.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLFunctions \
@@ -2845,6 +2882,7 @@ obj/MaterialFractal.o: NitronoidSource/src/MaterialFractal.cpp NitronoidSource/i
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglvertexarrayobject.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLBuffer \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglbuffer.h \
+		include/GenericGeo.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QOpenGLWidget \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qopenglwidget.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
@@ -2971,6 +3009,7 @@ obj/MaterialPBR.o: NitronoidSource/src/MaterialPBR.cpp NitronoidSource/include/M
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qgenericmatrix.h \
 		NitronoidSource/include/Camera.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QMouseEvent \
+		include/GenericMat.h \
 		NitronoidSource/include/Scene.h \
 		NitronoidSource/include/Mesh.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLFunctions \
@@ -2986,6 +3025,7 @@ obj/MaterialPBR.o: NitronoidSource/src/MaterialPBR.cpp NitronoidSource/include/M
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglvertexarrayobject.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLBuffer \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglbuffer.h \
+		include/GenericGeo.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QOpenGLWidget \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qopenglwidget.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
@@ -3109,6 +3149,7 @@ obj/MaterialPhong.o: NitronoidSource/src/MaterialPhong.cpp NitronoidSource/inclu
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qgenericmatrix.h \
 		NitronoidSource/include/Camera.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QMouseEvent \
+		include/GenericMat.h \
 		NitronoidSource/include/Scene.h \
 		NitronoidSource/include/Mesh.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLFunctions \
@@ -3124,6 +3165,7 @@ obj/MaterialPhong.o: NitronoidSource/src/MaterialPhong.cpp NitronoidSource/inclu
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglvertexarrayobject.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLBuffer \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglbuffer.h \
+		include/GenericGeo.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QOpenGLWidget \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qopenglwidget.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
@@ -3247,6 +3289,7 @@ obj/MaterialWireframe.o: NitronoidSource/src/MaterialWireframe.cpp NitronoidSour
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qgenericmatrix.h \
 		NitronoidSource/include/Camera.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QMouseEvent \
+		include/GenericMat.h \
 		NitronoidSource/include/Scene.h \
 		NitronoidSource/include/Mesh.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLFunctions \
@@ -3262,6 +3305,7 @@ obj/MaterialWireframe.o: NitronoidSource/src/MaterialWireframe.cpp NitronoidSour
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglvertexarrayobject.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLBuffer \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglbuffer.h \
+		include/GenericGeo.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QOpenGLWidget \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qopenglwidget.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
@@ -3370,7 +3414,8 @@ obj/Mesh.o: NitronoidSource/src/Mesh.cpp NitronoidSource/include/Mesh.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLVertexArrayObject \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglvertexarrayobject.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLBuffer \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglbuffer.h
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglbuffer.h \
+		include/GenericGeo.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/Mesh.o NitronoidSource/src/Mesh.cpp
 
 obj/MeshVBO.o: NitronoidSource/src/MeshVBO.cpp NitronoidSource/include/MeshVBO.h \
@@ -3514,6 +3559,7 @@ obj/Scene.o: NitronoidSource/src/Scene.cpp NitronoidSource/include/Scene.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglvertexarrayobject.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QOpenGLBuffer \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglbuffer.h \
+		include/GenericGeo.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QOpenGLWidget \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qopenglwidget.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
@@ -3587,7 +3633,8 @@ obj/Scene.o: NitronoidSource/src/Scene.cpp NitronoidSource/include/Scene.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qvector4d.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qmatrix4x4.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qquaternion.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qgenericmatrix.h
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qgenericmatrix.h \
+		include/GenericMat.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/Scene.o NitronoidSource/src/Scene.cpp
 
 obj/ShaderLib.o: NitronoidSource/src/ShaderLib.cpp NitronoidSource/include/ShaderLib.h \

@@ -14,7 +14,7 @@ public:
     m_id(_id),
     m_name(_name)
   {}
-  ~GenericGeo()=default;
+  virtual ~GenericGeo()=default;
   size_t getGeoID() const;
   std::string getGeoName() const;
 protected:

@@ -24,10 +24,14 @@ public:
   MainScene(
      const std::shared_ptr<Camera> &io_camera,
      const std::shared_ptr<ShaderLib> &io_shaderLib,
+     const std::shared_ptr<DataContainer> &io_dataContainer,
+     const std::shared_ptr<ObjectManager> &io_objManager,
      QWidget *_parent
      ) :
    Scene(io_camera, _parent),
-   m_shaderLib(io_shaderLib)
+   m_shaderLib(io_shaderLib),
+   m_drawData(io_dataContainer),
+   m_objects(io_objManager)
   {}
   //-----------------------------------------------------------------------------------------------------
   /// @brief Default copy constructor.
@@ -112,12 +116,8 @@ private:
     new QOpenGLVertexArrayObject(dynamic_cast<QObject*>(this))
   };
   std::shared_ptr<ShaderLib> m_shaderLib;
-  DataContainer m_drawData;
-  ObjectManager m_objects;
-  //Mesh m_grid;
-
-  //std::vector<std::unique_ptr<SceneObject>> m_sceneObjects;
-  //std::vector<size_t> m_selected;
+  std::shared_ptr<DataContainer> m_drawData;
+  std::shared_ptr<ObjectManager> m_objects;
 
   std::string m_fileLoadCmd;
   size_t m_selectCmd;

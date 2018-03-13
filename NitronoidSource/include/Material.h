@@ -7,8 +7,9 @@
 #include <QKeyEvent>
 #include "ShaderLib.h"
 #include "Camera.h"
+#include "BaseMaterial.h"
 
-class Material
+class Material : public BaseMaterial
 {
 public:
   //-----------------------------------------------------------------------------------------------------
@@ -49,23 +50,23 @@ public:
   //-----------------------------------------------------------------------------------------------------
   /// @brief Used to intialise a passed shader, subclasses must call this base function.
   //-----------------------------------------------------------------------------------------------------
-  virtual void init() = 0;
+  virtual void init() override;
   //-----------------------------------------------------------------------------------------------------
   /// @brief Used to set the name of the shader that this material should be applied to.
   //-----------------------------------------------------------------------------------------------------
-  void setShaderName(const std::string &_name);
+  virtual void setShaderName(const std::string &_name)override;
   //-----------------------------------------------------------------------------------------------------
   /// @brief Used to update shader values.
   //-----------------------------------------------------------------------------------------------------
-  virtual void update() = 0;
+  virtual void update() override;
   //-----------------------------------------------------------------------------------------------------
   /// @brief Used to set this as the active shader, and pass the uniform values stored in this material.
   //-----------------------------------------------------------------------------------------------------
-  void apply();
+  virtual void apply() override;
   //-----------------------------------------------------------------------------------------------------
   /// @brief The file name of the json shader file that this material works with.
   //-----------------------------------------------------------------------------------------------------
-  virtual const char* shaderFileName() const = 0;
+  virtual const char* shaderFileName() const override;
 
   virtual void handleKey(QKeyEvent* io_event, QOpenGLContext* io_context);
 

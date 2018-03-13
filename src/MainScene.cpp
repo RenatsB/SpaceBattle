@@ -10,14 +10,14 @@
 //-----------------------------------------------------------------------------------------------------
 void MainScene::writeMeshAttributes(size_t _id)
 {
-  const auto& mesh = *m_drawData.instance()->geoFind(_id);
+  const auto& mesh = static_cast<Mesh*>(m_drawData->geoFind(_id));
 
   using namespace MeshAttributes;
   for (const auto buff : {VERTEX, UV, NORMAL})
   {
-    m_meshVBO.write(mesh.getAttribData(buff), buff);
+    m_meshVBO.write(mesh->getAttribData(buff), buff);
   }
-  m_meshVBO.setIndices(mesh.getIndicesData());
+  m_meshVBO.setIndices(mesh->getIndicesData());
 }
 //-----------------------------------------------------------------------------------------------------
 void MainScene::setAttributeBuffers()
@@ -35,9 +35,9 @@ void MainScene::setAttributeBuffers()
 //-----------------------------------------------------------------------------------------------------
 void MainScene::initGeo()
 {
-  m_drawData.instance()->geoReserve(2);
-  m_drawData.instance()->geoFind(0)->load("models/Grid.obj");
-  m_drawData.instance()->geoFind(1)->load("models/cube.obj");
+  m_drawData->geoReserve(2);
+  static_cast<Mesh*>(m_drawData->geoFind(0))->load("models/Grid.obj");
+  static_cast<Mesh*>(m_drawData->geoFind(1))->load("models/cube.obj");
   // Create and bind our Vertex Array Object
   m_vao->create();
   m_vao->bind();
@@ -49,7 +49,7 @@ void MainScene::initGeo()
 void MainScene::updateBuffer(const size_t _geoID, const size_t _matID)
 {
   makeCurrent();
-  auto mesh = m_drawData.instance()->geoFind(_geoID);
+  auto mesh = static_cast<Mesh*>(m_drawData->geoFind(_geoID));
   m_meshVBO.reset(
         sizeof(GLushort),
         mesh->getNIndicesData(),
@@ -64,23 +64,23 @@ void MainScene::updateBuffer(const size_t _geoID, const size_t _matID)
 //-----------------------------------------------------------------------------------------------------
 void MainScene::initMaterials()
 {
-  m_drawData.instance()->matReserve(2);
-  m_drawData.instance()->matPut(new MaterialWireframe(m_camera, m_shaderLib, &m_matrices));
-  m_drawData.instance()->matPut(new MaterialPhong(m_camera, m_shaderLib, &m_matrices));
-  for (size_t i = 0; i < m_drawData.instance()->matSize(); ++i)
+  m_drawData->matReserve(2);
+  m_drawData->matPut(new MaterialWireframe(m_camera, m_shaderLib, &m_matrices));
+  m_drawData->matPut(new MaterialPhong(m_camera, m_shaderLib, &m_matrices));
+  for (size_t i = 0; i < m_drawData->matSize(); ++i)
   {
-    auto mat = m_drawData.instance()->matFind(i);
+    auto mat = m_drawData->matFind(i);
     auto name = m_shaderLib->loadShaderProg(mat->shaderFileName());
     mat->setShaderName(name);
     mat->apply();
   }
-  m_drawData.instance()->matFind(0)->apply();
+  m_drawData->matFind(0)->apply();
 }
 
 void MainScene::useMaterial(const size_t _id)
 {
   makeCurrent();
-  m_drawData.instance()->matFind(_id)->apply();
+  m_drawData->matFind(_id)->apply();
   setAttributeBuffers();
 }
 
@@ -113,36 +113,36 @@ void MainScene::renderScene()
   mat4 t2=m_matrices[PROJECTION];
   mat4 t3=m_matrices[NORMAL];
 
-  m_drawData.instance()->matFind(0)->update();
+  m_drawData->matFind(0)->update();
   m_meshVBO.use();
   updateBuffer(0,0);
-  glDrawElements(GL_TRIANGLES, m_drawData.instance()->geoFind(0)->getNIndicesData(), GL_UNSIGNED_SHORT, nullptr);
+  glDrawElements(GL_TRIANGLES, m_drawData->geoFind(0)->getNIndicesData(), GL_UNSIGNED_SHORT, nullptr);
   for(size_t i=0; i<m_sceneObjects.size(); ++i)
   {
     if(m_sceneObjects.at(i).get()->isActive())
     {
-      m_sceneObjects.at(i).get()->setGeometry(i%(m_drawData.instance()->geosize()-1)+1);
-      m_sceneObjects.at(i).get()->setMat(i%(m_drawData.instance()->matSize()-1)+1);
+      m_sceneObjects.at(i).get()->setGeometry(i%(m_drawData->geosize()-1)+1);
+      m_sceneObjects.at(i).get()->setMat(i%(m_drawData->matSize()-1)+1);
       m_matrices[MODEL_VIEW] = m_sceneObjects.at(i).get()->getMVmatrix();
       m_matrices[PROJECTION] = m_camera->projMatrix() * m_camera->viewMatrix() * m_matrices[MODEL_VIEW];
       m_matrices[NORMAL] = glm::inverse(glm::transpose(m_matrices[MODEL_VIEW]));
       if(m_wireframe)
       {
-        m_drawData.instance()->matFind(m_sceneObjects.at(i).get()->matFind())->update();
+        m_drawData->matFind(m_sceneObjects.at(i).get()->matFind())->update();
         updateBuffer(m_sceneObjects.at(i).get()->getGeo(), 0);
-        glDrawElements(GL_TRIANGLES, m_drawData.instance()->geoFind(m_sceneObjects.at(i).get()->getGeo())->getNIndicesData(), GL_UNSIGNED_SHORT, nullptr);
+        glDrawElements(GL_TRIANGLES, m_drawData->geoFind(m_sceneObjects.at(i).get()->getGeo())->getNIndicesData(), GL_UNSIGNED_SHORT, nullptr);
       }
       else
       {
-        m_drawData.instance()->matFind(m_sceneObjects.at(i).get()->matFind())->update();
+        m_drawData->matFind(m_sceneObjects.at(i).get()->matFind())->update();
         updateBuffer(m_sceneObjects.at(i).get()->getGeo(), m_sceneObjects.at(i).get()->matFind());
-        glDrawElements(GL_TRIANGLES, m_drawData.instance()->geoFind(m_sceneObjects.at(i).get()->getGeo())->getNIndicesData(), GL_UNSIGNED_SHORT, nullptr);
+        glDrawElements(GL_TRIANGLES, m_drawData->geoFind(m_sceneObjects.at(i).get()->getGeo())->getNIndicesData(), GL_UNSIGNED_SHORT, nullptr);
 
         if(isSelected(i))
         {
           m_drawData.instance()->matFind(m_sceneObjects.at(i).get()->matFind())->update();
           updateBuffer(m_sceneObjects.at(i).get()->getGeo(), 0);
-          glDrawElements(GL_TRIANGLES, m_drawData.instance()->geoFind(m_sceneObjects.at(i).get()->getGeo())->getNIndicesData(), GL_UNSIGNED_SHORT, nullptr);
+          glDrawElements(GL_TRIANGLES, m_drawData->geoFind(m_sceneObjects.at(i).get()->getGeo())->getNIndicesData(), GL_UNSIGNED_SHORT, nullptr);
         }
       }
     }
@@ -157,39 +157,6 @@ void MainScene::createSceneObject(std::string _name, glm::vec3 _pos, glm::vec3 _
   m_sceneObjects.emplace_back(new SceneObject(_name, _pos, _rot, _sc, _geo, _mat));
 }
 //-----------------------------------------------------------------------------------------------------
-void MainScene::selectObject(const size_t _id)
-{
-  if(m_selected.empty())
-  {
-    m_selected.push_back(_id);
-  }
-  else
-  {
-    bool check = false;
-    for(auto it = m_selected.begin(); it<m_selected.end(); ++it)
-    {
-      if(_id == *it.base())
-      {
-        check = true;
-        break;
-      }
-    }
-    if(!check)
-      m_selected.push_back(_id);
-  }
-}
-void MainScene::deselectObject(const size_t _id)
-{
-  for(auto it = m_selected.begin(); it<m_selected.end(); ++it)
-  {
-    if(*it.base() == _id)
-    {
-      m_selected.erase(it);
-      break;
-    }
-  }
-}
-
 void MainScene::select()
 {
   if(m_selected.size() < m_sceneObjects.size())
@@ -221,49 +188,6 @@ bool MainScene::isSelected(const size_t _id) const
       return true;
   }
   return false;
-}
-
-void MainScene::move(unsigned short _axis, float _val)
-{
-
-  for(auto obj : m_selected)
-  {
-    m_sceneObjects.at(obj)->moveObject(constructTranslateVector(_axis, _val));
-  }
-}
-
-void MainScene::scale(unsigned short _axis, float _val)
-{
-
-  for(auto obj : m_selected)
-  {
-    m_sceneObjects.at(obj)->scaleObject(constructTranslateVector(_axis, _val));
-  }
-}
-
-void MainScene::rotate(unsigned short _axis, float _val)
-{
-
-  for(auto obj : m_selected)
-  {
-    m_sceneObjects.at(obj)->rotateObject(constructTranslateVector(_axis, _val));
-  }
-}
-
-vec3 MainScene::constructTranslateVector(unsigned short _axis, float _val) const
-{
-  vec3 ret(0,0,0);
-  switch(_axis)
-  {
-    case 0 : {ret.x = _val; break;}
-    case 1 : {ret.y = _val; break;}
-    case 2 : {ret.z = _val; break;}
-    case 3 : {ret.x = _val; ret.y = _val; break;}
-    case 4 : {ret.y = _val; ret.z = _val;break;}
-    case 6 : {ret.x = _val; ret.z = _val;break;}
-    default : {ret.x = _val; ret.y = _val; ret.z = _val;break;}
-  }
-  return ret;
 }
 
 void MainScene::changeMat(size_t _new)
@@ -320,37 +244,37 @@ void MainScene::deduceCreateMat(QString& _name)
   switch(matType)
   {
   case 0:{
-    m_drawData.instance()->matReserve(1);
-    m_drawData.instance()->matPut(new MaterialWireframe(m_camera, m_shaderLib, &m_matrices));
-    auto mat = m_drawData.instance()->matFind(m_drawData.instance()->matSize()-1);
+    m_drawData->matReserve(1);
+    m_drawData->matPut(new MaterialWireframe(m_camera, m_shaderLib, &m_matrices));
+    auto mat = m_drawData->matFind(m_drawData->matSize()-1);
     auto name = m_shaderLib->loadShaderProg(mat->shaderFileName());
     mat->setShaderName(name);
     break;}
   case 1:{
-    m_drawData.instance()->matReserve(1);
-    m_drawData.instance()->matPut(new MaterialPhong(m_camera, m_shaderLib, &m_matrices));
-    auto mat = m_drawData.instance()->matFind(m_drawData.instance()->matSize()-1);
+    m_drawData->matReserve(1);
+    m_drawData->matPut(new MaterialPhong(m_camera, m_shaderLib, &m_matrices));
+    auto mat = m_drawData->matFind(m_drawData->matSize()-1);
     auto name = m_shaderLib->loadShaderProg(mat->shaderFileName());
     mat->setShaderName(name);
     break;}
   case 3:{
-    m_drawData.instance()->matReserve(1);
-    m_drawData.instance()->matPut(new MaterialBump(m_camera, m_shaderLib, &m_matrices));
-    auto mat = m_drawData.instance()->matFind(m_drawData.instance()->matSize()-1);
+    m_drawData->matReserve(1);
+    m_drawData->matPut(new MaterialBump(m_camera, m_shaderLib, &m_matrices));
+    auto mat = m_drawData->matFind(m_drawData->matSize()-1);
     auto name = m_shaderLib->loadShaderProg(mat->shaderFileName());
     mat->setShaderName(name);
     break;}
   case 4:{
-    m_drawData.instance()->matReserve(1);
-    m_drawData.instance()->matPut(new MaterialFractal(m_camera, m_shaderLib, &m_matrices));
-    auto mat = m_drawData.instance()->matFind(m_drawData.instance()->matSize()-1);
+    m_drawData->matReserve(1);
+    m_drawData->matPut(new MaterialFractal(m_camera, m_shaderLib, &m_matrices));
+    auto mat = m_drawData->matFind(m_drawData)->matSize()-1);
     auto name = m_shaderLib->loadShaderProg(mat->shaderFileName());
     mat->setShaderName(name);
     break;}
   case 5:{
-    m_drawData.instance()->matReserve(1);
-    m_drawData.instance()->matPut(new MaterialEnvMap(m_camera, m_shaderLib, &m_matrices));
-    auto mat = m_drawData.instance()->matFind(m_drawData.instance()->matSize()-1);
+    m_drawData->matReserve(1);
+    m_drawData->matPut(new MaterialEnvMap(m_camera, m_shaderLib, &m_matrices));
+    auto mat = m_drawData->matFind(m_drawData->matSize()-1);
     auto name = m_shaderLib->loadShaderProg(mat->shaderFileName());
     mat->setShaderName(name);
     break;}
