@@ -28,6 +28,7 @@ public:
 private:
   void checkObjectIDs();
   size_t getFreeID() const;
+  std::vector<size_t> getCurrentIDs()const;
   vec3 constructTranslateVector(unsigned short _axis, float _val) const;
 private:
   std::vector<std::unique_ptr<SceneObject>> m_sceneObjects;

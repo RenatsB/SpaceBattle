@@ -1,5 +1,11 @@
 #include "ObjectManager.h"
 
+void ObjectManager::createSceneObject(std::string _name, vec3 _pos, vec3 _rot, vec3 _sc, size_t _geo, size_t _mat)
+{
+  m_sceneObjects.emplace_back(new SceneObject(_name, _pos, _rot, _sc, _geo, _mat));
+  checkObjectIDs();
+}
+
 void ObjectManager::selectObject(const size_t _id)
 {
   if(m_selected.empty())
@@ -153,17 +159,30 @@ size_t ObjectManager::getObjectID(const std::string &_name) const
   return id;
 }
 
+std::vector<size_t> ObjectManager::getCurrentIDs()const
+{
+  std::vector<size_t> ret;
+  ret.clear();
+  ret.reserve(m_sceneObjects.size());
+  for(size_t i=0; i<m_sceneObjects.size(); ++i)
+  {
+    ret.push_back(m_sceneObjects.at(i)->getID());
+  }
+  return ret;
+}
+
 void ObjectManager::checkObjectIDs()
 {
-  size_t currentID;
-  for(auto itA = m_sceneObjects.begin(); itA < m_sceneObjects.end(); ++itA)
+  std::vector<size_t> currentUsed = getCurrentIDs();
+  for(size_t m =0; m<currentUsed.size(); ++m)
   {
-    currentID = itA.base()->get()->getID();
-    for(auto itB = m_sceneObjects.begin()+1; itB < m_sceneObjects.end(); ++itB)
+    for(size_t n=m+1; n<currentUsed.size(); ++n)
     {
-      if(itB.base()->get()->getID()==currentID) //match, need to fix
+      if(currentUsed[m] == currentUsed[n])
       {
-        itB.base()->get()->changeID(getFreeID());
+        size_t tmp = getFreeID();
+        currentUsed[n] = tmp;
+        m_sceneObjects[n]->changeID(tmp);
       }
     }
   }
@@ -172,12 +191,14 @@ void ObjectManager::checkObjectIDs()
 size_t ObjectManager::getFreeID() const
 {
   size_t newID=0;
-  for(auto it = m_sceneObjects.begin(); it < m_sceneObjects.end(); ++it)
+  std::vector<size_t> currentUsed = getCurrentIDs();
+  for(auto n : currentUsed)
   {
-    if(it.base()->get()->getID()==newID)
+    if(n==newID) //match, need a different id
     {
-      ++newID; //increase current value
-      it = m_sceneObjects.begin(); //start over to check new value
+      ++newID;
+      if(n+1>newID)
+        break;
     }
   }
   return newID;
@@ -187,9 +208,9 @@ SceneObject* ObjectManager::getObject(size_t _id) const
 {
   for(auto it = m_sceneObjects.begin(); it<m_sceneObjects.end(); ++it)
   {
-    if(_id == it.base()->get()->getID())
+    if(_id == it->get()->getID())
     {
-      return it.base()->get();
+      return it->get();
     }
   }
   return nullptr;
@@ -210,4 +231,16 @@ SceneObject* ObjectManager::getObject(std::string _name) const
 size_t ObjectManager::getObjectCount() const
 {
   return m_sceneObjects.size();
+}
+
+bool ObjectManager::isSelected(const size_t _id)const
+{
+  for(auto it = m_selected.begin(); it<m_selected.end(); ++it)
+  {
+    if(*it.base() == _id)
+    {
+      return true;
+    }
+  }
+  return false;
 }

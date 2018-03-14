@@ -17,7 +17,7 @@ public :
     m_pos(_pos),
     m_rot(_rot),
     m_scale(_sc),
-    m_tag(_name),
+    m_name(_name),
     m_MVmatrix(1)
   {}
   virtual ~BaseObject()=default;
@@ -48,10 +48,10 @@ protected :
   vec3 m_pos = glm::vec3(0,0,0);
   vec3 m_rot = glm::vec3(0,0,0);
   vec3 m_scale = glm::vec3(1,1,1);
-  size_t m_id;
+  size_t m_id=0;
   BaseObject* m_parent = nullptr;
   std::vector<BaseObject*> m_children;
-  std::string m_tag = "SceneObject";
+  std::string m_name = "SceneObject";
   bool m_isActive = true;
   mat4 m_MVmatrix {1};
 };

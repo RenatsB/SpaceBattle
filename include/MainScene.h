@@ -73,16 +73,16 @@ public slots:
   void move(unsigned short _axis, float _val);
   void scale(unsigned short _axis, float _val);
   void rotate(unsigned short _axis, float _val);
-  void changeMat(size_t _new);
-  void changeGeo(size_t _new);
+  //void changeMat(size_t _new);
+  //void changeGeo(size_t _new);
   void loadFile();
   void receiveSelCmd(QString _current);
   void receiveFileCmd(QString _current);
   void receiveTableInfo(QTableWidgetItem* _ref);
   void wireframe(bool _value);
 
-signals:
-  void addObjectName(QString _new, QString _parent);
+//signals:
+  //void addObjectName(QString _new, QString _parent);
 
 private:
   void createSceneObject(std::string _name="SceneObject", vec3 _pos=vec3(0,0,0), vec3 _rot=vec3(0,0,0), vec3 _sc=vec3(1,1,1), size_t _geo=1, size_t _mat=0);

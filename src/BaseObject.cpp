@@ -110,3 +110,8 @@ void BaseObject::setParent(BaseObject* _new)
   m_parent = _new;
   m_parent->addChild(this);
 }
+
+std::string BaseObject::getName() const
+{
+  return m_name;
+}

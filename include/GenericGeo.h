@@ -14,6 +14,10 @@ public:
     m_id(_id),
     m_name(_name)
   {}
+  GenericGeo(const GenericGeo&) = default;
+  GenericGeo& operator=(const GenericGeo&) = default;
+  GenericGeo(GenericGeo&&) = default;
+  GenericGeo& operator=(GenericGeo&&) = default;
   virtual ~GenericGeo()=default;
   size_t getGeoID() const;
   std::string getGeoName() const;

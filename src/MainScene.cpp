@@ -203,6 +203,11 @@ void MainScene::receiveFileCmd(QString _current)
   m_fileLoadCmd = _current.toStdString();
 }
 
+void MainScene::receiveSelCmd(QString _current)
+{
+  m_selectCmd = _current.toStdString();
+}
+
 void MainScene::receiveTableInfo(QTableWidgetItem* _ref)
 {
   unsigned short ax = static_cast<unsigned short>(_ref->column());
@@ -386,14 +391,20 @@ void MainScene::wireframe(bool _value)
   m_wireframe = _value;
 }
 
+void MainScene::move(unsigned short _axis, float _val)
+{
+  m_objects->move(_axis, _val);
+}
 
+void MainScene::rotate(unsigned short _axis, float _val)
+{
+  m_objects->rotate(_axis, _val);
+}
 
-
-
-
-
-
-
+void MainScene::scale(unsigned short _axis, float _val)
+{
+  m_objects->scale(_axis, _val);
+}
 
 
 

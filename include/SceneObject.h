@@ -9,10 +9,10 @@
 class SceneObject : public BaseObject
 {
 public :
-  SceneObject(std::string _name = "SceneObject", glm::vec3 _pos=glm::vec3(0,0,0), glm::vec3 _rot=glm::vec3(0,0,0), glm::vec3 _sc=glm::vec3(1,1,1), GenericGeo* _geo=new GenericGeo, GenericMat* _mat=new GenericMat):
+  SceneObject(std::string _name = "SceneObject", glm::vec3 _pos=glm::vec3(0,0,0), glm::vec3 _rot=glm::vec3(0,0,0), glm::vec3 _sc=glm::vec3(1,1,1), size_t _geo=1, size_t _mat=0):
     BaseObject(_name, _pos, _rot, _sc),
-    m_geometry(_geo),
-    m_material(_mat)
+    m_geometry(new GenericGeo(_geo)),
+    m_material(new GenericMat(_mat))
   {}
 
   ~SceneObject() override = default;
@@ -24,8 +24,8 @@ public :
   size_t matFind() const;
   void setMat(size_t _new);
 private :
-  std::unique_ptr<GenericGeo> m_geometry;
-  std::unique_ptr<GenericMat> m_material;
+  std::shared_ptr<GenericGeo> m_geometry;
+  std::shared_ptr<GenericMat> m_material;
 };
 
 #endif

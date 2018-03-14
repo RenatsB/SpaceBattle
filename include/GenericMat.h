@@ -14,6 +14,10 @@ public:
     m_id(_id),
     m_name(_name)
   {}
+  GenericMat(const GenericMat&) = default;
+  GenericMat& operator=(const GenericMat&) = default;
+  GenericMat(GenericMat&&) = default;
+  GenericMat& operator=(GenericMat&&) = default;
   ~GenericMat()=default;
   size_t getMatID() const;
   std::string getMatName() const;

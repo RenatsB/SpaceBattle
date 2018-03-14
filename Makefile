@@ -1384,7 +1384,7 @@ compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean compiler_ui
 
 ####### Compile
 
-obj/BaseMaterial.o: src/BaseMaterial.cpp 
+obj/BaseMaterial.o: src/BaseMaterial.cpp include/BaseMaterial.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/BaseMaterial.o src/BaseMaterial.cpp
 
 obj/BaseMesh.o: src/BaseMesh.cpp 

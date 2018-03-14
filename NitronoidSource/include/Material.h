@@ -50,7 +50,7 @@ public:
   //-----------------------------------------------------------------------------------------------------
   /// @brief Used to intialise a passed shader, subclasses must call this base function.
   //-----------------------------------------------------------------------------------------------------
-  virtual void init() override;
+  virtual void init() override=0;
   //-----------------------------------------------------------------------------------------------------
   /// @brief Used to set the name of the shader that this material should be applied to.
   //-----------------------------------------------------------------------------------------------------
@@ -58,7 +58,7 @@ public:
   //-----------------------------------------------------------------------------------------------------
   /// @brief Used to update shader values.
   //-----------------------------------------------------------------------------------------------------
-  virtual void update() override;
+  virtual void update() override=0;
   //-----------------------------------------------------------------------------------------------------
   /// @brief Used to set this as the active shader, and pass the uniform values stored in this material.
   //-----------------------------------------------------------------------------------------------------
@@ -66,7 +66,7 @@ public:
   //-----------------------------------------------------------------------------------------------------
   /// @brief The file name of the json shader file that this material works with.
   //-----------------------------------------------------------------------------------------------------
-  virtual const char* shaderFileName() const override;
+  virtual const char* shaderFileName() const override=0;
 
   virtual void handleKey(QKeyEvent* io_event, QOpenGLContext* io_context);
 
