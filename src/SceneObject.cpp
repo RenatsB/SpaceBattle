@@ -17,9 +17,24 @@ size_t SceneObject::getID () const
   return m_id;
 }
 
-void SceneObject::setGeometry(size_t _new)
+void SceneObject::setGeo(size_t _new)
 {
   m_geometry->setGeoID(_new);
+}
+
+void SceneObject::setGeo(std::string _name)
+{
+  m_geometry->setGeoName(_name);
+}
+
+void SceneObject::setMat(size_t _new)
+{
+  m_material->setMatID(_new);
+}
+
+void SceneObject::setMat(std::string _name)
+{
+  m_material->setMatName(_name);
 }
 
 size_t SceneObject::getGeo() const
@@ -30,9 +45,4 @@ size_t SceneObject::getGeo() const
 size_t SceneObject::matFind() const
 {
   return m_material->getMatID();
-}
-
-void SceneObject::setMat(size_t _new)
-{
-  m_material->setMatID(_new);
 }

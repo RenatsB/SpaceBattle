@@ -22,13 +22,32 @@ public :
   BaseMaterial* matFind(const size_t _id) const;
   BaseMaterial* matFind(const std::string _name) const;
   void matPut(BaseMaterial* _new);
+  void matPut(BaseMaterial* _new, const std::string _name);
   void geoPut(BaseMesh* _new);
+  void geoPut(BaseMesh* _new, const std::string _name);
   void matRemove(const std::string _name);
   void matRemove(const size_t _id);
   void geoRemove(const std::string _name);
   void geoRemove(const size_t _id);
+  void setGeoName(const size_t _id, const std::string _new);
+  void setMatName(const size_t _id, const std::string _new);
   std::vector<std::string> getGeoNames() const;
   std::vector<std::string> getMatNames() const;
+  size_t getMatID(const std::string &_name) const;
+  size_t getGeoID(const std::string &_name) const;
+  size_t getMatName(const size_t _id) const;
+  size_t getGeoName(const size_t _id) const;
+private:
+  void checkIDs();
+  void checkGeoIDs();
+  void checkMatIDs();
+  size_t getFreeGeoID() const;
+  size_t getFreeMatID() const;
+  void checkNames();
+  void checkMatNames();
+  void checkGeoNames();
+  std::vector<size_t> getCurrentGeoIDs()const;
+  std::vector<size_t> getCurrentMatIDs()const;
 
 private :
   std::vector<std::unique_ptr<BaseMesh>> m_geo;

@@ -13,6 +13,7 @@ void MainWindow::init(const std::shared_ptr<Scene> &io_scene)
   connect(m_ui.loadGeo, SIGNAL( clicked(bool)), m_scene.get(), SLOT(loadFile()));
   connect(m_ui.tableWidget, SIGNAL( itemChanged(QTableWidgetItem*)), m_scene.get(), SLOT(receiveTableInfo(QTableWidgetItem*)));
   connect(m_ui.m_wireframe, SIGNAL( clicked(bool)), m_scene.get(), SLOT(wireframe(bool)));
+  connect(m_ui.m_selectLine, SIGNAL( textEdited(QString)), m_scene.get(), SLOT(receiveSelCmd(QString)));
   //connect(m_ui.loadGeo, SIGNAL( clicked(bool)), this, SLOT(updateLoadedList()));
 }
 

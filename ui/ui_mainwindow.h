@@ -53,7 +53,7 @@ public:
     QListView *fileExplorer;
     QPushButton *loadGeo;
     QLabel *label_2;
-    QLineEdit *m_slectLine;
+    QLineEdit *m_selectLine;
     QMenuBar *menubar;
 
     void setupUi(QMainWindow *MainWindow)
@@ -202,10 +202,10 @@ public:
 
         gridLayout_2->addWidget(label_2, 12, 1, 1, 1);
 
-        m_slectLine = new QLineEdit(s_drawGB);
-        m_slectLine->setObjectName(QStringLiteral("m_slectLine"));
+        m_selectLine = new QLineEdit(s_drawGB);
+        m_selectLine->setObjectName(QStringLiteral("m_selectLine"));
 
-        gridLayout_2->addWidget(m_slectLine, 1, 1, 1, 1);
+        gridLayout_2->addWidget(m_selectLine, 1, 1, 1, 1);
 
 
         s_mainWindowGridLayout->addWidget(s_drawGB, 2, 5, 1, 1);

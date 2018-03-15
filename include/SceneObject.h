@@ -19,10 +19,12 @@ public :
   virtual void reset() override;
   virtual void changeID(const size_t _newID) override;
   virtual size_t getID() const override;
-  void setGeometry(size_t _new);
+  void setGeo(size_t _new);
+  void setGeo(std::string _name);
+  void setMat(size_t _new);
+  void setMat(std::string _name);
   size_t getGeo() const;
   size_t matFind() const;
-  void setMat(size_t _new);
 private :
   std::shared_ptr<GenericGeo> m_geometry;
   std::shared_ptr<GenericMat> m_material;

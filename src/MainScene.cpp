@@ -39,8 +39,8 @@ void MainScene::initGeo()
   Mesh* temp2= new Mesh;
   temp1->load("models/Grid.obj");
   temp2->load("models/cube.obj");
-  m_drawData->geoPut(temp1);
-  m_drawData->geoPut(temp2);
+  m_drawData->geoPut(temp1, "Grid");
+  m_drawData->geoPut(temp2, "Cube");
   // Create and bind our Vertex Array Object
   m_vao->create();
   m_vao->bind();
@@ -75,6 +75,7 @@ void MainScene::initMaterials()
   {
     auto mat = m_drawData->matFind(i);
     auto name = m_shaderLib->loadShaderProg(mat->shaderFileName());
+    mat->setName(name);
     mat->setShaderName(name);
     mat->apply();
   }
@@ -97,13 +98,12 @@ void MainScene::init()
   for(size_t i = 0; i<1000; ++i)
     {
       createSceneObject("TEST"+std::to_string(i));
-      m_objects->getObject(i)->setGeometry(1);
+      m_objects->getObject(i)->setGeo(1);
       m_objects->getObject(i)->setMat(1);
       m_objects->getObject(i)->setScale(glm::vec3(0.2f,0.2f,0.2f));
       m_objects->getObject(i)->setPosition(glm::vec3(sinf(glm::radians(static_cast<float>(i*30))),static_cast<float>(i/32.0f),cosf(glm::radians(static_cast<float>(i*30)))));
       m_objects->getObject(i)->setRotation(vec3(0.f, 30*i, 0.f));
     }
-  //m_sceneObjects.at(1)->setParent(m_sceneObjects.at(0).get());
 
 }
 
@@ -125,7 +125,7 @@ void MainScene::renderScene()
   {
     if(m_objects->objectAt(i)->isActive())
     {
-      m_objects->objectAt(i)->setGeometry(i%(m_drawData->geosize()-1)+1);
+      m_objects->objectAt(i)->setGeo(i%(m_drawData->geosize()-1)+1);
       m_objects->objectAt(i)->setMat(i%(m_drawData->matSize()-1)+1);
       m_matrices[MODEL_VIEW] = m_objects->objectAt(i)->getMVmatrix();
       m_matrices[PROJECTION] = m_camera->projMatrix() * m_camera->viewMatrix() * m_matrices[MODEL_VIEW];
@@ -163,40 +163,91 @@ void MainScene::createSceneObject(std::string _name, glm::vec3 _pos, glm::vec3 _
 //-----------------------------------------------------------------------------------------------------
 void MainScene::select()
 {
-  if(m_selectCmd.empty())
-  {
-    m_objects->selectObject("");
-  }
-  else
-  {
-
-  }
+  m_objects->selectObject(deduceSelectCmd(m_selectCmd));
 }
 
 void MainScene::deselect()
 {
-  if(m_selectCmd.empty())
+  m_objects->deselectObject(deduceSelectCmd(m_selectCmd));
+}
+
+void MainScene::changeMat(QString _cmd)
+{
+  std::string normal = _cmd.toStdString();
+  bool check = false; //assuming a numeric value
+  for(size_t i=0; i< _cmd.size(); ++i)
   {
-    m_objects->deselectObject("");
+    if(!check)
+      switch(normal.at(i))
+      {
+      case '0':{break;}
+      case '1':{break;}
+      case '2':{break;}
+      case '3':{break;}
+      case '4':{break;}
+      case '5':{break;}
+      case '6':{break;}
+      case '7':{break;}
+      case '8':{break;}
+      case '9':{break;}
+      default:{check=true;break;} //character is not a number => we have a name
+      }
+  }
+  if(check)
+  {
+    m_objects->changeMat(normal);
+  }
+  else
+  {
+    if(_cmd.toUInt() < m_drawData->matSize())
+    {
+      m_objects->changeMat(_cmd.toUInt());
+    }
+    else
+    {
+      m_objects->changeMat(normal);
+    }
   }
 }
 
-
-/*void MainScene::changeMat(size_t _new)
+void MainScene::changeGeo(QString _cmd)
 {
-  for(auto obj : m_selected)
+  std::string normal = _cmd.toStdString();
+  bool check = false; //assuming a numeric value
+  for(size_t i=0; i< _cmd.size(); ++i)
   {
-    m_sceneObjects.at(obj)->setMat(_new);
+    if(!check)
+      switch(normal.at(i))
+      {
+      case '0':{break;}
+      case '1':{break;}
+      case '2':{break;}
+      case '3':{break;}
+      case '4':{break;}
+      case '5':{break;}
+      case '6':{break;}
+      case '7':{break;}
+      case '8':{break;}
+      case '9':{break;}
+      default:{check=true;break;} //character is not a number => we have a name
+      }
+  }
+  if(check)
+  {
+    m_objects->changeGeo(normal);
+  }
+  else
+  {
+    if(_cmd.toUInt() < m_drawData->geosize())
+    {
+      m_objects->changeGeo(_cmd.toUInt());
+    }
+    else
+    {
+      m_objects->changeGeo(normal);
+    }
   }
 }
-
-void MainScene::changeGeo(size_t _new)
-{
-  for(auto obj : m_selected)
-  {
-    m_sceneObjects.at(obj)->setGeometry(_new);
-  }
-}*/
 
 void MainScene::receiveFileCmd(QString _current)
 {
@@ -205,7 +256,12 @@ void MainScene::receiveFileCmd(QString _current)
 
 void MainScene::receiveSelCmd(QString _current)
 {
-  m_selectCmd = _current.toStdString();
+  m_selectCmd = _current;
+}
+
+void MainScene::receiveModCmd(QString _current)
+{
+  m_modCmd = _current;
 }
 
 void MainScene::receiveTableInfo(QTableWidgetItem* _ref)
@@ -244,30 +300,35 @@ void MainScene::deduceCreateMat(QString& _name)
     m_drawData->matPut(new MaterialWireframe(m_camera, m_shaderLib, &m_matrices));
     auto mat = m_drawData->matFind(m_drawData->matSize()-1);
     auto name = m_shaderLib->loadShaderProg(mat->shaderFileName());
+    mat->setName(name);
     mat->setShaderName(name);
     break;}
   case 1:{
     m_drawData->matPut(new MaterialPhong(m_camera, m_shaderLib, &m_matrices));
     auto mat = m_drawData->matFind(m_drawData->matSize()-1);
     auto name = m_shaderLib->loadShaderProg(mat->shaderFileName());
+    mat->setName(name);
     mat->setShaderName(name);
     break;}
   case 3:{
     m_drawData->matPut(new MaterialBump(m_camera, m_shaderLib, &m_matrices));
     auto mat = m_drawData->matFind(m_drawData->matSize()-1);
     auto name = m_shaderLib->loadShaderProg(mat->shaderFileName());
+    mat->setName(name);
     mat->setShaderName(name);
     break;}
   case 4:{
     m_drawData->matPut(new MaterialFractal(m_camera, m_shaderLib, &m_matrices));
     auto mat = m_drawData->matFind(m_drawData->matSize()-1);
     auto name = m_shaderLib->loadShaderProg(mat->shaderFileName());
+    mat->setName(name);
     mat->setShaderName(name);
     break;}
   case 5:{
     m_drawData->matPut(new MaterialEnvMap(m_camera, m_shaderLib, &m_matrices));
     auto mat = m_drawData->matFind(m_drawData->matSize()-1);
     auto name = m_shaderLib->loadShaderProg(mat->shaderFileName());
+    mat->setName(name);
     mat->setShaderName(name);
     break;}
   case 2:{
@@ -284,6 +345,7 @@ void MainScene::deduceCreateMat(QString& _name)
       m_drawData->matPut(new MaterialPBR(m_camera, m_shaderLib, &m_matrices, {a, b, c}, 1.0f, 1.0f, 0.5f, 1.0f));
       auto mat = m_drawData->matFind(m_drawData->matSize()-1);
       auto name = m_shaderLib->loadShaderProg(mat->shaderFileName());
+      mat->setName(name);
       mat->setShaderName(name);
     }
     else
@@ -300,7 +362,33 @@ void MainScene::deduceCreateMat(QString& _name)
 std::vector<size_t> MainScene::deduceSelectCmd(QString &_cmd)
 {
   std::vector<size_t> ret;
-  ret.push_back(0);
+  std::string normal = _cmd.toStdString();
+  QString convertible = "";
+  for(size_t i=0; i<normal.size(); ++i)
+  {
+    switch(normal.at(i)) {
+    case '0':{convertible.append('0');break;}
+    case '1':{convertible.append('1');break;}
+    case '2':{convertible.append('2');break;}
+    case '3':{convertible.append('3');break;}
+    case '4':{convertible.append('4');break;}
+    case '5':{convertible.append('5');break;}
+    case '6':{convertible.append('6');break;}
+    case '7':{convertible.append('7');break;}
+    case '8':{convertible.append('8');break;}
+    case '9':{convertible.append('9');break;}
+    case ',':{ret.push_back(convertible.toULong());convertible.clear();break;}
+    default: break;
+    }
+  }
+  if(convertible!="")
+  {
+    ret.push_back(convertible.toUInt());
+  }
+  std::cout<<"Selecting :";
+  for(auto i : ret)
+    std::cout<<i<<" ";
+  std::cout<<std::endl;
   return ret;
 }
 
@@ -319,7 +407,7 @@ void MainScene::loadFile()
         {
           Mesh* newMesh = new Mesh;
           newMesh->load("models/"+normal);
-          m_drawData->geoPut(newMesh);
+          m_drawData->geoPut(newMesh, normal.substr(0, normal.size()-4));
           std::cout<<"Geometry successfully loaded from: "<<"models/"<<normal<<std::endl;
         }
         else
@@ -367,7 +455,7 @@ void MainScene::loadFile()
         {
           Mesh* newMesh = new Mesh;
           newMesh->load("models/"+normal);
-          m_drawData->geoPut(newMesh);
+          m_drawData->geoPut(newMesh, normal.substr(0, normal.size()-4));
           std::cout<<"Geometry successfully loaded from: "<<"models/"<<normal<<std::endl;
         }
         else
