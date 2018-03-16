@@ -95,16 +95,18 @@ void MainScene::init()
 
   initMaterials();
   initGeo();
-  for(size_t i = 0; i<1000; ++i)
+  for(size_t i = 0; i<10; ++i)
     {
       createSceneObject("TEST"+std::to_string(i));
-      m_objects->getObject(i)->setGeo(1);
+      m_objects->getObject(i)->setGeo(i%3);
       m_objects->getObject(i)->setMat(1);
       m_objects->getObject(i)->setScale(glm::vec3(0.2f,0.2f,0.2f));
       m_objects->getObject(i)->setPosition(glm::vec3(sinf(glm::radians(static_cast<float>(i*30))),static_cast<float>(i/32.0f),cosf(glm::radians(static_cast<float>(i*30)))));
       m_objects->getObject(i)->setRotation(vec3(0.f, 30*i, 0.f));
+      //m_objects->getObject(i)->setActive(false);
     }
-
+  m_objects->writeRawSceneData("TestScene");
+  m_objects->loadRawSceneData("TestScene");
 }
 
 //-----------------------------------------------------------------------------------------------------
@@ -132,19 +134,19 @@ void MainScene::renderScene()
       m_matrices[NORMAL] = glm::inverse(glm::transpose(m_matrices[MODEL_VIEW]));
       if(m_wireframe)
       {
-        m_drawData->matFind(m_objects->objectAt(i)->matFind())->update();
+        m_drawData->matFind(m_objects->objectAt(i)->getMat())->update();
         updateBuffer(m_objects->objectAt(i)->getGeo(), 0);
         glDrawElements(GL_TRIANGLES, static_cast<Mesh*>(m_drawData->geoFind(m_objects->objectAt(i)->getGeo()))->getNIndicesData(), GL_UNSIGNED_SHORT, nullptr);
       }
       else
       {
-        m_drawData->matFind(m_objects->objectAt(i)->matFind())->update();
-        updateBuffer(m_objects->objectAt(i)->getGeo(), m_objects->objectAt(i)->matFind());
+        m_drawData->matFind(m_objects->objectAt(i)->getMat())->update();
+        updateBuffer(m_objects->objectAt(i)->getGeo(), m_objects->objectAt(i)->getMat());
         glDrawElements(GL_TRIANGLES, static_cast<Mesh*>(m_drawData->geoFind(m_objects->objectAt(i)->getGeo()))->getNIndicesData(), GL_UNSIGNED_SHORT, nullptr);
 
         if(m_objects->isSelected(i))
         {
-          m_drawData->matFind(m_objects->objectAt(i)->matFind())->update();
+          m_drawData->matFind(m_objects->objectAt(i)->getMat())->update();
           updateBuffer(m_objects->objectAt(i)->getGeo(), 0);
           glDrawElements(GL_TRIANGLES, static_cast<Mesh*>(m_drawData->geoFind(m_objects->objectAt(i)->getGeo()))->getNIndicesData(), GL_UNSIGNED_SHORT, nullptr);
         }

@@ -2,6 +2,7 @@
 #include <iostream>
 #include <QFile>
 #include <QJsonObject>
+#include <QJsonArray>
 #include <QJsonDocument>
 #include <utility>
 
@@ -351,16 +352,11 @@ float floatify(const QJsonValue _jStr)
   return static_cast<float>(_jStr.toDouble());
 }
 
-bool boolify(const QJsonValue _jStr)
+vec3 vectorize(const QJsonArray _jStr)
 {
-  return _jStr.toBool();
-}
-
-vec3 vectorize(const QJsonObject _jStr)
-{
-  auto arrX = _jStr["X"].toObject();
-  auto arrY = _jStr["Y"].toObject();
-  auto arrZ = _jStr["Z"].toObject();
+  auto arrX = _jStr[0];
+  auto arrY = _jStr[1];
+  auto arrZ = _jStr[2];
   return vec3(floatify(arrX), floatify(arrY), floatify(arrZ));
 }
 
@@ -388,28 +384,32 @@ void ObjectManager::loadRawSceneData(const std::string &_name)
   for(auto obj= ObjectParts.begin(); obj!=ObjectParts.end(); ++obj)
   {
     auto sceneObject = obj.value().toObject();
-    auto jname = sceneObject["Name"].toObject();
-    auto jid = sceneObject["ID"].toObject();
-    auto jactive = sceneObject["Active"].toObject();
-    auto jpos = sceneObject["Position"].toObject();
-    auto jrot = sceneObject["Rotation"].toObject();
-    auto jscale = sceneObject["Scale"].toObject();
-    auto jparent = sceneObject["Parent"].toObject();
-    auto jgeoName = sceneObject["GeometryName"].toObject();
-    auto jgeoID = sceneObject["GeometryID"].toObject();
-    auto jmatName = sceneObject["MaterialName"].toObject();
-    auto jmatID = sceneObject["MaterialID"].toObject();
+    auto jname = sceneObject["Name"].toString();
+    auto jid = sceneObject["ID"].toInt();
+    bool jactive = sceneObject["Active"].toBool();
+    auto jpos = sceneObject["Position"].toArray();
+    auto jrot = sceneObject["Rotation"].toArray();
+    auto jscale = sceneObject["Scale"].toArray();
+    auto jparent = sceneObject["Parent"].toInt();
+    auto jgeoName = sceneObject["GeometryName"].toString();
+    auto jgeoID = sceneObject["GeometryID"].toInt();
+    auto jmatName = sceneObject["MaterialName"].toString();
+    auto jmatID = sceneObject["MaterialID"].toInt();
     //now construct an object using retrieved info
     m_sceneObjects.emplace_back(new SceneObject(stringify(jname),
     vectorize(jpos), vectorize(jrot), vectorize(jscale),
     intify(jgeoID), intify(jmatID)));
     m_sceneObjects.back()->changeID(intify(jid));
-    m_sceneObjects.back()->setActive(boolify(jactive));
+    m_sceneObjects.back()->setActive(jactive);
     m_sceneObjects.back()->setGeo(stringify(jgeoName));
     m_sceneObjects.back()->setMat(stringify(jmatName));
     //do not assign relations at this point (not all objects constructed yet)
     //but save for later
-    relations.push_back(std::pair<size_t,size_t>(intify(jparent),intify(jid)));
+    if(jparent != QJsonValue::Null)
+    {
+      relations.push_back(std::pair<size_t,size_t>(intify(jparent),intify(jid)));
+    }
+    m_sceneObjects.back()->updateMatrix();
   }
   //here all objects should be ready for connection
   for(auto rel : relations)
@@ -428,25 +428,49 @@ void ObjectManager::writeRawSceneData(const std::string &_name) const
   //write to file below
 
   // create document
-  QJsonDocument doc;
+
   // Get the json object to view
-  QJsonObject ObjectParts = doc.object();
+  QJsonObject ObjectParts;
+  size_t i=0;
   for(auto obj= m_sceneObjects.begin(); obj<m_sceneObjects.end(); ++obj)
   {
     auto sceneObject = QJsonObject();
     sceneObject["Name"] = QString::fromStdString(obj->get()->getName());
-    sceneObject["ID"] = obj->get()->getID();
-    auto jactive = sceneObject["Active"].toObject();
-    auto jpos = sceneObject["Position"].toObject();
-    auto jrot = sceneObject["Rotation"].toObject();
-    auto jscale = sceneObject["Scale"].toObject();
-    auto jparent = sceneObject["Parent"].toObject();
-    auto jgeoName = sceneObject["GeometryName"].toObject();
-    auto jgeoID = sceneObject["GeometryID"].toObject();
-    auto jmatName = sceneObject["MaterialName"].toObject();
-    auto jmatID = sceneObject["MaterialID"].toObject();
-    ObjectParts.insert("Object", newObj);
+    sceneObject["ID"] = static_cast<qint32>(obj->get()->getID());
+    bool boolText = obj->get()->isActive() ? true : false;
+    sceneObject["Active"] = boolText;
+    QJsonArray pos;
+    pos.append(static_cast<double>(obj->get()->getPosition().x));
+    pos.append(static_cast<double>(obj->get()->getPosition().y));
+    pos.append(static_cast<double>(obj->get()->getPosition().z));
+    sceneObject["Position"] = pos;
+    QJsonArray rot;
+    rot.append(static_cast<double>(obj->get()->getRotation().x));
+    rot.append(static_cast<double>(obj->get()->getRotation().y));
+    rot.append(static_cast<double>(obj->get()->getRotation().z));
+    sceneObject["Rotation"] = rot;
+    QJsonArray scale;
+    scale.append(static_cast<double>(obj->get()->getScale().x));
+    scale.append(static_cast<double>(obj->get()->getScale().y));
+    scale.append(static_cast<double>(obj->get()->getScale().z));
+    sceneObject["Scale"] = scale;
+    if(obj->get()->getParent() != nullptr)
+    {
+      sceneObject["Parent"] = QString::fromStdString(std::to_string(obj->get()->getParent()->getID()));
+    }
+    else
+    {
+      sceneObject["Parent"] = QJsonValue::Null;
+    }
+    sceneObject["GeometryName"] = QString::fromStdString(obj->get()->getGeoName());
+    sceneObject["GeometryID"] = QString::fromStdString(std::to_string(obj->get()->getGeo()));
+    sceneObject["MaterialName"] = QString::fromStdString(obj->get()->getMatName());
+    sceneObject["MaterialID"] = QString::fromStdString(std::to_string(obj->get()->getMat()));
+    //ObjectParts.append(sceneObject);
+    ObjectParts["Object"+QString::fromStdString(std::to_string(i))] = sceneObject;
+    ++i;
   }
+  QJsonDocument doc(ObjectParts);
   file.write(doc.toJson());
   file.close();
 }

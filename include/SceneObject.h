@@ -24,7 +24,9 @@ public :
   void setMat(size_t _new);
   void setMat(std::string _name);
   size_t getGeo() const;
-  size_t matFind() const;
+  std::string getGeoName() const;
+  size_t getMat() const;
+  std::string getMatName() const;
 private :
   std::shared_ptr<GenericGeo> m_geometry;
   std::shared_ptr<GenericMat> m_material;

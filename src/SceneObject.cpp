@@ -42,7 +42,17 @@ size_t SceneObject::getGeo() const
   return m_geometry->getGeoID();
 }
 
-size_t SceneObject::matFind() const
+size_t SceneObject::getMat() const
 {
   return m_material->getMatID();
+}
+
+std::string SceneObject::getGeoName() const
+{
+  return m_geometry->getGeoName();
+}
+
+std::string SceneObject::getMatName() const
+{
+  return m_material->getMatName();
 }

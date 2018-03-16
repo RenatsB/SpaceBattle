@@ -1,0 +1,252 @@
+{
+    "Object0": {
+        "Active": true,
+        "GeometryID": "0",
+        "GeometryName": "mesh1",
+        "ID": 0,
+        "MaterialID": "1",
+        "MaterialName": "material0",
+        "Name": "TEST0",
+        "Parent": null,
+        "Position": [
+            0,
+            0,
+            1
+        ],
+        "Rotation": [
+            0,
+            0,
+            0
+        ],
+        "Scale": [
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224
+        ]
+    },
+    "Object1": {
+        "Active": true,
+        "GeometryID": "1",
+        "GeometryName": "mesh1",
+        "ID": 1,
+        "MaterialID": "1",
+        "MaterialName": "material0",
+        "Name": "TEST1",
+        "Parent": null,
+        "Position": [
+            0.5,
+            0.03125,
+            0.8660253882408142
+        ],
+        "Rotation": [
+            0,
+            30,
+            0
+        ],
+        "Scale": [
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224
+        ]
+    },
+    "Object2": {
+        "Active": true,
+        "GeometryID": "2",
+        "GeometryName": "mesh1",
+        "ID": 2,
+        "MaterialID": "1",
+        "MaterialName": "material0",
+        "Name": "TEST2",
+        "Parent": null,
+        "Position": [
+            0.866025447845459,
+            0.0625,
+            0.4999999701976776
+        ],
+        "Rotation": [
+            0,
+            60,
+            0
+        ],
+        "Scale": [
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224
+        ]
+    },
+    "Object3": {
+        "Active": true,
+        "GeometryID": "0",
+        "GeometryName": "mesh1",
+        "ID": 3,
+        "MaterialID": "1",
+        "MaterialName": "material0",
+        "Name": "TEST3",
+        "Parent": null,
+        "Position": [
+            1,
+            0.09375,
+            -4.371138828673793e-08
+        ],
+        "Rotation": [
+            0,
+            90,
+            0
+        ],
+        "Scale": [
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224
+        ]
+    },
+    "Object4": {
+        "Active": true,
+        "GeometryID": "1",
+        "GeometryName": "mesh1",
+        "ID": 4,
+        "MaterialID": "1",
+        "MaterialName": "material0",
+        "Name": "TEST4",
+        "Parent": null,
+        "Position": [
+            0.8660253882408142,
+            0.125,
+            -0.5000000596046448
+        ],
+        "Rotation": [
+            0,
+            120,
+            0
+        ],
+        "Scale": [
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224
+        ]
+    },
+    "Object5": {
+        "Active": true,
+        "GeometryID": "2",
+        "GeometryName": "mesh1",
+        "ID": 5,
+        "MaterialID": "1",
+        "MaterialName": "material0",
+        "Name": "TEST5",
+        "Parent": null,
+        "Position": [
+            0.5000000596046448,
+            0.15625,
+            -0.8660253882408142
+        ],
+        "Rotation": [
+            0,
+            150,
+            0
+        ],
+        "Scale": [
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224
+        ]
+    },
+    "Object6": {
+        "Active": true,
+        "GeometryID": "0",
+        "GeometryName": "mesh1",
+        "ID": 6,
+        "MaterialID": "1",
+        "MaterialName": "material0",
+        "Name": "TEST6",
+        "Parent": null,
+        "Position": [
+            -8.742277657347586e-08,
+            0.1875,
+            -1
+        ],
+        "Rotation": [
+            0,
+            180,
+            0
+        ],
+        "Scale": [
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224
+        ]
+    },
+    "Object7": {
+        "Active": true,
+        "GeometryID": "1",
+        "GeometryName": "mesh1",
+        "ID": 7,
+        "MaterialID": "1",
+        "MaterialName": "material0",
+        "Name": "TEST7",
+        "Parent": null,
+        "Position": [
+            -0.4999999701976776,
+            0.21875,
+            -0.8660253882408142
+        ],
+        "Rotation": [
+            0,
+            210,
+            0
+        ],
+        "Scale": [
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224
+        ]
+    },
+    "Object8": {
+        "Active": true,
+        "GeometryID": "2",
+        "GeometryName": "mesh1",
+        "ID": 8,
+        "MaterialID": "1",
+        "MaterialName": "material0",
+        "Name": "TEST8",
+        "Parent": null,
+        "Position": [
+            -0.866025447845459,
+            0.25,
+            -0.49999991059303284
+        ],
+        "Rotation": [
+            0,
+            240,
+            0
+        ],
+        "Scale": [
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224
+        ]
+    },
+    "Object9": {
+        "Active": true,
+        "GeometryID": "0",
+        "GeometryName": "mesh1",
+        "ID": 9,
+        "MaterialID": "1",
+        "MaterialName": "material0",
+        "Name": "TEST9",
+        "Parent": null,
+        "Position": [
+            -1,
+            0.28125,
+            1.1924880638503055e-08
+        ],
+        "Rotation": [
+            0,
+            270,
+            0
+        ],
+        "Scale": [
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224
+        ]
+    }
+}

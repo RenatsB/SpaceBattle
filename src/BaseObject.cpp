@@ -115,3 +115,8 @@ std::string BaseObject::getName() const
 {
   return m_name;
 }
+
+BaseObject* BaseObject::getParent() const
+{
+  return m_parent;
+}
