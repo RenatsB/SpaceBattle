@@ -5,37 +5,37 @@
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <utility>
-
+//-----------------------------------------------------------------------------------------------------
 void ObjectManager::createSceneObject(std::string _name, vec3 _pos, vec3 _rot, vec3 _sc, std::pair<size_t, std::string> _geo, std::pair<size_t, std::string> _mat)
 {
   m_sceneObjects.emplace_back(new SceneObject(_name, _pos, _rot, _sc, _geo, _mat));
   checkObjectIDs();
 }
+//-----------------------------------------------------------------------------------------------------
 void ObjectManager::createSceneObject(std::string _name, std::pair<size_t, std::string> _geo, std::pair<size_t, std::string> _mat)
 {
   m_sceneObjects.emplace_back(new SceneObject(_name, _geo, _mat));
   checkObjectIDs();
 }
-
+//-----------------------------------------------------------------------------------------------------
 void ObjectManager::selectObject(const size_t _id)
 {
-  if(m_selected.empty())
+  if(m_selected.empty()) //none selected yet
   {
     m_selected.push_back(_id);
   }
   else
   {
-    if(findObject(_id))
+    if(findObject(_id)) //if object exists
     {
       m_selected.push_back(_id);
-      std::cout<<"Selected: "<<_id<<std::endl;
     }
   }
 }
-
+//-----------------------------------------------------------------------------------------------------
 void ObjectManager::selectObject(const std::string &_name)
 {
-  if(_name.empty())
+  if(_name.empty()) //no name specified => select all
   {
     for(auto it = m_sceneObjects.begin(); it<m_sceneObjects.end(); ++it)
     {
@@ -44,18 +44,18 @@ void ObjectManager::selectObject(const std::string &_name)
         m_selected.push_back(num);
     }
   }
-  else
+  else //otherwise select a single object
   {
-    if(findObject(_name))
+    if(findObject(_name)) //if object exists
       m_selected.push_back(getObjectID(_name));
   }
 }
-
+//-----------------------------------------------------------------------------------------------------
 void ObjectManager::selectObject(const std::vector<size_t> &_ids)
 {
-  if(_ids.empty())
+  if(_ids.empty()) //no ids specified
   {
-    selectObject("");
+    selectObject(""); //select all
   }
   else
   {
@@ -63,12 +63,12 @@ void ObjectManager::selectObject(const std::vector<size_t> &_ids)
       selectObject(id);
   }
 }
-
+//-----------------------------------------------------------------------------------------------------
 void ObjectManager::selectObject(const std::vector<std::string> &_names)
 {
-  if(_names.empty())
+  if(_names.empty()) //no names specified
   {
-    selectObject("");
+    selectObject(""); //select all
   }
   else
   {
@@ -76,7 +76,7 @@ void ObjectManager::selectObject(const std::vector<std::string> &_names)
       selectObject(name);
   }
 }
-
+//-----------------------------------------------------------------------------------------------------
 void ObjectManager::deselectObject(const size_t _id)
 {
   for(auto it = m_selected.begin(); it<m_selected.end(); ++it)
@@ -88,10 +88,10 @@ void ObjectManager::deselectObject(const size_t _id)
     }
   }
 }
-
+//-----------------------------------------------------------------------------------------------------
 void ObjectManager::deselectObject(const std::string &_name)
 {
-  if(_name.empty())
+  if(_name.empty()) //no name => deselect all
   {
     m_selected.clear();
     m_selected.resize(0);
@@ -112,10 +112,10 @@ void ObjectManager::deselectObject(const std::string &_name)
     }
   }
 }
-
+//-----------------------------------------------------------------------------------------------------
 void ObjectManager::deselectObject(const std::vector<size_t> &_ids)
 {
-  if(_ids.empty())
+  if(_ids.empty()) //no ids => deselect all
   {
     deselectObject("");
   }
@@ -125,10 +125,10 @@ void ObjectManager::deselectObject(const std::vector<size_t> &_ids)
       deselectObject(id);
   }
 }
-
+//-----------------------------------------------------------------------------------------------------
 void ObjectManager::deselectObject(const std::vector<std::string> &_names)
 {
-  if(_names.empty())
+  if(_names.empty()) //no names => deselect all
   {
     deselectObject("");
   }
@@ -138,16 +138,39 @@ void ObjectManager::deselectObject(const std::vector<std::string> &_names)
       deselectObject(name);
   }
 }
-
+//-----------------------------------------------------------------------------------------------------
+bool ObjectManager::isSelected(const size_t _id)const
+{
+  for(auto it = m_selected.begin(); it<m_selected.end(); ++it)
+  {
+    if(*it.base() == _id)
+    {
+      return true;
+    }
+  }
+  return false;
+}
+//-----------------------------------------------------------------------------------------------------
+bool ObjectManager::isSelected(const std::string _name)const
+{
+  for(auto it = m_selected.begin(); it<m_selected.end(); ++it)
+  {
+    if(*it.base() == getObjectID(_name))
+    {
+      return true;
+    }
+  }
+  return false;
+}
+//-----------------------------------------------------------------------------------------------------
 void ObjectManager::move(unsigned short _axis, float _val)
 {
-
   for(auto obj : m_selected)
   {
     m_sceneObjects.at(obj)->moveObject(constructTranslateVector(_axis, _val));
   }
 }
-
+//-----------------------------------------------------------------------------------------------------
 void ObjectManager::scale(unsigned short _axis, float _val)
 {
 
@@ -156,7 +179,7 @@ void ObjectManager::scale(unsigned short _axis, float _val)
     m_sceneObjects.at(obj)->scaleObject(constructTranslateVector(_axis, _val));
   }
 }
-
+//-----------------------------------------------------------------------------------------------------
 void ObjectManager::rotate(unsigned short _axis, float _val)
 {
 
@@ -165,54 +188,7 @@ void ObjectManager::rotate(unsigned short _axis, float _val)
     m_sceneObjects.at(obj)->rotateObject(constructTranslateVector(_axis, _val));
   }
 }
-
-/*void ObjectManager::changeMat(size_t _id)
-{
-  for(auto it : m_selected)
-  {
-    getObject(it)->setMat(_id);
-  }
-}
-
-void ObjectManager::changeMat(std::string _name)
-{
-  for(auto it : m_selected)
-  {
-    getObject(it)->setMat(_name);
-  }
-}
-void ObjectManager::changeGeo(size_t _id)
-{
-  for(auto it : m_selected)
-  {
-    getObject(it)->setGeo(_id);
-  }
-}
-
-void ObjectManager::changeGeo(std::string _name)
-{
-  for(auto it : m_selected)
-  {
-    getObject(it)->setGeo(_name);
-  }
-}*/
-
-void ObjectManager::changeGeo(std::pair<size_t, std::string> _geo)
-{
-  for(auto it : m_selected)
-  {
-    getObject(it)->setGeo(_geo);
-  }
-}
-
-void ObjectManager::changeMat(std::pair<size_t, std::string> _mat)
-{
-  for(auto it : m_selected)
-  {
-    getObject(it)->setMat(_mat);
-  }
-}
-
+//-----------------------------------------------------------------------------------------------------
 vec3 ObjectManager::constructTranslateVector(unsigned short _axis, float _val) const
 {
   vec3 ret(0,0,0);
@@ -228,12 +204,28 @@ vec3 ObjectManager::constructTranslateVector(unsigned short _axis, float _val) c
   }
   return ret;
 }
-
+//-----------------------------------------------------------------------------------------------------
+void ObjectManager::changeGeo(std::pair<size_t, std::string> _geo)
+{
+  for(auto it : m_selected)
+  {
+    getObject(it)->setGeo(_geo);
+  }
+}
+//-----------------------------------------------------------------------------------------------------
+void ObjectManager::changeMat(std::pair<size_t, std::string> _mat)
+{
+  for(auto it : m_selected)
+  {
+    getObject(it)->setMat(_mat);
+  }
+}
+//-----------------------------------------------------------------------------------------------------
 SceneObject* ObjectManager::objectAt(size_t _pos) const
 {
   return m_sceneObjects.at(_pos).get();
 }
-
+//-----------------------------------------------------------------------------------------------------
 bool ObjectManager::findObject(const size_t _id) const
 {
   for(auto it = m_sceneObjects.begin(); it<m_sceneObjects.end(); ++it)
@@ -245,7 +237,7 @@ bool ObjectManager::findObject(const size_t _id) const
   }
   return false;
 }
-
+//-----------------------------------------------------------------------------------------------------
 bool ObjectManager::findObject(const std::string &_name) const
 {
   for(auto it = m_sceneObjects.begin(); it<m_sceneObjects.end(); ++it)
@@ -257,7 +249,31 @@ bool ObjectManager::findObject(const std::string &_name) const
   }
   return false;
 }
-
+//-----------------------------------------------------------------------------------------------------
+SceneObject* ObjectManager::getObject(size_t _id) const
+{
+  for(auto it = m_sceneObjects.begin(); it<m_sceneObjects.end(); ++it)
+  {
+    if(_id == it->get()->getID())
+    {
+      return it->get();
+    }
+  }
+  return nullptr;
+}
+//-----------------------------------------------------------------------------------------------------
+SceneObject* ObjectManager::getObject(std::string _name) const
+{
+  for(auto it = m_sceneObjects.begin(); it<m_sceneObjects.end(); ++it)
+  {
+    if(_name == it.base()->get()->getName())
+    {
+      return it.base()->get();
+    }
+  }
+  return nullptr;
+}
+//-----------------------------------------------------------------------------------------------------
 size_t ObjectManager::getObjectID(const std::string &_name) const
 {
   size_t id=0;
@@ -271,19 +287,12 @@ size_t ObjectManager::getObjectID(const std::string &_name) const
   }
   return id;
 }
-
-std::vector<size_t> ObjectManager::getCurrentIDs()const
+//-----------------------------------------------------------------------------------------------------
+size_t ObjectManager::getObjectCount() const
 {
-  std::vector<size_t> ret;
-  ret.clear();
-  ret.reserve(m_sceneObjects.size());
-  for(size_t i=0; i<m_sceneObjects.size(); ++i)
-  {
-    ret.push_back(m_sceneObjects.at(i)->getID());
-  }
-  return ret;
+  return m_sceneObjects.size();
 }
-
+//-----------------------------------------------------------------------------------------------------
 void ObjectManager::checkObjectIDs()
 {
   std::vector<size_t> currentUsed = getCurrentIDs();
@@ -300,7 +309,7 @@ void ObjectManager::checkObjectIDs()
     }
   }
 }
-
+//-----------------------------------------------------------------------------------------------------
 size_t ObjectManager::getFreeID() const
 {
   size_t newID=0;
@@ -316,63 +325,34 @@ size_t ObjectManager::getFreeID() const
   }
   return newID;
 }
-
-SceneObject* ObjectManager::getObject(size_t _id) const
+//-----------------------------------------------------------------------------------------------------
+std::vector<size_t> ObjectManager::getCurrentIDs()const
 {
-  for(auto it = m_sceneObjects.begin(); it<m_sceneObjects.end(); ++it)
+  std::vector<size_t> ret;
+  ret.clear();
+  ret.reserve(m_sceneObjects.size());
+  for(size_t i=0; i<m_sceneObjects.size(); ++i)
   {
-    if(_id == it->get()->getID())
-    {
-      return it->get();
-    }
+    ret.push_back(m_sceneObjects.at(i)->getID());
   }
-  return nullptr;
+  return ret;
 }
-
-SceneObject* ObjectManager::getObject(std::string _name) const
-{
-  for(auto it = m_sceneObjects.begin(); it<m_sceneObjects.end(); ++it)
-  {
-    if(_name == it.base()->get()->getName())
-    {
-      return it.base()->get();
-    }
-  }
-  return nullptr;
-}
-
-size_t ObjectManager::getObjectCount() const
-{
-  return m_sceneObjects.size();
-}
-
-bool ObjectManager::isSelected(const size_t _id)const
-{
-  for(auto it = m_selected.begin(); it<m_selected.end(); ++it)
-  {
-    if(*it.base() == _id)
-    {
-      return true;
-    }
-  }
-  return false;
-}
-
+//-----------------------------------------------------------------------------------------------------
 inline std::string stringify(const QJsonValue _jStr)
 {
   return _jStr.toString().toStdString();
 }
-
+//-----------------------------------------------------------------------------------------------------
 inline size_t intify(int _jStr)
 {
   return static_cast<size_t>(_jStr);
 }
-
+//-----------------------------------------------------------------------------------------------------
 inline float floatify(const QJsonValue _jStr)
 {
   return static_cast<float>(_jStr.toDouble());
 }
-
+//-----------------------------------------------------------------------------------------------------
 vec3 vectorize(const QJsonArray _jStr)
 {
   auto arrX = _jStr[0];
@@ -380,7 +360,7 @@ vec3 vectorize(const QJsonArray _jStr)
   auto arrZ = _jStr[2];
   return vec3(floatify(arrX), floatify(arrY), floatify(arrZ));
 }
-
+//-----------------------------------------------------------------------------------------------------
 void ObjectManager::loadRawSceneData(const std::string &_name)
 {
   std::string save = "AutosavedScene";
@@ -430,16 +410,18 @@ void ObjectManager::loadRawSceneData(const std::string &_name)
     {
       relations.push_back(std::pair<size_t,size_t>(intify(jparent),intify(jid)));
     }
+    //make sure to update matrix at this point ot else all objects will have default matrix
     m_sceneObjects.back()->updateMatrix();
   }
   //here all objects should be ready for connection
   for(auto rel : relations)
   {
+    //calling addChild also calls add parent in the child, so no need for extra code here
     getObject(rel.first)->addChild(getObject(rel.second));
   }
   file.close();
 }
-
+//-----------------------------------------------------------------------------------------------------
 void ObjectManager::writeRawSceneData(const std::string &_name) const
 {
   // Read in raw file
@@ -447,8 +429,6 @@ void ObjectManager::writeRawSceneData(const std::string &_name) const
   QFile file(fileName);
   file.open(QIODevice::WriteOnly | QIODevice::Text);
   //write to file below
-
-  // create document
 
   // Get the json object to view
   QJsonObject ObjectParts;
@@ -477,7 +457,7 @@ void ObjectManager::writeRawSceneData(const std::string &_name) const
     sceneObject["Scale"] = scale;
     if(obj->get()->getParent() != nullptr)
     {
-      sceneObject["Parent"] = QString::fromStdString(std::to_string(obj->get()->getParent()->getID()));
+      sceneObject["Parent"] = static_cast<qint32>(obj->get()->getParent()->getID());
     }
     else
     {
@@ -494,3 +474,4 @@ void ObjectManager::writeRawSceneData(const std::string &_name) const
   file.write(doc.toJson());
   file.close();
 }
+//-----------------------------------------------------------------------------------------------------

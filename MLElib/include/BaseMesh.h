@@ -44,30 +44,30 @@ public:
   //-----------------------------------------------------------------------------------------------------
   virtual void reset()=0;
   //-----------------------------------------------------------------------------------------------------
-  /// @brief Set the name of the current mesh object.
+  /// @brief Set the name of this mesh object to the input value.
   /// @param [in]_new New name
   //-----------------------------------------------------------------------------------------------------
   virtual void setName(std::string _new);
   //-----------------------------------------------------------------------------------------------------
-  /// @brief Get the name of the current mesh object.
+  /// @brief Get the currently stored name of this mesh object.
   //-----------------------------------------------------------------------------------------------------
   virtual std::string getName() const;
   //-----------------------------------------------------------------------------------------------------
-  /// @brief Set the ID of the current mesh object.
+  /// @brief Set the ID of this mesh object to the input value.
   /// @param [in]_new New ID
   //-----------------------------------------------------------------------------------------------------
   virtual void setID(size_t _new);
   //-----------------------------------------------------------------------------------------------------
-  /// @brief Get the name of the current mesh object.
+  /// @brief Get the currently stored name of this mesh object.
   //-----------------------------------------------------------------------------------------------------
   virtual size_t getID() const;
 protected:
   //-----------------------------------------------------------------------------------------------------
-  /// @brief The ID of the current mesh object.
+  /// @brief The ID of this mesh object.
   //-----------------------------------------------------------------------------------------------------
   size_t m_id=0;
   //-----------------------------------------------------------------------------------------------------
-  /// @brief The name of the current mesh object.
+  /// @brief The name of this mesh object.
   //-----------------------------------------------------------------------------------------------------
   std::string m_name="";
 };

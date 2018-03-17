@@ -1,17 +1,81 @@
 #include "DataContainer.h"
-
+//-----------------------------------------------------------------------------------------------------
 void DataContainer::matUpdate(const size_t _id)
 {
-  m_mat.at(_id).get()->update();
+  for(auto it = m_mat.begin(); it<m_mat.end(); ++it)
+  {
+    if(_id == it->get()->getID())
+    {
+      it->get()->update();
+    }
+  }
 }
-
+//-----------------------------------------------------------------------------------------------------
+size_t DataContainer::matSize() const
+{
+  return m_mat.size();
+}
+//-----------------------------------------------------------------------------------------------------
+size_t DataContainer::geosize() const
+{
+  return m_geo.size();
+}
+//-----------------------------------------------------------------------------------------------------
+BaseMesh* DataContainer::geoFind(const size_t _id) const
+{
+  for(auto it = m_geo.begin(); it<m_geo.end(); ++it)
+  {
+    if(_id == it->get()->getID())
+    {
+      return it->get();
+    }
+  }
+  return nullptr;
+}
+//-----------------------------------------------------------------------------------------------------
+BaseMesh* DataContainer::geoFind(const std::string _name) const
+{
+  for(auto it = m_geo.begin(); it<m_geo.end(); ++it)
+  {
+    if(_name == it->get()->getName())
+    {
+      return it->get();
+    }
+  }
+  return nullptr;
+}
+//-----------------------------------------------------------------------------------------------------
+BaseMaterial* DataContainer::matFind(const size_t _id) const
+{
+  for(auto it = m_mat.begin(); it<m_mat.end(); ++it)
+  {
+    if(_id == it->get()->getID())
+    {
+      return it->get();
+    }
+  }
+  return nullptr;
+}
+//-----------------------------------------------------------------------------------------------------
+BaseMaterial* DataContainer::matFind(const std::string _name) const
+{
+  for(auto it = m_mat.begin(); it<m_mat.end(); ++it)
+  {
+    if(_name == it->get()->getName())
+    {
+      return it->get();
+    }
+  }
+  return nullptr;
+}
+//-----------------------------------------------------------------------------------------------------
 void DataContainer::matPut(BaseMaterial* _new)
 {
   m_mat.emplace_back(_new);
   checkMatIDs();
   checkMatNames();
 }
-
+//-----------------------------------------------------------------------------------------------------
 void DataContainer::matPut(BaseMaterial* _new, std::string _name)
 {
   if(!_name.empty())
@@ -27,14 +91,14 @@ void DataContainer::matPut(BaseMaterial* _new, std::string _name)
     checkMatNames();
   }
 }
-
+//-----------------------------------------------------------------------------------------------------
 void DataContainer::geoPut(BaseMesh* _new)
 {
   m_geo.emplace_back(_new);
   checkGeoIDs();
   checkGeoNames();
 }
-
+//-----------------------------------------------------------------------------------------------------
 void DataContainer::geoPut(BaseMesh* _new, std::string _name)
 {
   if(!_name.empty())
@@ -50,65 +114,7 @@ void DataContainer::geoPut(BaseMesh* _new, std::string _name)
     checkGeoNames();
   }
 }
-
-size_t DataContainer::matSize() const
-{
-  return m_mat.size();
-}
-
-size_t DataContainer::geosize() const
-{
-  return m_geo.size();
-}
-
-BaseMesh* DataContainer::geoFind(const size_t _id) const
-{
-  for(auto it = m_geo.begin(); it<m_geo.end(); ++it)
-  {
-    if(_id == it->get()->getID())
-    {
-      return it->get();
-    }
-  }
-  return nullptr;
-}
-
-BaseMesh* DataContainer::geoFind(const std::string _name) const
-{
-  for(auto it = m_geo.begin(); it<m_geo.end(); ++it)
-  {
-    if(_name == it->get()->getName())
-    {
-      return it->get();
-    }
-  }
-  return nullptr;
-}
-
-BaseMaterial* DataContainer::matFind(const size_t _id) const
-{
-  for(auto it = m_mat.begin(); it<m_mat.end(); ++it)
-  {
-    if(_id == it->get()->getID())
-    {
-      return it->get();
-    }
-  }
-  return nullptr;
-}
-
-BaseMaterial* DataContainer::matFind(const std::string _name) const
-{
-  for(auto it = m_mat.begin(); it<m_mat.end(); ++it)
-  {
-    if(_name == it->get()->getName())
-    {
-      return it->get();
-    }
-  }
-  return nullptr;
-}
-
+//-----------------------------------------------------------------------------------------------------
 void DataContainer::matRemove(const std::string _name)
 {
   for(auto it = m_mat.begin(); it<m_mat.end(); ++it)
@@ -120,7 +126,7 @@ void DataContainer::matRemove(const std::string _name)
     }
   }
 }
-
+//-----------------------------------------------------------------------------------------------------
 void DataContainer::matRemove(const size_t _id)
 {
   for(auto it = m_mat.begin(); it<m_mat.end(); ++it)
@@ -132,7 +138,7 @@ void DataContainer::matRemove(const size_t _id)
     }
   }
 }
-
+//-----------------------------------------------------------------------------------------------------
 void DataContainer::geoRemove(const std::string _name)
 {
   for(auto it = m_geo.begin(); it<m_geo.end(); ++it)
@@ -144,7 +150,7 @@ void DataContainer::geoRemove(const std::string _name)
     }
   }
 }
-
+//-----------------------------------------------------------------------------------------------------
 void DataContainer::geoRemove(const size_t _id)
 {
   for(auto it = m_geo.begin(); it<m_geo.end(); ++it)
@@ -156,7 +162,7 @@ void DataContainer::geoRemove(const size_t _id)
     }
   }
 }
-
+//-----------------------------------------------------------------------------------------------------
 void DataContainer::setGeoName(const size_t _id, const std::string _new)
 {
   for(auto it = m_geo.begin(); it<m_geo.end(); ++it)
@@ -168,7 +174,7 @@ void DataContainer::setGeoName(const size_t _id, const std::string _new)
     }
   }
 }
-
+//-----------------------------------------------------------------------------------------------------
 void DataContainer::setMatName(const size_t _id, const std::string _new)
 {
   for(auto it = m_mat.begin(); it<m_mat.end(); ++it)
@@ -180,7 +186,7 @@ void DataContainer::setMatName(const size_t _id, const std::string _new)
     }
   }
 }
-
+//-----------------------------------------------------------------------------------------------------
 std::string DataContainer::getMatName(const size_t _id) const
 {
   for(auto it = m_mat.begin(); it<m_mat.end(); ++it)
@@ -192,7 +198,7 @@ std::string DataContainer::getMatName(const size_t _id) const
   }
   return "Material1";
 }
-
+//-----------------------------------------------------------------------------------------------------
 std::string DataContainer::getGeoName(const size_t _id) const
 {
   for(auto it = m_geo.begin(); it<m_geo.end(); ++it)
@@ -204,7 +210,7 @@ std::string DataContainer::getGeoName(const size_t _id) const
   }
   return "Mesh1";
 }
-
+//-----------------------------------------------------------------------------------------------------
 std::vector<std::string> DataContainer::getGeoNames() const
 {
   std::vector<std::string> ret;
@@ -214,7 +220,7 @@ std::vector<std::string> DataContainer::getGeoNames() const
   }
   return ret;
 }
-
+//-----------------------------------------------------------------------------------------------------
 std::vector<std::string> DataContainer::getMatNames() const
 {
   std::vector<std::string> ret;
@@ -224,7 +230,7 @@ std::vector<std::string> DataContainer::getMatNames() const
   }
   return ret;
 }
-
+//-----------------------------------------------------------------------------------------------------
 size_t DataContainer::getMatID(const std::string &_name) const
 {
   for(auto it = m_mat.begin(); it<m_mat.end(); ++it)
@@ -236,7 +242,7 @@ size_t DataContainer::getMatID(const std::string &_name) const
   }
   return 0;
 }
-
+//-----------------------------------------------------------------------------------------------------
 size_t DataContainer::getGeoID(const std::string &_name) const
 {
   for(auto it = m_geo.begin(); it<m_geo.end(); ++it)
@@ -248,57 +254,47 @@ size_t DataContainer::getGeoID(const std::string &_name) const
   }
   return 0;
 }
-
+//-----------------------------------------------------------------------------------------------------
 void DataContainer::checkIDs()
 {
   checkGeoIDs();
   checkMatIDs();
 }
-
+//-----------------------------------------------------------------------------------------------------
 void DataContainer::checkGeoIDs()
 {
   std::vector<size_t> currentUsed = getCurrentGeoIDs();
   for(size_t m =0; m<currentUsed.size(); ++m)
   {
-    if(m==0&&m_geo[m]->getName()=="")
-      m_geo[m]->setName("Mesh");
-
-    for(size_t n=m+1; n<currentUsed.size(); ++n)
+    for(size_t n=m+1; n<currentUsed.size(); ++n) //start from 1
     {
-      if(currentUsed[m] == currentUsed[n])
+      if(currentUsed[m] == currentUsed[n]) //if we have a match
       {
         size_t tmp = getFreeGeoID();
-        currentUsed[n] = tmp;
+        currentUsed[n] = tmp; //update for further loop iterations
         m_geo[n]->setID(tmp);
-        if(m_geo[n]->getName() == "")
-          m_geo[n]->setName("Mesh"+std::to_string(tmp));
       }
     }
   }
 }
-
+//-----------------------------------------------------------------------------------------------------
 void DataContainer::checkMatIDs()
 {
   std::vector<size_t> currentUsed = getCurrentMatIDs();
   for(size_t m =0; m<currentUsed.size(); ++m)
   {
-    if(m==0&&m_mat[m]->getName()=="")
-      m_mat[m]->setName("Material");
-
-    for(size_t n=m+1; n<currentUsed.size(); ++n)
+    for(size_t n=m+1; n<currentUsed.size(); ++n) //start from 1
     {
-      if(currentUsed[m] == currentUsed[n])
+      if(currentUsed[m] == currentUsed[n]) //if we have a match
       {
         size_t tmp = getFreeMatID();
-        currentUsed[n] = tmp;
+        currentUsed[n] = tmp; //update for further loop iterations
         m_mat[n]->setID(tmp);
-        if(m_mat[m]->getName()=="")
-          m_mat[m]->setName("Material"+std::to_string(tmp));
       }
     }
   }
 }
-
+//-----------------------------------------------------------------------------------------------------
 size_t DataContainer::getFreeGeoID() const
 {
   size_t newID=0;
@@ -314,7 +310,7 @@ size_t DataContainer::getFreeGeoID() const
   }
   return newID;
 }
-
+//-----------------------------------------------------------------------------------------------------
 size_t DataContainer::getFreeMatID() const
 {
   size_t newID=0;
@@ -330,7 +326,7 @@ size_t DataContainer::getFreeMatID() const
   }
   return newID;
 }
-
+//-----------------------------------------------------------------------------------------------------
 std::vector<size_t> DataContainer::getCurrentGeoIDs() const
 {
   std::vector<size_t> ret;
@@ -342,7 +338,7 @@ std::vector<size_t> DataContainer::getCurrentGeoIDs() const
   }
   return ret;
 }
-
+//-----------------------------------------------------------------------------------------------------
 std::vector<size_t> DataContainer::getCurrentMatIDs() const
 {
   std::vector<size_t> ret;
@@ -354,13 +350,13 @@ std::vector<size_t> DataContainer::getCurrentMatIDs() const
   }
   return ret;
 }
-
+//-----------------------------------------------------------------------------------------------------
 void DataContainer::checkNames()
 {
   checkMatNames();
   checkGeoNames();
 }
-
+//-----------------------------------------------------------------------------------------------------
 void DataContainer::checkMatNames()
 {
   std::vector<std::string> current = getMatNames();
@@ -380,7 +376,7 @@ void DataContainer::checkMatNames()
     }
   }
 }
-
+//-----------------------------------------------------------------------------------------------------
 void DataContainer::checkGeoNames()
 {
   std::vector<std::string> current = getGeoNames();
@@ -400,3 +396,4 @@ void DataContainer::checkGeoNames()
     }
   }
 }
+//-----------------------------------------------------------------------------------------------------

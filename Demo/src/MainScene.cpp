@@ -121,13 +121,14 @@ void MainScene::init()
   for(size_t i = 0; i<1000; ++i)
     {
       createSceneObject("TEST"+std::to_string(i), geo.at(i%5), mat.at(i%4));
-      //m_objects->getObject(i)->setGeo(mat);
-      //m_objects->getObject(i)->setMat(mat);
+      //m_objects->getObject(i)->setGeo(geo.at(0));
+      //m_objects->getObject(i)->setMat(mat.at(0));
       m_objects->getObject(i)->setScale(glm::vec3(0.2f,0.2f,0.2f));
       m_objects->getObject(i)->setPosition(glm::vec3(sinf(glm::radians(static_cast<float>(i*30))),static_cast<float>(i/32.0f),cosf(glm::radians(static_cast<float>(i*30)))));
       m_objects->getObject(i)->setRotation(vec3(0.f, 30*i, 0.f));
       //m_objects->getObject(i)->setActive(false);
     }
+  m_objects->getObject(1)->setParent(m_objects->getObject(0));
   m_objects->writeRawSceneData("TestScene");
   m_objects->loadRawSceneData("TestScene");
 }

@@ -32,7 +32,7 @@
         "MaterialID": 2,
         "MaterialName": "BluePBR",
         "Name": "TEST1",
-        "Parent": null,
+        "Parent": 0,
         "Position": [
             0.5,
             0.03125,
