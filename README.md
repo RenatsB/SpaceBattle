@@ -8,6 +8,7 @@ ___
 ### 1. **[Introduction](#introduction)**
 ### 2. **[Library Prerequisites](#library-prerequisites)**
 ### 3. **[MLElib](#mlelib)**
+### 4. **[Using The Library](#using-the-library)**
 ### 4. **[MLE Demo](#mylittleeditor-demo)**
 ### 5. **[Testing](#testing)**
 ### 6. **[Scene File Example](#scene-file-example)**
@@ -34,6 +35,19 @@ ___
 - **Object Manager** deals with transformations, object storage, instantiation and read/write to file.
 - **DataContainer** deals with geometric and material data storage and management using abstract classes as interfaces to more meaningful data.
 - For more information refer to documentation
+___
+
+## **Using The Library**
+
+- In the Project file add following lines, substituting path with appropriate:
+```
+INCLUDEPATH += <path>/MLElib/include
+LIBS += -L<path>/MLElib -lMyLittleEditor
+
+```
+- Host material and geometry classes should inherit from BaseMaterial and BaseGeometry.
+- In the module where you want to use this library, instantiate two members of type DataContainer and ObjectManager.
+- Refer to documentation and code for more information.
 ___
 
 ## **MyLittleEditor Demo**
