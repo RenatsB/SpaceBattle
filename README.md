@@ -1,6 +1,8 @@
 # **MyLittleEditor**
 
 A small scene graph/ scene object manager.
+
+Github repository: *https://github.com/NCCA/programming-paradigms-2017-18-RenatsB*
 ___
 
 ## **Content**

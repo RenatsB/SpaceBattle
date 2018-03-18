@@ -9,18 +9,14 @@ CONFIG -= app_bundle
 MOC_DIR = moc
 OBJECTS_DIR = obj
 
-INCLUDEPATH += $$PWD/../MLElib/include
-INCLUDEPATH += $$PWD/include
-
-HEADERS += $$files(./mock/*.h) \
-        include/*.h
+INCLUDEPATH += $$PWD/../MLElib/include \
+            $$PWD/src
 
 SOURCES += \
-    $$PWD/mock/*.cpp \
     src/*.cpp \
     testAll.cpp
 
-QMAKE_CXXFLAGS += -std=c++14 -O2
+QMAKE_CXXFLAGS += -std=c++14
 
 #clang
 linux-clang++: QMAKE_CXXFLAGS += -Weverything -Wno-c++98-compat
