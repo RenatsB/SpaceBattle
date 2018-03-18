@@ -1,3 +1,4 @@
+#include <qtest.h>
 #include <glm/vec3.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/ext.hpp>
@@ -5,8 +6,9 @@
 #include <memory>
 #include <vector>
 using namespace glm;
-class mockSceneObject
+class mockSceneObject : public QObject
 {
+  Q_OBJECT
 public :
   mockSceneObject(std::string _name = "SceneObject", glm::vec3 _pos=glm::vec3(0,0,0), glm::vec3 _rot=glm::vec3(0,0,0), glm::vec3 _sc=glm::vec3(1,1,1),
               std::pair<size_t, std::string>_geo = {1, "Mesh1"}, std::pair<size_t, std::string>_mat={0, "Material1"}):
@@ -70,7 +72,7 @@ protected :
   std::pair<size_t, std::string> m_geometry = {1, "Mesh1"};
   std::pair<size_t, std::string> m_material = {1, "Material1"};
 };
-
+//-----------------------------------------------------------------------------------------------------
 void mockSceneObject::changeID(const size_t _newID)
 {
   m_id = _newID;
