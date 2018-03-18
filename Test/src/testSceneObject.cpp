@@ -647,16 +647,259 @@ void testSceneObject::test_setScale ()
   Obj->reset();
 }
 
-void testSceneObject::test_getPosition ();
-void testSceneObject::test_getRotation ();
-void testSceneObject::test_getScale ();
-void testSceneObject::test_setActive();
-void testSceneObject::test_isActive();
-void testSceneObject::test_updateMatrix();
-void testSceneObject::test_getMVmatrix();
-void testSceneObject::test_setGeo();
-void testSceneObject::test_setMat();
-void testSceneObject::test_getGeoID();
-void testSceneObject::test_getGeoName();
-void testSceneObject::test_getMatID();
-void testSceneObject::test_getMatName();
+void testSceneObject::test_getPosition ()
+{
+  glm::vec3 tr1{'@','#','%'};
+  glm::vec3 tr2{std::nanf("nanx"),std::nanf("nany"),std::nanf("nanz")};
+  glm::vec3 tr3{-123213.35435,-124324554.65878769,-5436464.3254654};
+
+  QCOMPARE(Obj->getPosition().x, Obj->getPosition().x);
+  QCOMPARE(Obj->getPosition().y, Obj->getPosition().y);
+  QCOMPARE(Obj->getPosition().z, Obj->getPosition().z);
+
+  QCOMPARE(Obj->getPosition().x, float{0.f});
+  QCOMPARE(Obj->getPosition().y, float{0.f});
+  QCOMPARE(Obj->getPosition().z, float{0.f});
+
+  Obj->setPosition(tr1);
+  QCOMPARE(Obj->getPosition().x, tr1.x);
+  QCOMPARE(Obj->getPosition().y, tr1.y);
+  QCOMPARE(Obj->getPosition().z, tr1.z);
+
+  Obj->setPosition(tr2);
+  QEXPECT_FAIL("","Check nanX",Continue);
+  QCOMPARE(Obj->getPosition().x, tr2.x);
+  QEXPECT_FAIL("","Check nanY",Continue);
+  QCOMPARE(Obj->getPosition().y, tr2.y);
+  QEXPECT_FAIL("","Check nanZ",Continue);
+  QCOMPARE(Obj->getPosition().z, tr2.z);
+  Obj->reset();
+
+  Obj->moveObject(tr3);
+  QCOMPARE(Obj->getPosition().x, tr3.x);
+  QCOMPARE(Obj->getPosition().y, tr3.y);
+  QCOMPARE(Obj->getPosition().z, tr3.z);
+
+  Obj->setPosition(glm::vec3{0,0,0});
+  QCOMPARE(Obj->getPosition().x, float{0.f});
+  QCOMPARE(Obj->getPosition().y, float{0.f});
+  QCOMPARE(Obj->getPosition().z, float{0.f});
+
+  Obj->reset();
+}
+
+void testSceneObject::test_getRotation ()
+{
+  glm::vec3 tr1{'@','#','%'};
+  glm::vec3 tr2{std::nanf("nanx"),std::nanf("nany"),std::nanf("nanz")};
+  glm::vec3 tr3{-123213.35435,-124324554.65878769,-5436464.3254654};
+
+  QCOMPARE(Obj->getRotation().x, Obj->getRotation().x);
+  QCOMPARE(Obj->getRotation().y, Obj->getRotation().y);
+  QCOMPARE(Obj->getRotation().z, Obj->getRotation().z);
+
+  QCOMPARE(Obj->getRotation().x, float{0.f});
+  QCOMPARE(Obj->getRotation().y, float{0.f});
+  QCOMPARE(Obj->getRotation().z, float{0.f});
+
+  Obj->setRotation(tr1);
+  QCOMPARE(Obj->getRotation().x, tr1.x);
+  QCOMPARE(Obj->getRotation().y, tr1.y);
+  QCOMPARE(Obj->getRotation().z, tr1.z);
+
+  Obj->setRotation(tr2);
+  QEXPECT_FAIL("","Check nanX",Continue);
+  QCOMPARE(Obj->getRotation().x, Obj->getRotation().x);
+  QEXPECT_FAIL("","Check nanY",Continue);
+  QCOMPARE(Obj->getRotation().y, Obj->getRotation().y);
+  QEXPECT_FAIL("","Check nanZ",Continue);
+  QCOMPARE(Obj->getRotation().z, Obj->getRotation().z);
+  Obj->reset();
+
+  Obj->rotateObject(tr3);
+  QCOMPARE(Obj->getRotation().x, tr3.x);
+  QCOMPARE(Obj->getRotation().y, tr3.y);
+  QCOMPARE(Obj->getRotation().z, tr3.z);
+
+  Obj->setRotation(glm::vec3{0,0,0});
+  QCOMPARE(Obj->getRotation().x, float{0.f});
+  QCOMPARE(Obj->getRotation().y, float{0.f});
+  QCOMPARE(Obj->getRotation().z, float{0.f});
+
+  Obj->reset();
+}
+
+void testSceneObject::test_getScale ()
+{
+  glm::vec3 tr1{'@','#','%'};
+  glm::vec3 tr2{std::nanf("nanx"),std::nanf("nany"),std::nanf("nanz")};
+  glm::vec3 tr3{-123213.35435,-124324554.65878769,-5436464.3254654};
+
+  QCOMPARE(Obj->getScale().x, Obj->getScale().x);
+  QCOMPARE(Obj->getScale().y, Obj->getScale().y);
+  QCOMPARE(Obj->getScale().z, Obj->getScale().z);
+
+  QCOMPARE(Obj->getScale().x, float{0.f});
+  QCOMPARE(Obj->getScale().y, float{0.f});
+  QCOMPARE(Obj->getScale().z, float{0.f});
+
+  Obj->setScale(tr1);
+  QCOMPARE(Obj->getScale().x, tr1.x);
+  QCOMPARE(Obj->getScale().y, tr1.y);
+  QCOMPARE(Obj->getScale().z, tr1.z);
+
+  Obj->setScale(tr2);
+  QEXPECT_FAIL("","Check nanX",Continue);
+  QCOMPARE(Obj->getScale().x, Obj->getScale().x);
+  QEXPECT_FAIL("","Check nanY",Continue);
+  QCOMPARE(Obj->getScale().y, Obj->getScale().y);
+  QEXPECT_FAIL("","Check nanZ",Continue);
+  QCOMPARE(Obj->getScale().z, Obj->getScale().y);
+  Obj->reset();
+
+  Obj->scaleObject(tr3);
+  QCOMPARE(Obj->getScale().x, tr3.x);
+  QCOMPARE(Obj->getScale().y, tr3.y);
+  QCOMPARE(Obj->getScale().z, tr3.z);
+
+  Obj->setScale(glm::vec3{0,0,0});
+  QCOMPARE(Obj->getScale().x, float{0.f});
+  QCOMPARE(Obj->getScale().y, float{0.f});
+  QCOMPARE(Obj->getScale().z, float{0.f});
+
+  Obj->reset();
+}
+
+void testSceneObject::test_setActive()
+{
+  QCOMPARE(Obj->isActive(), true);
+  Obj->setActive(false);
+  QCOMPARE(Obj->isActive(), false);
+  Obj->setActive(false);
+  QEXPECT_FAIL("","Setting the same value twice",Continue);
+  QCOMPARE(Obj->isActive(), true);
+  QCOMPARE(Obj->isActive(), false);
+  Obj->setActive(false);
+  QCOMPARE(Obj->isActive(), false);
+  Obj->reset();
+}
+
+void testSceneObject::test_isActive()
+{
+  QCOMPARE(Obj->isActive(), true);
+  Obj->setActive(false);
+  QCOMPARE(Obj->isActive(), false);
+  Obj->setActive(false);
+  QEXPECT_FAIL("","Setting the same value twice",Continue);
+  QCOMPARE(Obj->isActive(), true);
+  QCOMPARE(Obj->isActive(), false);
+  Obj->setActive(false);
+  QCOMPARE(Obj->isActive(), false);
+  Obj->reset();
+}
+
+void testSceneObject::test_updateMatrix()
+{
+  glm::mat4 testH{1};
+  glm::translate(testH, glm::vec3{11111,-222222,-333333});
+  glm::rotate(testH, 30.0f, glm::vec3{0,1,0});
+
+  Obj->setPosition(glm::vec3{11111,-222222,-333333});
+  Obj->setRotation(glm::vec3{0,30,0});
+  bool check=true;
+  if(Obj->getMVmatrix() == testH)
+    check = false;
+  QCOMPARE(check, true);
+  Obj->reset();
+}
+
+void testSceneObject::test_getMVmatrix()
+{
+  glm::mat4 testH{1};
+  glm::translate(testH, glm::vec3{11111,-222222,-333333});
+  glm::rotate(testH, 30.0f, glm::vec3{0,1,0});
+
+  Obj->setPosition(glm::vec3{11111,-222222,-333333});
+  Obj->setRotation(glm::vec3{0,30,0});
+  bool check=true;
+  if(Obj->getMVmatrix() == testH)
+    check = false;
+  QCOMPARE(check, true);
+  Obj->reset();
+}
+
+void testSceneObject::test_setGeo()
+{
+  std::pair<size_t, std::string> gt1{'@', "Yuppieeee Almost there"};
+  std::pair<size_t, std::string> gt2{0, ""};
+
+  Obj->setGeo(gt1);
+  QCOMPARE(Obj->getGeoID(), gt1.first);
+  QCOMPARE(Obj->getGeoName(), gt1.second);
+  Obj->setGeo(gt2);
+  QCOMPARE(Obj->getGeoID(), gt2.first);
+  QCOMPARE(Obj->getGeoName(), gt2.second);
+  Obj->reset();
+}
+
+void testSceneObject::test_setMat()
+{
+  std::pair<size_t, std::string> gt1{'@', "Yuppieeee Almost there"};
+  std::pair<size_t, std::string> gt2{0, ""};
+
+  Obj->setGeo(gt1);
+  QCOMPARE(Obj->getGeoID(), gt1.first);
+  QCOMPARE(Obj->getGeoName(), gt1.second);
+  Obj->setGeo(gt2);
+  QCOMPARE(Obj->getGeoID(), gt2.first);
+  QCOMPARE(Obj->getGeoName(), gt2.second);
+  Obj->reset();
+}
+
+void testSceneObject::test_getGeoID()
+{
+  std::pair<size_t, std::string> gt1{'@', "ALMOST THERE"};
+  std::pair<size_t, std::string> gt2{0, ""};
+
+  Obj->setGeo(gt1);
+  QCOMPARE(Obj->getGeoID(), gt1.first);
+  Obj->setGeo(gt2);
+  QCOMPARE(Obj->getGeoID(), gt2.first);
+  Obj->reset();
+}
+
+void testSceneObject::test_getGeoName()
+{
+  std::pair<size_t, std::string> gt1{'@', "ALMOST THERE"};
+  std::pair<size_t, std::string> gt2{0, ""};
+
+  Obj->setGeo(gt1);
+  QCOMPARE(Obj->getGeoName(), gt1.second);
+  Obj->setGeo(gt2);
+  QCOMPARE(Obj->getGeoName(), gt2.second);
+  Obj->reset();
+}
+
+void testSceneObject::test_getMatID()
+{
+  std::pair<size_t, std::string> gt1{'@', "ALMOST..."};
+  std::pair<size_t, std::string> gt2{0, ""};
+
+  Obj->setGeo(gt1);
+  QCOMPARE(Obj->getGeoID(), gt1.first);
+  Obj->setGeo(gt2);
+  QCOMPARE(Obj->getGeoID(), gt2.first);
+  Obj->reset();
+}
+
+void testSceneObject::test_getMatName()
+{
+  std::pair<size_t, std::string> gt1{'@', "THERE!!!"};
+  std::pair<size_t, std::string> gt2{0, ""};
+
+  Obj->setGeo(gt1);
+  QCOMPARE(Obj->getGeoName(), gt1.second);
+  Obj->setGeo(gt2);
+  QCOMPARE(Obj->getGeoName(), gt2.second);
+  Obj->reset();
+}
