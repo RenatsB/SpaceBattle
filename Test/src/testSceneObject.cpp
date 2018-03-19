@@ -1,14 +1,9 @@
 #include <QtTest/QtTest>
-#include "mockSceneObject.cpp"
+#include "mockSceneObject.h"
 
 class testSceneObject : public QObject
 {
   Q_OBJECT
-private:
-  std::unique_ptr<mockSceneObject> Obj;
-  bool checkObjDefault(const mockSceneObject* _ref) const;
-  bool checkObjFull(const mockSceneObject* _ref, std::string _name, glm::vec3 _pos, glm::vec3 _rot, glm::vec3 _sc,
-                    std::pair<size_t, std::string>_geo, std::pair<size_t, std::string>_mat) const;
 private Q_SLOTS:
   void test_constructA();
   void test_constructB();
@@ -41,6 +36,12 @@ private Q_SLOTS:
   void test_getGeoName();
   void test_getMatID();
   void test_getMatName();
+private:
+  bool checkObjDefault(const mockSceneObject* _ref) const;
+  bool checkObjFull(const mockSceneObject* _ref, std::string _name, glm::vec3 _pos, glm::vec3 _rot, glm::vec3 _sc,
+                    std::pair<size_t, std::string>_geo, std::pair<size_t, std::string>_mat) const;
+private:
+  std::unique_ptr<mockSceneObject> Obj;
 };
 
 bool testSceneObject::checkObjDefault(const mockSceneObject* _ref) const
@@ -304,7 +305,7 @@ void testSceneObject::test_getParent()
 void testSceneObject::test_addChild()
 {
   Obj->reset();
-  QCOMPARE(Obj->getChildren(), nullptr);
+  QCOMPARE(Obj->getChildren().at(0), nullptr);
   std::pair<size_t,std::string> testEtemp{100500,"DTheRockJ"};
   mockSceneObject* testE1 = new mockSceneObject("TestE1", testEtemp, testEtemp);
   mockSceneObject* testE2= new mockSceneObject("TestE2", testEtemp, testEtemp);
@@ -317,7 +318,7 @@ void testSceneObject::test_addChild()
   testEvec.emplace_back(testE4);
   Obj->addChild(testE1);
   QEXPECT_FAIL("","Checking agains nullptr",Continue);
-  QCOMPARE(Obj->getChildren(), nullptr);
+  QCOMPARE(Obj->getChildren().at(0), nullptr);
   QCOMPARE(Obj->getChildren().at(0), testE1);
   Obj->setChildren(std::vector<mockSceneObject*>{nullptr});
   Obj->addChild(testE2);
@@ -334,7 +335,7 @@ void testSceneObject::test_addChild()
 void testSceneObject::test_setChildren()
 {
   Obj->reset();
-  QCOMPARE(Obj->getChildren(), nullptr);
+  QCOMPARE(Obj->getChildren().at(0), nullptr);
   std::pair<size_t,std::string> testFtemp{67,"SomeName"};
   mockSceneObject* testF1 = new mockSceneObject("TestF1", testFtemp, testFtemp);
   mockSceneObject* testF2= new mockSceneObject("TestF2", testFtemp, testFtemp);
@@ -357,7 +358,7 @@ void testSceneObject::test_setChildren()
 void testSceneObject::test_getChildren()
 {
   Obj->reset();
-  QCOMPARE(Obj->getChildren(), nullptr);
+  QCOMPARE(Obj->getChildren().at(0), nullptr);
   std::pair<size_t,std::string> testGtemp{228,"TooManyNames"};
   mockSceneObject* testG1 = new mockSceneObject("TestF1", testGtemp, testGtemp);
   mockSceneObject* testG2= new mockSceneObject("TestF2", testGtemp, testGtemp);

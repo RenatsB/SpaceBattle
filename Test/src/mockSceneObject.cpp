@@ -1,77 +1,4 @@
-#include <qtest.h>
-#include <glm/vec3.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/ext.hpp>
-#include <glm/glm.hpp>
-#include <memory>
-#include <vector>
-using namespace glm;
-class mockSceneObject : public QObject
-{
-  Q_OBJECT
-public :
-  mockSceneObject(std::string _name = "SceneObject", glm::vec3 _pos=glm::vec3(0,0,0), glm::vec3 _rot=glm::vec3(0,0,0), glm::vec3 _sc=glm::vec3(1,1,1),
-              std::pair<size_t, std::string>_geo = {1, "Mesh1"}, std::pair<size_t, std::string>_mat={0, "Material1"}):
-    m_pos(_pos),
-    m_rot(_rot),
-    m_scale(_sc),
-    m_name(_name),
-    m_MVmatrix(1),
-    m_geometry(_geo.first, _geo.second),
-    m_material(_mat.first, _mat.second)
-  {}
-  mockSceneObject(std::string _name = "SceneObject", std::pair<size_t, std::string>_geo = {1, "Mesh1"}, std::pair<size_t, std::string>_mat={0, "Material1"}):
-    m_pos(glm::vec3(0,0,0)),
-    m_rot(glm::vec3(0,0,0)),
-    m_scale(glm::vec3(1,1,1)),
-    m_name(_name),
-    m_MVmatrix(1),
-    m_geometry(_geo.first, _geo.second),
-    m_material(_mat.first, _mat.second)
-  {}
-  ~mockSceneObject()=default;
-  void reset();
-  void changeID (const size_t _newID);
-  void setName(const std::string _new);
-  std::string getName() const;
-  void setParent(mockSceneObject* _new);
-  mockSceneObject* getParent() const;
-  void addChild(mockSceneObject* _new);
-  void setChildren(std::vector<mockSceneObject*> _new);
-  std::vector<mockSceneObject*> getChildren() const;
-  void moveObject (const vec3 _tr);
-  void setPosition (const vec3 _tr);
-  void rotateObject (const vec3 _rot);
-  void setRotation (const vec3 _rot);
-  void scaleObject (const vec3 _sc);
-  void setScale (const vec3 _sc);
-  vec3 getPosition () const;
-  vec3 getRotation () const;
-  vec3 getScale () const;
-  size_t getID () const;
-  void setActive(bool _new);
-  bool isActive();
-  void updateMatrix();
-  mat4 getMVmatrix() const;
-  void setGeo(std::pair<size_t, std::string> &_new);
-  void setMat(std::pair<size_t, std::string> &_new);
-  size_t getGeoID() const;
-  std::string getGeoName() const;
-  size_t getMatID() const;
-  std::string getMatName() const;
-protected :
-  vec3 m_pos = glm::vec3(0,0,0);
-  vec3 m_rot = glm::vec3(0,0,0);
-  vec3 m_scale = glm::vec3(1,1,1);
-  size_t m_id=0;
-  mockSceneObject* m_parent = nullptr;
-  std::vector<mockSceneObject*> m_children;
-  std::string m_name = "SceneObject";
-  bool m_isActive = true;
-  mat4 m_MVmatrix {1};
-  std::pair<size_t, std::string> m_geometry = {1, "Mesh1"};
-  std::pair<size_t, std::string> m_material = {1, "Material1"};
-};
+#include "mockSceneObject.h"
 //-----------------------------------------------------------------------------------------------------
 void mockSceneObject::changeID(const size_t _newID)
 {
@@ -133,53 +60,53 @@ std::vector<mockSceneObject*> mockSceneObject::getChildren() const
   return m_children;
 }
 //-----------------------------------------------------------------------------------------------------
-void mockSceneObject::moveObject (const vec3 _tr)
+void mockSceneObject::moveObject (const glm::vec3 _tr)
 {
   m_pos += _tr;
   updateMatrix();
 }
 //-----------------------------------------------------------------------------------------------------
-void mockSceneObject::setPosition(const vec3 _tr)
+void mockSceneObject::setPosition(const glm::vec3 _tr)
 {
   m_pos=_tr;
   updateMatrix();
 }
 //-----------------------------------------------------------------------------------------------------
-void mockSceneObject::rotateObject (const vec3 _rot)
+void mockSceneObject::rotateObject (const glm::vec3 _rot)
 {
   m_rot += _rot;
   updateMatrix();
 }
 //-----------------------------------------------------------------------------------------------------
-void mockSceneObject::setRotation (const vec3 _rot)
+void mockSceneObject::setRotation (const glm::vec3 _rot)
 {
   m_rot=_rot;
   updateMatrix();
 }
 //-----------------------------------------------------------------------------------------------------
-void mockSceneObject::scaleObject (const vec3 _sc)
+void mockSceneObject::scaleObject (const glm::vec3 _sc)
 {
   m_scale += _sc;
   updateMatrix();
 }
 //-----------------------------------------------------------------------------------------------------
-void mockSceneObject::setScale (const vec3 _sc)
+void mockSceneObject::setScale (const glm::vec3 _sc)
 {
   m_scale=_sc;
   updateMatrix();
 }
 //-----------------------------------------------------------------------------------------------------
-vec3 mockSceneObject::getPosition () const
+glm::vec3 mockSceneObject::getPosition () const
 {
   return m_pos;
 }
 //-----------------------------------------------------------------------------------------------------
-vec3 mockSceneObject::getRotation () const
+glm::vec3 mockSceneObject::getRotation () const
 {
   return m_rot;
 }
 //-----------------------------------------------------------------------------------------------------
-vec3 mockSceneObject::getScale () const
+glm::vec3 mockSceneObject::getScale () const
 {
   return m_scale;
 }
@@ -222,16 +149,16 @@ void mockSceneObject::updateMatrix()
     }
 }
 //-----------------------------------------------------------------------------------------------------
-mat4 mockSceneObject::getMVmatrix() const
+glm::mat4 mockSceneObject::getMVmatrix() const
 {
   return m_MVmatrix;
 }
 //-----------------------------------------------------------------------------------------------------
 void mockSceneObject::reset()
 {
-  m_pos=vec3(0,0,0);
-  m_rot=vec3(0,0,0);
-  m_scale=vec3(1,1,1);
+  m_pos=glm::vec3(0,0,0);
+  m_rot=glm::vec3(0,0,0);
+  m_scale=glm::vec3(1,1,1);
   if(m_parent != nullptr)
     setParent(nullptr);
   if(!m_children.empty())

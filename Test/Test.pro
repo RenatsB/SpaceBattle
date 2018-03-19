@@ -1,7 +1,7 @@
 QT += testlib
 QT -= gui
 
-TARGET = main
+TARGET = MLElibTest
 
 TEMPLATE = app
 CONFIG += console c++14
@@ -9,8 +9,10 @@ CONFIG -= app_bundle
 MOC_DIR = moc
 OBJECTS_DIR = obj
 
-INCLUDEPATH += $$PWD/../MLElib/include \
-            $$PWD/src
+INCLUDEPATH += $$PWD/src \
+            $$PWD/include
+
+HEADERS += $$PWD/include/*.h
 
 SOURCES += \
     src/*.cpp \

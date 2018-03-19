@@ -1,61 +1,4 @@
-#include <QtTest/QtTest>
-#include "mockSceneObject.cpp"
-#include <QFile>
-#include <QJsonObject>
-#include <QJsonArray>
-#include <QJsonDocument>
-#include <utility>
-class mockObjectManager
-{
-public:
-  mockObjectManager()=default;
-  ~mockObjectManager()=default;
-  void createSceneObject(std::string _name="SceneObject", vec3 _pos=vec3(0,0,0), vec3 _rot=vec3(0,0,0), vec3 _sc=vec3(1,1,1), std::pair<size_t, std::string> _geo={1, "Mesh1"}, std::pair<size_t, std::string> _mat={1, "Material1"});
-  void createSceneObject(std::string _name="SceneObject", std::pair<size_t, std::string> _geo={1, "Mesh1"}, std::pair<size_t, std::string> _mat={1, "Material1"});
-  void selectObject(const size_t _id);
-  void selectObject(const std::string &_name);
-  void selectObject(const std::vector<size_t> &_ids);
-  void selectObject(const std::vector<std::string> &_names);
-  void deselectObject(const size_t _id);
-  void deselectObject(const std::string &_name);
-  void deselectObject(const std::vector<size_t> &_ids);
-  void deselectObject(const std::vector<std::string> &_names);
-  bool isSelected(const size_t _id) const;
-  bool isSelected(const std::string _name) const;
-  void move(unsigned short _axis, float _val);
-  void scale(unsigned short _axis, float _val);
-  void rotate(unsigned short _axis, float _val);
-  vec3 constructTranslateVector(unsigned short _axis, float _val) const;
-  void changeGeo(std::pair<size_t, std::string> _geo);
-  void changeMat(std::pair<size_t, std::string> _mat);
-  mockSceneObject* objectAt(size_t _pos) const;
-  bool findObject(const size_t _id) const;
-  bool findObject(const std::string &_name) const;
-  mockSceneObject* getObject(size_t _id) const;
-  mockSceneObject* getObject(std::string _name) const;
-  size_t getObjectID(const std::string &_name) const;
-  size_t getObjectCount() const;
-  void loadRawSceneData(const std::string &_name);
-  void writeRawSceneData(const std::string &_name) const;
-  void checkObjectIDs();
-  size_t getFreeID() const;
-  std::vector<size_t> getCurrentIDs()const;
-private:
-  std::vector<std::unique_ptr<mockSceneObject>> m_sceneObjects;
-  std::vector<size_t> m_selected;
-};
-//-----------------------------------------------------------------------------------------------------
-void mockObjectManager::createSceneObject(std::string _name, vec3 _pos, vec3 _rot, vec3 _sc, std::pair<size_t, std::string> _geo, std::pair<size_t, std::string> _mat)
-{
-  m_sceneObjects.emplace_back(new mockSceneObject(_name, _pos, _rot, _sc, _geo, _mat));
-  checkObjectIDs();
-}
-//-----------------------------------------------------------------------------------------------------
-void mockObjectManager::createSceneObject(std::string _name, std::pair<size_t, std::string> _geo, std::pair<size_t, std::string> _mat)
-{
-  m_sceneObjects.emplace_back(new mockSceneObject(_name, _geo, _mat));
-  checkObjectIDs();
-}
+#include "mockObjectManager.h"
 //-----------------------------------------------------------------------------------------------------
 void mockObjectManager::selectObject(const size_t _id)
 {
@@ -228,9 +171,9 @@ void mockObjectManager::rotate(unsigned short _axis, float _val)
   }
 }
 //-----------------------------------------------------------------------------------------------------
-vec3 mockObjectManager::constructTranslateVector(unsigned short _axis, float _val) const
+glm::vec3 mockObjectManager::constructTranslateVector(unsigned short _axis, float _val) const
 {
-  vec3 ret(0,0,0);
+  glm::vec3 ret(0,0,0);
   switch(_axis)
   {
     case 0 : {ret.x = _val; break;}
@@ -392,123 +335,11 @@ inline float floatify(const QJsonValue _jStr)
   return static_cast<float>(_jStr.toDouble());
 }
 //-----------------------------------------------------------------------------------------------------
-vec3 vectorize(const QJsonArray _jStr)
+glm::vec3 vectorize(const QJsonArray _jStr)
 {
   auto arrX = _jStr[0];
   auto arrY = _jStr[1];
   auto arrZ = _jStr[2];
-  return vec3(floatify(arrX), floatify(arrY), floatify(arrZ));
-}
-//-----------------------------------------------------------------------------------------------------
-void mockObjectManager::loadRawSceneData(const std::string &_name)
-{
-  std::string save = "AutosavedScene";
-  writeRawSceneData(save);
-
-  m_sceneObjects.clear();
-  m_sceneObjects.resize(0);
-  m_selected.clear();
-  m_selected.resize(0);
-
-  // Read in raw file
-  QString fileName = QString::fromStdString("scenes/"+_name+".json");
-  QFile file(fileName);
-  file.open(QIODevice::ReadOnly | QIODevice::Text);
-  QByteArray rawData = file.readAll();
-  // Parse document
-  QJsonDocument doc(QJsonDocument::fromJson(rawData));
-  // Get the json object to view
-  QJsonObject ObjectParts = doc.object();
-  std::vector<std::pair<size_t, size_t>> relations;
-
-  for(auto obj= ObjectParts.begin(); obj!=ObjectParts.end(); ++obj)
-  {
-    auto sceneObject = obj.value().toObject();
-    auto jname = sceneObject["Name"].toString();
-    auto jid = sceneObject["ID"].toInt();
-    bool jactive = sceneObject["Active"].toBool();
-    auto jpos = sceneObject["Position"].toArray();
-    auto jrot = sceneObject["Rotation"].toArray();
-    auto jscale = sceneObject["Scale"].toArray();
-    auto jparent = sceneObject["Parent"].toInt();
-    auto jgeoName = sceneObject["GeometryName"].toString();
-    auto jgeoID = sceneObject["GeometryID"].toInt();
-    auto jmatName = sceneObject["MaterialName"].toString();
-    auto jmatID = sceneObject["MaterialID"].toInt();
-    //now construct an object using retrieved info
-    m_sceneObjects.emplace_back(new mockSceneObject(stringify(jname),
-    vectorize(jpos), vectorize(jrot), vectorize(jscale),
-    std::pair<size_t, std::string>{intify(jgeoID), stringify(jgeoName)}, std::pair<size_t, std::string>{intify(jmatID), stringify(jmatName)}));
-    m_sceneObjects.back()->changeID(intify(jid));
-    m_sceneObjects.back()->setActive(jactive);
-    //do not assign relations at this point (not all objects constructed yet)
-    //but save for later
-    if(jparent != QJsonValue::Null)
-    {
-      relations.push_back(std::pair<size_t,size_t>(intify(jparent),intify(jid)));
-    }
-    //make sure to update matrix at this point ot else all objects will have default matrix
-    m_sceneObjects.back()->updateMatrix();
-  }
-  //here all objects should be ready for connection
-  for(auto rel : relations)
-  {
-    //calling addChild also calls add parent in the child, so no need for extra code here
-    getObject(rel.first)->addChild(getObject(rel.second));
-  }
-  file.close();
-}
-//-----------------------------------------------------------------------------------------------------
-void mockObjectManager::writeRawSceneData(const std::string &_name) const
-{
-  // Read in raw file
-  QString fileName = QString::fromStdString("scenes/"+_name+".json");
-  QFile file(fileName);
-  file.open(QIODevice::WriteOnly | QIODevice::Text);
-  //write to file below
-
-  // Get the json object to view
-  QJsonObject ObjectParts;
-  size_t i=0;
-  for(auto obj= m_sceneObjects.begin(); obj<m_sceneObjects.end(); ++obj)
-  {
-    auto sceneObject = QJsonObject();
-    sceneObject["Name"] = QString::fromStdString(obj->get()->getName());
-    sceneObject["ID"] = static_cast<qint32>(obj->get()->getID());
-    bool boolText = obj->get()->isActive() ? true : false;
-    sceneObject["Active"] = boolText;
-    QJsonArray pos;
-    pos.append(static_cast<double>(obj->get()->getPosition().x));
-    pos.append(static_cast<double>(obj->get()->getPosition().y));
-    pos.append(static_cast<double>(obj->get()->getPosition().z));
-    sceneObject["Position"] = pos;
-    QJsonArray rot;
-    rot.append(static_cast<double>(obj->get()->getRotation().x));
-    rot.append(static_cast<double>(obj->get()->getRotation().y));
-    rot.append(static_cast<double>(obj->get()->getRotation().z));
-    sceneObject["Rotation"] = rot;
-    QJsonArray scale;
-    scale.append(static_cast<double>(obj->get()->getScale().x));
-    scale.append(static_cast<double>(obj->get()->getScale().y));
-    scale.append(static_cast<double>(obj->get()->getScale().z));
-    sceneObject["Scale"] = scale;
-    if(obj->get()->getParent() != nullptr)
-    {
-      sceneObject["Parent"] = static_cast<qint32>(obj->get()->getParent()->getID());
-    }
-    else
-    {
-      sceneObject["Parent"] = QJsonValue::Null;
-    }
-    sceneObject["GeometryName"] = QString::fromStdString(obj->get()->getGeoName());
-    sceneObject["GeometryID"] = static_cast<qint32>(obj->get()->getGeoID());
-    sceneObject["MaterialName"] = QString::fromStdString(obj->get()->getMatName());
-    sceneObject["MaterialID"] = static_cast<qint32>(obj->get()->getMatID());
-    ObjectParts["Object"+QString::fromStdString(std::to_string(i))] = sceneObject;
-    ++i;
-  }
-  QJsonDocument doc(ObjectParts);
-  file.write(doc.toJson());
-  file.close();
+  return glm::vec3(floatify(arrX), floatify(arrY), floatify(arrZ));
 }
 //-----------------------------------------------------------------------------------------------------
