@@ -296,35 +296,92 @@ void testObjectManager::findObjectByName()
 
 void testObjectManager::getObjectByID()
 {
-
+  ObjMgr->createObject("TestJ1");
+  ObjMgr->createObject("TestJ2");
+  QCOMPARE(ObjMgr->getObject('@'), nullptr);
+  QEXPECT_FAIL("","Checking first value",Continue);
+  QCOMPARE(ObjMgr->getObject(0), nullptr);
+  QEXPECT_FAIL("","Checking second value",Continue);
+  QCOMPARE(ObjMgr->getObject(1), nullptr);
+  ObjMgr->removeObject(0);
+  ObjMgr->removeObject(1);
 }
 
 void testObjectManager::getObjectByName()
 {
-
+  ObjMgr->createObject("TestJ1");
+  ObjMgr->createObject("TestJ2");
+  QCOMPARE(ObjMgr->getObject("IDontSeeMyCookie"), nullptr);
+  QEXPECT_FAIL("","Checking first value",Continue);
+  QCOMPARE(ObjMgr->getObject("TestJ1"), nullptr);
+  QEXPECT_FAIL("","Checking second value",Continue);
+  QCOMPARE(ObjMgr->getObject("TestJ2"), nullptr);
+  ObjMgr->removeObject(0);
+  ObjMgr->removeObject(1);
 }
 
 void testObjectManager::getObjectID()
 {
-
+  ObjMgr->createObject("TestK1");
+  ObjMgr->createObject("TestK2");
+  ObjMgr->createObject("TestK3");
+  QCOMPARE(ObjMgr->getObjectID("TestK2"), static_cast<size_t>(1));
+  ObjMgr->removeObject("TestK2");
+  ObjMgr->createObject("TestK4");
+  QEXPECT_FAIL("","Checking new value",Continue);
+  QCOMPARE(ObjMgr->getObjectID("TestK4"), static_cast<size_t>(4));
+  QCOMPARE(ObjMgr->getObjectID("TestK4"), static_cast<size_t>(1));
+  ObjMgr->removeObject(0);
+  ObjMgr->removeObject(1);
+  ObjMgr->removeObject(2);
 }
 
 void testObjectManager::getObjectCount()
 {
-
+  QCOMPARE(ObjMgr->getObjectCount(), static_cast<size_t>(0));
+  ObjMgr->createObject("TestL1");
+  ObjMgr->createObject("TestL2");
+  QCOMPARE(ObjMgr->getObjectCount(), static_cast<size_t>(2));
+  ObjMgr->removeObject(0);
+  ObjMgr->removeObject(1);
 }
 
 void testObjectManager::checkObjectIDs()
 {
-
+  ObjMgr->createObject("TestM1");
+  ObjMgr->createObject("TestM2");
+  ObjMgr->createObject("TestM3");
+  ObjMgr->checkObjectIDs();
+  QCOMPARE(ObjMgr->getObjectID("TestM1"), static_cast<size_t>(0));
+  QCOMPARE(ObjMgr->getObjectID("TestM2"), static_cast<size_t>(1));
+  QCOMPARE(ObjMgr->getObjectID("TestM3"), static_cast<size_t>(2));
+  ObjMgr->removeObject(0);
+  ObjMgr->removeObject(1);
+  ObjMgr->removeObject(2);
 }
 
 void testObjectManager::getFreeID()
 {
-
+  ObjMgr->createObject("TestK1");
+  ObjMgr->createObject("TestK2");
+  ObjMgr->createObject("TestK3");
+  ObjMgr->removeObject("TestK2");
+  QCOMPARE(ObjMgr->getFreeID(), static_cast<size_t>(1));
+  ObjMgr->removeObject(0);
+  ObjMgr->removeObject(1);
 }
 
 void testObjectManager::getCurrentIDs()
 {
-
+  ObjMgr->createObject("TestK1");
+  ObjMgr->createObject("TestK2");
+  ObjMgr->createObject("TestK3");
+  ObjMgr->removeObject("TestK2");
+  std::vector<size_t> current = ObjMgr->getCurrentIDs();
+  QCOMPARE(current.at(0), static_cast<size_t>(0));
+  QEXPECT_FAIL("","Checking deleted cell",Continue);
+  QCOMPARE(current.at(1), static_cast<size_t>(1));
+  QCOMPARE(current.at(1), static_cast<size_t>(2));
+  ObjMgr->removeObject(0);
+  ObjMgr->removeObject(1);
 }
