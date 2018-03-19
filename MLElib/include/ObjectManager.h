@@ -36,6 +36,14 @@ public:
   //-----------------------------------------------------------------------------------------------------
   void createSceneObject(std::string _name="SceneObject", std::pair<size_t, std::string> _geo={1, "Mesh1"}, std::pair<size_t, std::string> _mat={1, "Material1"});
   //-----------------------------------------------------------------------------------------------------
+  /// @brief Removes an object from m_sceneObjects if its name matches the input
+  //-----------------------------------------------------------------------------------------------------
+  void removeObject(const std::string _name);
+  //-----------------------------------------------------------------------------------------------------
+  /// @brief Removes an object from m_sceneObjects if its ID matches the input
+  //-----------------------------------------------------------------------------------------------------
+  void removeObject(const size_t _id);
+  //-----------------------------------------------------------------------------------------------------
   /// @brief Adds a scene object with the specified ID to the selection vector
   //-----------------------------------------------------------------------------------------------------
   void selectObject(const size_t _id);

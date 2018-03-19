@@ -1,4 +1,29 @@
 #include "mockObjectManager.h"
+void mockObjectManager::createObject(std::string _name)
+{
+  m_sceneObjects.emplace_back(new mockSceneObject(_name, glm::vec3{0,0,0}));
+}
+//-----------------------------------------------------------------------------------------------------
+void mockObjectManager::removeObject(const std::string _name)
+{
+  if(!_name.empty())
+  {
+    for(auto it = m_sceneObjects.begin(); it<m_sceneObjects.end(); ++it)
+    {
+      if(it->get()->getName() == _name)
+        m_sceneObjects.erase(it);
+    }
+  }
+}
+//-----------------------------------------------------------------------------------------------------
+void mockObjectManager::removeObject(const size_t _id)
+{
+  for(auto it = m_sceneObjects.begin(); it<m_sceneObjects.end(); ++it)
+  {
+    if(it->get()->getID() == _id)
+      m_sceneObjects.erase(it);
+  }
+}
 //-----------------------------------------------------------------------------------------------------
 void mockObjectManager::selectObject(const size_t _id)
 {

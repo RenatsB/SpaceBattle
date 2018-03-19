@@ -9,6 +9,9 @@ class mockObjectManager
 public:
   mockObjectManager()=default;
   ~mockObjectManager()=default;
+  void createObject(const std::string _name);
+  void removeObject(const std::string _name);
+  void removeObject(const size_t _id);
   void selectObject(const size_t _id);
   void selectObject(const std::string &_name);
   void selectObject(const std::vector<size_t> &_ids);

@@ -18,6 +18,27 @@ void ObjectManager::createSceneObject(std::string _name, std::pair<size_t, std::
   checkObjectIDs();
 }
 //-----------------------------------------------------------------------------------------------------
+void ObjectManager::removeObject(const std::string _name)
+{
+  if(!_name.empty())
+  {
+    for(auto it = m_sceneObjects.begin(); it<m_sceneObjects.end(); ++it)
+    {
+      if(it->get()->getName() == _name)
+        m_sceneObjects.erase(it);
+    }
+  }
+}
+//-----------------------------------------------------------------------------------------------------
+void ObjectManager::removeObject(const size_t _id)
+{
+  for(auto it = m_sceneObjects.begin(); it<m_sceneObjects.end(); ++it)
+  {
+    if(it->get()->getID() == _id)
+      m_sceneObjects.erase(it);
+  }
+}
+//-----------------------------------------------------------------------------------------------------
 void ObjectManager::selectObject(const size_t _id)
 {
   if(m_selected.empty()) //none selected yet
