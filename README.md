@@ -1,6 +1,6 @@
 # **Space Battle**
 
-A small 3D spcae shooter game. More advanced version of AcesOfInfinity (*git@github.com:RenatsB/AcesOfInfinity.git*)
+A small 3D space shooter game. More advanced version of AcesOfInfinity (*https://github.com/RenatsB/AcesOfInfinity.git*)
 ___
 
 ## **Content**
@@ -12,7 +12,7 @@ ___
 
 ## **Introduction**
 - **Space Battle** is a small 3D space shooter game based on a functionality of a tool I made for another project.
-- This game originally is a fork of *git@github.com:RenatsB/MyLittleEditor.git*
+- This game originally is a fork of *https://github.com/RenatsB/MyLittleEditor.git*
 
 ___
 
