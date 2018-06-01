@@ -23,6 +23,8 @@ INCLUDEPATH += \
 HEADERS += $$files(./include/*.h)
 SOURCES += $$files(./src/*.cpp)
 
+OTHER_FILES += $$files(../README.md)
+
 linux:{
     LIBS += -lGL -lGLU -lGLEW
 }

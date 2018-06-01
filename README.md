@@ -38,7 +38,12 @@ ___
 ___
 
 ```
-todo
+Notes:
+  Raycasting:
+    http://orfeasel.com/single-line-raycasting/
+    https://rosettacode.org/wiki/Ray-casting_algorithm#C.2B.2B
+    https://github.com/anthonynguyen/raycast-3d/blob/master/raycast.cpp
+    https://stackoverflow.com/questions/17125082/3d-point-inside-object
 ```
 ___
 @ Renats Bikmajevs
