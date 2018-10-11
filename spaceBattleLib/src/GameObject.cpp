@@ -1,6 +1,6 @@
-#include "SceneObject.h"
+#include "GameObject.h"
 //-----------------------------------------------------------------------------------------------------
-void SceneObject::reset()
+void GameObject::reset()
 {
   m_pos=vec3(0,0,0);
   m_rot=vec3(0,0,0);
@@ -16,43 +16,48 @@ void SceneObject::reset()
   setMat(mat);
 }
 //-----------------------------------------------------------------------------------------------------
-void SceneObject::changeID(const size_t _newID)
+void GameObject::changeID(const size_t _newID)
 {
   m_id = _newID;
 }
 //-----------------------------------------------------------------------------------------------------
-size_t SceneObject::getID () const
+size_t GameObject::getID () const
 {
   return m_id;
 }
 //-----------------------------------------------------------------------------------------------------
-void SceneObject::setGeo(std::pair<size_t, std::string> &_new)
+void GameObject::setGeo(std::pair<size_t, std::string> &_new)
 {
   m_geometry = _new;
 }
 //-----------------------------------------------------------------------------------------------------
-void SceneObject::setMat(std::pair<size_t, std::string> &_new)
+void GameObject::setMat(std::pair<size_t, std::string> &_new)
 {
   m_material = _new;
 }
 //-----------------------------------------------------------------------------------------------------
-size_t SceneObject::getGeoID() const
+size_t GameObject::getGeoID() const
 {
   return m_geometry.first;
 }
 //-----------------------------------------------------------------------------------------------------
-std::string SceneObject::getGeoName() const
+std::string GameObject::getGeoName() const
 {
   return m_geometry.second;
 }
 //-----------------------------------------------------------------------------------------------------
-size_t SceneObject::getMatID() const
+size_t GameObject::getMatID() const
 {
   return m_material.first;
 }
 //-----------------------------------------------------------------------------------------------------
-std::string SceneObject::getMatName() const
+std::string GameObject::getMatName() const
 {
   return m_material.second;
+}
+//-----------------------------------------------------------------------------------------------------
+void GameObject::destroy()
+{
+  this->~GameObject();
 }
 //-----------------------------------------------------------------------------------------------------

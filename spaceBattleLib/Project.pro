@@ -20,8 +20,20 @@ INCLUDEPATH += \
     /usr/local/include/glm \
     $$PWD/include
 
-HEADERS += $$files(./include/*.h)
-SOURCES += $$files(./src/*.cpp)
+HEADERS += $$files(./include/*.h) \
+    include/Light.h \
+    include/Camera.h \
+    include/Ship.h \
+    include/Spawn.h \
+    include/Weapon.h \
+    include/BaseAdvObject.h
+SOURCES += $$files(./src/*.cpp) \
+    src/Light.cpp \
+    src/Camera.cpp \
+    src/Ship.cpp \
+    src/Spawn.cpp \
+    src/Weapon.cpp \
+    src/BaseAdvObject.cpp
 
 OTHER_FILES += $$files(../README.md)
 

@@ -1,12 +1,13 @@
 #ifndef OBJECTMANAGER_H
 #define OBJECTMANAGER_H
-#include "SceneObject.h"
+#include "GameObject.h"
 #include "DataContainer.h"
 //-------------------------------------------------------------------------------------------------------
 /// @author Renats Bikmajevs
 /// Modified from : --
 /// @note A container for Scene Objects that also manages them and can save or load the current scene setup
 //-------------------------------------------------------------------------------------------------------
+using namespace glm;
 class ObjectManager
 {
 public:
@@ -27,20 +28,20 @@ public:
   /// @param [in]_geo A pair of linked geometry ID and Name
   /// @param [in]_mat A pair of linked material ID and Name
   //-----------------------------------------------------------------------------------------------------
-  void createSceneObject(std::string _name="SceneObject", vec3 _pos=vec3(0,0,0), vec3 _rot=vec3(0,0,0), vec3 _sc=vec3(1,1,1), std::pair<size_t, std::string> _geo={1, "Mesh1"}, std::pair<size_t, std::string> _mat={1, "Material1"});
+  void createGameObject(std::string _name="GameObject", vec3 _pos=vec3(0,0,0), vec3 _rot=vec3(0,0,0), vec3 _sc=vec3(1,1,1), std::pair<size_t, std::string> _geo={1, "Mesh1"}, std::pair<size_t, std::string> _mat={1, "Material1"});
   //-----------------------------------------------------------------------------------------------------
   /// @brief A simplified object Instantiation method
   /// @param [in]_name Name of the instantiated object
   /// @param [in]_geo A pair of linked geometry ID and Name
   /// @param [in]_mat A pair of linked material ID and Name
   //-----------------------------------------------------------------------------------------------------
-  void createSceneObject(std::string _name="SceneObject", std::pair<size_t, std::string> _geo={1, "Mesh1"}, std::pair<size_t, std::string> _mat={1, "Material1"});
+  void createGameObject(std::string _name="GameObject", std::pair<size_t, std::string> _geo={1, "Mesh1"}, std::pair<size_t, std::string> _mat={1, "Material1"});
   //-----------------------------------------------------------------------------------------------------
-  /// @brief Removes an object from m_sceneObjects if its name matches the input
+  /// @brief Removes an object from m_gameObjects if its name matches the input
   //-----------------------------------------------------------------------------------------------------
   void removeObject(const std::string _name);
   //-----------------------------------------------------------------------------------------------------
-  /// @brief Removes an object from m_sceneObjects if its ID matches the input
+  /// @brief Removes an object from m_gameObjects if its ID matches the input
   //-----------------------------------------------------------------------------------------------------
   void removeObject(const size_t _id);
   //-----------------------------------------------------------------------------------------------------
@@ -111,7 +112,7 @@ public:
   /// @brief Returns a pointer to the scene object at the specified position in the stored vector, for easy lookup when ID and Name are irrelevant
   /// @brief If object is not found returns nullptr
   //-----------------------------------------------------------------------------------------------------
-  SceneObject* objectAt(size_t _pos) const;
+  GameObject* objectAt(size_t _pos) const;
   //-----------------------------------------------------------------------------------------------------
   /// @brief Checks if a scene object with specified ID exists
   //-----------------------------------------------------------------------------------------------------
@@ -124,12 +125,12 @@ public:
   /// @brief Returns a pointer to the scene object with the specified ID
   /// @brief If object is not found returns nullptr
   //-----------------------------------------------------------------------------------------------------
-  SceneObject* getObject(size_t _id) const;
+  GameObject* getObject(size_t _id) const;
   //-----------------------------------------------------------------------------------------------------
   /// @brief Returns a pointer to the scene object with the specified Name
   /// @brief If object is not found returns nullptr
   //-----------------------------------------------------------------------------------------------------
-  SceneObject* getObject(std::string _name) const;
+  GameObject* getObject(std::string _name) const;
   //-----------------------------------------------------------------------------------------------------
   /// @brief Returns the ID of the scene object with the specified Name
   /// @brief If object is not found returns 0
@@ -167,7 +168,7 @@ private:
   //-----------------------------------------------------------------------------------------------------
   /// @brief A vector of pointers to all currently stored scene objects
   //-----------------------------------------------------------------------------------------------------
-  std::vector<std::unique_ptr<SceneObject>> m_sceneObjects;
+  std::vector<std::unique_ptr<GameObject>> m_gameObjects;
   //-----------------------------------------------------------------------------------------------------
   /// @brief A vector of selected object IDs
   //-----------------------------------------------------------------------------------------------------

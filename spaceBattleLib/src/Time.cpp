@@ -27,5 +27,5 @@ void Time::tick()
   std::chrono::high_resolution_clock::time_point now = getCurrentTime();
   m_time = FpMilliseconds(now-m_startTime).count();
   m_deltaTime = m_prevTime - m_time;
-  m_prevTime = m_prevTime = m_time;
+  m_prevTime = m_prevTime - m_time;
 }

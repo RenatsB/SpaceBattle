@@ -1,10 +1,11 @@
+#ifndef TIME_H_
+#define TIME_H_
 #include <chrono>
 class Time
 {
 public :
-  Time()
-  {
-  }
+  Time()=default;
+  ~Time()=default;
 
   float GetTime();
   float DeltaTime();
@@ -20,3 +21,4 @@ private:
   float m_deltaTime;
   float m_time;
 };
+#endif //TIME_H_
