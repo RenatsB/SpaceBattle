@@ -35,7 +35,8 @@ SOURCES += $$files(./src/*.cpp) \
     src/Weapon.cpp \
     src/BaseAdvObject.cpp
 
-OTHER_FILES += $$files(../README.md)
+OTHER_FILES += $$files(../README.md) \
+    ./backupCode.txt
 
 linux:{
     LIBS += -lGL -lGLU -lGLEW

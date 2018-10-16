@@ -2,23 +2,69 @@
 #define BASEADVOBJECT_H
 #include "BaseObject.h"
 using namespace glm;
-class BaseAdvObject
+class BaseAdvObject : BaseObject
 {
+public:
+    virtual void reset();
     //-----------------------------------------------------------------------------------------------------
-    /// @brief Custom constructor that sets most member values.
-    /// @param [in]_name The name of the created object to assign
-    /// @param [in]_pos The position of the created object to assign
-    /// @param [in]_rot The rotation of the created object to assign
-    /// @param [in]_sc The scale of the created object to assign
-    /// @note also resets the stored transformation matrix to identity
+    /// @brief Adds translation vector to the currently stored vector
     //-----------------------------------------------------------------------------------------------------
-    BaseAdvObject(std::string _name = "GameObject", vec3 _pos=vec3(0,0,0), vec3 _rot=vec3(0,0,0), vec3 _sc=vec3(1,1,1)):
-      m_pos(_pos),
-      m_rot(_rot),
-      m_scale(_sc),
-      m_name(_name),
-      m_MVmatrix(1)
-    {}
+    void moveObject (const vec3 _tr);
+    //-----------------------------------------------------------------------------------------------------
+    /// @brief Sets the position vector of this object using the input values
+    //-----------------------------------------------------------------------------------------------------
+    void setPosition (const vec3 _tr);
+    //-----------------------------------------------------------------------------------------------------
+    /// @brief Adds rotation angles to the currently stored rotation vector, using angle-axis
+    //-----------------------------------------------------------------------------------------------------
+    void rotateObject (const vec3 _rot);
+    //-----------------------------------------------------------------------------------------------------
+    /// @brief Sets the rotation vector of this object using input values, angle-axis
+    //-----------------------------------------------------------------------------------------------------
+    void setRotation (const vec3 _rot);
+    //-----------------------------------------------------------------------------------------------------
+    /// @brief Returns translation(position) vector of this object
+    //-----------------------------------------------------------------------------------------------------
+    vec3 getPosition () const;
+    //-----------------------------------------------------------------------------------------------------
+    /// @brief Returns rotation (using angle-axis) vector of this object
+    //-----------------------------------------------------------------------------------------------------
+    vec3 getRotation () const;    //-----------------------------------------------------------------------------------------------------
+    /// @brief Adds a scale vector to the currently stored vector
+    //-----------------------------------------------------------------------------------------------------
+    void scaleObject (const vec3 _sc);
+    //-----------------------------------------------------------------------------------------------------
+    /// @brief Sets the scale vector of this object using input values
+    //-----------------------------------------------------------------------------------------------------
+    void setScale (const vec3 _sc);
+    //-----------------------------------------------------------------------------------------------------
+    /// @brief Returns scale vector of this object
+    //-----------------------------------------------------------------------------------------------------
+    vec3 getScale () const;
+    //-----------------------------------------------------------------------------------------------------
+    /// @brief Updates the local transformation matrix, also adds parent matrix
+    //-----------------------------------------------------------------------------------------------------
+    void updateMatrix();
+    //-----------------------------------------------------------------------------------------------------
+    /// @brief Returns the local transformation matrix stored in this object
+    //-----------------------------------------------------------------------------------------------------
+    mat4 getMVmatrix() const;
+protected:
+    //-----------------------------------------------------------------------------------------------------
+    /// @brief Translation/Position vector of this object
+    //-----------------------------------------------------------------------------------------------------
+    vec3 m_pos = glm::vec3(0,0,0);
+    //-----------------------------------------------------------------------------------------------------
+    /// @brief Rotation vector of this object stored as angle-axis values
+    //-----------------------------------------------------------------------------------------------------
+    vec3 m_rot = glm::vec3(0,0,0);
+    //-----------------------------------------------------------------------------------------------------
+    /// @brief Scale vector of this object
+    //-----------------------------------------------------------------------------------------------------
+    vec3 m_scale = glm::vec3(1,1,1);
+    //-----------------------------------------------------------------------------------------------------
+    /// @brief A local transformation matrix based on position, rotation and scale
+    //-----------------------------------------------------------------------------------------------------
+    mat4 m_MVmatrix {1};
 }
-
 #endif // BASEADVOBJECT_H
